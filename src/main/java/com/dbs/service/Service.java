@@ -1,5 +1,5 @@
 package com.dbs.service;
 
-public class A {
+public interface Service {
 
 }
