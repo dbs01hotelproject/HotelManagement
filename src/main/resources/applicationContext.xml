@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context.xsd
+    http://www.springframework.org/schema/aop
+    http://www.springframework.org/schema/aop/spring-aop.xsd
+    http://www.springframework.org/schema/tx
+    http://www.springframework.org/schema/tx/spring-tx.xsd ">
+
+	<!-- 扫描包实现自动注入 -->
+	<context:component-scan base-package="com.dbs.serviceImpl"></context:component-scan>
+	<context:component-scan base-package="com.dbs.interceptor"></context:component-scan>
+	<context:component-scan base-package="com.dbs.mapper"></context:component-scan>
+
+	<!-- 读取jdbc.properties数据资源 -->
+	<context:property-placeholder
+		location="classpath:jdbc.properties" ignore-resource-not-found="true"
+		local-override="true" system-properties-mode="FALLBACK" />
+
+	<!-- 配置数据源 -->
+	<bean id="dataSource"
+		class="org.apache.commons.dbcp2.BasicDataSource">
+		<!-- 数据库驱动 -->
+		<property name="driverClassName" value="${driverClassName}"></property>
+		<!-- 连接数据库的url -->
+		<property name="url" value="${url}"></property>
+		<!-- 连接数据库的用户名 -->
+		<property name="username" value="${username}"></property>
+		<!-- 连接数据库的密码 -->
+		<property name="password" value="${password}"></property>
+		<!-- 最大空闲连接 -->
+		<property name="maxIdle" value="${maxIdle}"></property>
+		<!-- 初始化连接数 -->
+
+		<property name="minIdle" value="${minIdle}"></property>
+
+		<property name="initialSize" value="${initialSize}"></property>
+
+	</bean>
+
+	<bean id="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource"></property>
+	</bean>
+
+	<!-- 开始事务注解 -->
+	<tx:annotation-driven transaction-manager="transactionManager"/>
+
+	<!-- 配置MyBatis工厂 -->
+	<bean id="sqlSessionFactory"
+		class="org.mybatis.spring.SqlSessionFactoryBean">
+		<!-- 注入数据源 -->
+		<property name="dataSource" ref="dataSource"></property>
+		<!-- 指定核心配置文件位置 -->
+		<property name="configLocation"
+			value="classpath:mybatis-config.xml"></property>
+	</bean>
+
+	<!--  -->
+	
+	<!-- mapper代理开发(基于MapperFactoryBean) -->
+	<bean id="customerMapper"
+		class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<!-- 注入SqlSessionFactory实例 -->
+		<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+		<property name="mapperInterface"
+			value=" "></property>
+	</bean>
+
+
+
+
+</beans>
+
+
+
+
+
+
