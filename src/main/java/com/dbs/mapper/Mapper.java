@@ -1,5 +1,7 @@
 package com.dbs.mapper;
 
-public class Mapper {
 
+public interface Mapper {
+
+	
 }
