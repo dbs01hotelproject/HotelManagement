@@ -75,7 +75,5 @@ public class ReturnData implements Serializable{
 		this.threebody = threebody;
 	}
 
-	public ReturnData() {
-	}
-
+	public ReturnData() {}
 }

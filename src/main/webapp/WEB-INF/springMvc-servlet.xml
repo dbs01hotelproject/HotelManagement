@@ -25,8 +25,7 @@
 	<!-- 配置视图解析器，将ModelAndView及字符串解析为具体的页面 -->
 	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver"
 		  p:prefix="/WEB-INF/jsp/"    
-		  p:suffix=".jsp"
-		  />
+		  p:suffix=".html"/>
 		  
 	<!-- 配置拦截器 -->
 	<mvc:interceptors>
@@ -35,7 +34,5 @@
 			<bean class="com.dbs.interceptor.LoginInterceptor"></bean>
 		</mvc:interceptor>
 	</mvc:interceptors>
-	
-	
 </beans>
 
