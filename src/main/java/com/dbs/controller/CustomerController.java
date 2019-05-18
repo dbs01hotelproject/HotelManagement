@@ -16,9 +16,14 @@ public class CustomerController {
 	CustomerService customerService;
 
 	@RequestMapping(value="/findCustomer",method=RequestMethod.GET)
-	public void findCuStomer(Integer id,Model model) {
+	public String findCuStomer(Integer id,Model model) {
 		Customer customer = customerService.queryCustomerById(id);
+		System.out.println(customer);
 		model.addAttribute("customer",customer);
+		return "index";
 	}
+	
+	
+	
 }
 
