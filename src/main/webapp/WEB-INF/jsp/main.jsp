@@ -8,8 +8,7 @@
 
 </head>
 <body>
-	当前用户:${USERSESSION.username }
-	<a href="${pageContext.request.contextPath}/logout.html">退出</a>
+	lishuai
 
 </body>
 </html>
