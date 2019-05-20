@@ -10,5 +10,5 @@ public interface CustomerMapper {
 	
 	//添加客户
 	public void addCustomer(Customer customer);
-
+	//添加测试
 }
