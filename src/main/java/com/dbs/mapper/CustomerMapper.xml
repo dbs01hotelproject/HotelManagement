@@ -12,5 +12,5 @@
 		insert into t_customer(username,phone,job)
 		values(#{username},#{phone},#{job})
 	</insert>
-
+<!-- 梁淙泽 -->
 </mapper>
