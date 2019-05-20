@@ -38,6 +38,7 @@ public class CustomerController {
 		System.out.println(customer);
 		request.getRequestDispatcher("").forward(request, response);
 		return returnData;
+		////////////////测试
 	}
 	
 	
