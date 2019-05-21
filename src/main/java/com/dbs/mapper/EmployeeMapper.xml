@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dbs.mapper.EmployeeMapper">
+	
+	<!-- 查询所有的用户 -->
+	<select id="AdminQueryAll" resultType="employee" >
+		select * from t_employee
+	</select>
+	
+	<!-- 验证用户信息 -->
+	<select id="queryALLEmployee" parameterType="employee" resultType="employee">
+	</select>
+	
+	<!-- 查询个人信息 -->
+	<select id="queryEmployeeForSelf" parameterType="employee" resultType="employee">
+	</select>
+	
+	<!-- 添加用户 -->
+	<insert id="registerForEmployee" parameterType="employee">
+	</insert>
+	
+	<insert id="registerForLevel" parameterType="employee">
+	
+		insert into t_employee(e_Level) 
+		<if test="e_character ='管理员'">
+			values('A') where e_empno=#{empno}
+		</if>
+		<if test="e_character !='管理员' and e_character!=null and e_character!=''">
+			values('B') where e_empno=#{empno}
+		</if>
+	</insert>
+	
+	<update id="updateForEmployee" parameterType="employee">
+		
+	</update>
+	
+	<update id="deleteForEmployee" parameterType="int">
+		
+	</update>
+	
+	<delete id="logoutForEmployee" parameterType="employee">
+		delete from t_employee where e_id=#{e_empno};	
+	</delete>
+	
+
+</mapper>
