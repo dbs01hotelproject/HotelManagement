@@ -2,7 +2,10 @@ package com.dbs.mapper;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Select;
+
 import com.dbs.po.Employee;
+import com.dbs.util.ReturnData;
 
 public interface EmployeeMapper {
 
@@ -10,7 +13,7 @@ public interface EmployeeMapper {
 	public List<Employee> AdminQueryAll();
 	
 	//验证用户信息
-	public void queryALLEmployee(Employee employee);
+	public Employee checkEmp(Employee employee);
 	
 	//查询个人信息
 	public Employee queryEmployeeForSelf(Employee employee);
@@ -25,9 +28,8 @@ public interface EmployeeMapper {
 	public void updateForEmployee(Employee employee);
 	
 	//删除用户信息
-	public void deleteForEmployee(int e_id);
+	public void deleteEmpInfo(Employee employee);
 	
 	//注销用户信息
-	public void logoutForEmployee(int e_id);
-	
+	public void logoutForEmployee(Employee employee);
 }

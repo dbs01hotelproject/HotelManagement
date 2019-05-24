@@ -26,45 +26,41 @@ public class EmployeeServiceImpl implements EmployeeService {
 	}
 
 	@Override
-	public void queryALLEmployee(Employee employee) {
-		// TODO Auto-generated method stub
+	public Employee checkEmp(Employee employee) {
+		return employeeMapper.checkEmp(employee);
 		
 	}
 
 	@Override
 	public Employee queryEmployeeForSelf(Employee employee) {
-		// TODO Auto-generated method stub
-		return null;
+		return employeeMapper.queryEmployeeForSelf(employee);
+
 	}
 
 	@Override
 	public void registerForEmployee(Employee employee) {
-		// TODO Auto-generated method stub
-		
+			employeeMapper.registerForEmployee(employee);
 	}
 
 	@Override
 	public void registerForLevel(Employee employee) {
-		// TODO Auto-generated method stub
-		
+		employeeMapper.registerForLevel(employee);
 	}
 
 	@Override
 	public void updateForEmployee(Employee employee) {
-		// TODO Auto-generated method stub
 		
+		employeeMapper.updateForEmployee(employee);
 	}
 
 	@Override
-	public void deleteForEmployee(int e_id) {
-		// TODO Auto-generated method stub
-		
+	public void deleteEmpInfo(Employee employee) {
+		employeeMapper.deleteEmpInfo(employee);
 	}
 
 	@Override
-	public void logoutForEmployee(int e_id) {
-		// TODO Auto-generated method stub
-		
+	public void logoutForEmployee(Employee employee) {
+		employeeMapper.logoutForEmployee(employee);
 	}
 
 	

@@ -4,12 +4,12 @@
 	
 	<!-- 根据id查询客户id -->
 	<select id="queryCustomerById" parameterType="int" resultType="customer">
-		select * from t_customer where id=#{id}
+		select * from t_customerme where id=#{id}
 	</select>
 	
 	<!-- 添加用户 -->
 	<insert id="addCustomer" parameterType="customer">
-		insert into t_customer(username,phone,job)
+		insert into t_customerme(username,phone,job)
 		values(#{username},#{phone},#{job})
 	</insert>
 

@@ -4,16 +4,14 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>主页</title>
-
+<title>Insert title here</title>
 </head>
 <body>
-	lishuai
+	${em.e_empno};<br>
+	${em.e_name};<br>
+	${em.e_pass};<br>
+	${em.e_character};<br>
+	${em.e_Level};<br>
 
 </body>
 </html>
-
-
-
-
-

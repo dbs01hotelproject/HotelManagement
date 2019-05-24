@@ -3,44 +3,87 @@
 <mapper namespace="com.dbs.mapper.EmployeeMapper">
 	
 	<!-- 查询所有的用户 -->
-	<select id="AdminQueryAll" resultType="employee" >
+	<select id="AdminQueryAll" resultMap="AdminQueryAllResultMap">
 		select * from t_employee
 	</select>
+	<resultMap type="employee" id="AdminQueryAllResultMap">
+		<id property="e_empno" column="e_empno"></id>
+		<result property="e_name" column="e_name"/>	
+		<result property="e_pass" column="e_pass"/>
+		<result property="e_character" column="e_character"/>
+		<result property="e_Level" column="e_Level"/>
+	</resultMap>
 	
 	<!-- 验证用户信息 -->
-	<select id="queryALLEmployee" parameterType="employee" resultType="employee">
+	<select id="checkEmp" parameterType="employee" resultType="employee">
+		select * from t_employee where e_name=#{e_name} and e_pass=#{e_pass} 
 	</select>
 	
-	<!-- 查询个人信息 -->
-	<select id="queryEmployeeForSelf" parameterType="employee" resultType="employee">
+	<!--  查询个人信息-->
+	<select id="queryEmployeeForSelf" parameterType="Integer" resultType="employee">
+		select * from t_employee where e_empno=#{e_empno} 
 	</select>
+	
 	
 	<!-- 添加用户 -->
 	<insert id="registerForEmployee" parameterType="employee">
+		insert into t_employee (e_name,e_pass,e_character) values(#{e_name},#{e_pass},#{e_character})
 	</insert>
 	
-	<insert id="registerForLevel" parameterType="employee">
+	<!-- 自动设置权限 -->
+	<update id="registerForLevel" parameterType="employee">
+		update t_employee
+		<set>
+			
+			<if test="e_character=='管理员'.toString()">
+				e_Level='A',			
+			</if>
+			<if test="e_character!='管理员'.toString()">
+				e_Level='B',			
+			</if>
+		</set>	
+		where e_empno=#{e_empno}	
+	</update>
 	
-		insert into t_employee(e_Level) 
-		<if test="e_character ='管理员'">
-			values('A') where e_empno=#{empno}
-		</if>
-		<if test="e_character !='管理员' and e_character!=null and e_character!=''">
-			values('B') where e_empno=#{empno}
-		</if>
-	</insert>
-	
+	<!-- 修改用户信息 -->
 	<update id="updateForEmployee" parameterType="employee">
-		
+		update t_employee
+		<set>
+			<if test="e_name !=null and e_name !=''">
+				e_name=#{e_name},			
+			</if>
+			<if test="e_pass !=null and e_pass !=''">
+				e_pass=#{e_pass},			
+			</if>
+			<if test="e_character !=null and e_character !=''">
+				e_character=#{e_character},			
+			</if>
+			<if test="e_Level !=null and e_Level !=''">
+				e_Level=#{e_Level},			
+			</if>
+		</set>	
+		where e_empno=#{e_empno}	
 	</update>
 	
-	<update id="deleteForEmployee" parameterType="int">
-		
+	<!-- 删除用户信息 -->
+	<update id="deleteEmpInfo" parameterType="Integer">
+		update t_employee set
+				e_character='',			
+				e_Level=''	
+		where e_empno=#{e_empno}
 	</update>
 	
-	<delete id="logoutForEmployee" parameterType="employee">
-		delete from t_employee where e_id=#{e_empno};	
+	<!-- 注销用户 -->
+	<delete id="logoutForEmployee" parameterType="Integer">
+		delete from t_employee where e_empno=#{e_empno}
 	</delete>
+	
+	
+	
+	
+	
+	
+	
 	
 
 </mapper>

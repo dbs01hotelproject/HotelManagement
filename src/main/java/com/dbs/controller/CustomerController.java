@@ -1,30 +1,32 @@
 package com.dbs.controller;
+
+
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.ModelAndView;
-import com.dbs.po.Employee;
+import org.springframework.web.bind.annotation.RequestMethod;
+
+import com.dbs.po.Customer;
+import com.dbs.service.CustomerService;
 
 @Controller
-@RequestMapping("/login")
 public class CustomerController {
 
-	@RequestMapping(value= {"/users"})
-	public String register() {
-		return "register";
+	@Autowired
+	private CustomerService customerService;
+	
+	
+	@RequestMapping(value="/getCustomer",method=RequestMethod.GET)
+	public String findCustomerById(Integer id,Model model) {
+		
+		model.addAttribute("customers","asd");
+		//返回客户信息展示页面
+		return "customer";
+		
 	}
 	
-	//@RequestMapping(method=RequestMethod.POST)
-		@PostMapping()			 //低版本不支持
-		public ModelAndView createUser(Employee user) {
-			
-			ModelAndView mav= new ModelAndView();
-			mav.setViewName("createSuccess");
-			mav.addObject("user",user);
-			return mav;
-			
-		}
 	
 	
 }
-

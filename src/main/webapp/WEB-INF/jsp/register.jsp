@@ -7,7 +7,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<form action="<%=request.getContextPath() %>/user.html"  method="post">
+	<form action="<%=request.getContextPath() %>/EmpLoginController.html"  method="post">
 		<table>
 			<tr>
 				<td>username</td>

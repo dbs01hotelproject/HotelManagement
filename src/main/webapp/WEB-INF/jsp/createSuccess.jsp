@@ -8,7 +8,7 @@
 </head>
 <body>
 	${user.userName}
-	Welcome to createSuccess.jsp
+	Welcome
 
 </body>
 </html>

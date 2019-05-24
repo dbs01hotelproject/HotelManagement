@@ -10,7 +10,7 @@ public interface EmployeeService {
 		public List<Employee> AdminQueryAll();
 		
 		//验证用户信息
-		public void queryALLEmployee(Employee employee);
+		public Employee checkEmp(Employee employee);
 		
 		//查询个人信息
 		public Employee queryEmployeeForSelf(Employee employee);
@@ -25,9 +25,9 @@ public interface EmployeeService {
 		public void updateForEmployee(Employee employee);
 		
 		//删除用户信息
-		public void deleteForEmployee(int e_id);
+		public void deleteEmpInfo(Employee employee);
 		
 		//注销用户信息
-		public void logoutForEmployee(int e_id);
+		public void logoutForEmployee(Employee employee);
 	
 }
