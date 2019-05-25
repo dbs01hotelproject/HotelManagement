@@ -1,23 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	      xmlns="http://java.sun.com/xml/ns/javaee"
-	      xsi:schemaLocation="http://java.sun.com/xml/ns/javaee 
-	      http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
-		  id="WebApp_ID" version="3.0">
+<web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
+         version="3.1">
+         
+    <welcome-file-list>
+        <welcome-file>index.html</welcome-file>
+        <welcome-file>index.htm</welcome-file>
+        <welcome-file>index.jsp</welcome-file>
+        <welcome-file>default.html</welcome-file>
+        <welcome-file>default.htm</welcome-file>
+        <welcome-file>default.jsp</welcome-file>
+    </welcome-file-list>
+
+         
 	  <context-param>
 	      <param-name>contextConfigLocation</param-name>
 	      <param-value>classpath:applicationContext.xml</param-value>
 	  </context-param>
 	  
-	 <servlet-mapping>
-	    <servlet-name>default</servlet-name>
-	    <url-pattern>*.js</url-pattern>
-	    <url-pattern>*.css</url-pattern>
-	    <url-pattern>/assets/*"</url-pattern>
-	    <url-pattern>/images/*</url-pattern>
-  	 </servlet-mapping>
-	  
-	  <!-- 负责启动Spring容器的监听器，它将引用上诉的上下文参数获得Spring配置文件地址 -->
+	 <!-- 负责启动Spring容器的监听器，它将引用上诉的上下文参数获得Spring配置文件地址 -->
 	 <listener>
 	      <listener-class>
 	          org.springframework.web.context.ContextLoaderListener
@@ -28,13 +30,6 @@
   		<servlet-name>springMvc</servlet-name>
   		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
   		<load-on-startup>1</load-on-startup>
-  	</servlet>
-  	<servlet>
-  		<description>
-  		</description>
-  		<display-name>login</display-name>
-  		<servlet-name>login</servlet-name>
-  		<servlet-class>com.dbs.controller.login</servlet-class>
   	</servlet>
   	
 	<servlet-mapping>

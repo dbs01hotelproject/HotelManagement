@@ -1,8 +1,11 @@
 package com.dbs.controller;
 
+import java.net.http.HttpRequest;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +20,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.dbs.po.Employee;
 import com.dbs.service.EmployeeService;
 import com.dbs.util.ReturnData;
+
+import org.springframework.http.converter.xml.AbstractXmlHttpMessageConverter;
+
 
 @RequestMapping(value="/EmpLoginController")
 @Controller
@@ -38,9 +44,17 @@ public class EmpLoginController {
 	}
 	
 	@RequestMapping(value="/login2")
-	public @ResponseBody ReturnData queryforAll(@RequestBody Employee employee,HttpSession session) {
+	public @ResponseBody ReturnData queryforAll(HttpServletRequest request ,HttpServletResponse response,HttpSession session) {
 		System.out.println("开始queryforAll方法");
+		String e_name = request.getParameter("e_name");
+		String e_pass = request.getParameter("e_pass");
+		Employee employee = new Employee();
+		employee.setE_name(e_name);
+		employee.setE_pass(e_pass);
 		Employee emp = employeeService.checkEmp(employee);
+		
+		System.out.println(emp);
+		
 		ReturnData returnData = new ReturnData();
 		List<Object> emps = new ArrayList<Object>();
 		
@@ -55,6 +69,8 @@ public class EmpLoginController {
 		}
 		
 		returnData.setBody(emps);
+		
+		
 		return returnData;
 	}
 	
