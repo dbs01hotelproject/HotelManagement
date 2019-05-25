@@ -3,14 +3,34 @@
 <mapper namespace="com.dbs.mapper.CustomerMapper">
 	
 	<!-- 根据id查询客户id -->
-	<select id="queryCustomerById" parameterType="int" resultType="customer">
-		select * from t_customer where id=#{id}
+	<select id="queryCustomer" parameterType="customer" resultType="customer">
+		select c_customernumber,c_name,c_identity,c_sex,c_address,c_tel from t_customer
+		<where>
+			<if test="c_name!=null and c_name!=''">
+				and c_name=#{c_name}
+			</if>
+			<if test="c_customernumber!=null and c_customernumber!=''">
+				and c_customernumber=#{c_customernumber}
+			</if>
+			<if test="c_identity!=null and c_identity!=''">
+				and c_identity=#{c_identity}
+			</if>
+		</where>
 	</select>
 	
-	<!-- 添加用户 -->
-	<insert id="addCustomer" parameterType="customer">
-		insert into t_customer(username,phone,job)
-		values(#{username},#{phone},#{job})
-	</insert>
+	<!-- 查询房态状态 -->
+	<select id="queryRoomInformation" resultType="RoomInformation">
+		select r_number,r_direction,r_tpye,r_equipment,r_state from t_roominformation
+	</select>
+	
+	<!-- 办理客户入住 -->
+	<select id="insertReception" parameterMap=""  resultType="RoomInformation">
+		select r_number,r_direction,r_tpye,r_equipment,r_state from t_roominformation
+	</select>
+	
+	
+	
+	
+	
 
 </mapper>
