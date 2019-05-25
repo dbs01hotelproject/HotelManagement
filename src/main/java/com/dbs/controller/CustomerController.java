@@ -1,46 +1,120 @@
 package com.dbs.controller;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.stereotype.Repository;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.dbs.po.Customer;
+import com.dbs.po.Reception;
+import com.dbs.po.RoomInformation;
 import com.dbs.service.CustomerService;
+import com.dbs.util.Common;
 import com.dbs.util.ReturnData;
 
 @Controller
+@RequestMapping(value = "/customer")
 public class CustomerController {
 
 	@Autowired
 	CustomerService customerService;
 
-	@RequestMapping(value="/findCustomer",method=RequestMethod.GET)
-	public @ResponseBody ReturnData findCuStomer(Integer id,ServletRequest request,ServletResponse response) throws ServletException, IOException {
-		Customer customer = customerService.queryCustomerById(id);
-		ReturnData returnData = new  ReturnData();
-		returnData.setKey("truekey");
-		returnData.setMsg("登陆成功");
-		List<Customer> customers = new ArrayList<Customer>();
-		customers.add(customer);
-		System.out.println(customer);
-		request.getRequestDispatcher("").forward(request, response);
+	/**
+	 * 查询客户
+	 * 
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	@RequestMapping(value = "/findCustomer", method = RequestMethod.POST)
+	public @ResponseBody ReturnData findCuStomer(HttpServletRequest request, HttpServletResponse response) {
+		ReturnData returnData = new ReturnData();
+		// 获取请求信息
+		int c_id = Integer.parseInt(request.getParameter("c_id"));
+		String c_name = request.getParameter("c_name");
+		String c_identity = request.getParameter("c_identity");
+		Customer c = new Customer();
+		c.setC_customernumber(c_id);
+		c.setC_name(c_name);
+		c.setC_identity(c_identity);
+		// 请求数据
+		try {
+			Customer customer = customerService.queryCustomer(c);
+			List<Object> list = new ArrayList<Object>();
+			list.add(customer);
+			returnData.setKey(ReturnData.SUCCESS);
+			returnData.setMsg("获取客户信息成功");
+			returnData.setBody(list);
+		} catch (Exception e) {
+			// 请求失败
+			returnData.setKey(ReturnData.FAIL);
+			returnData.setMsg("获取客户信息失败");
+			e.printStackTrace();
+		}
 		return returnData;
 	}
-	
-	
-	
-}
 
+	/**
+	 * 获取房态信息
+	 * 
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	@RequestMapping(value = "/findRoomInformation", method = RequestMethod.GET)
+	public @ResponseBody ReturnData queryRoomInformation(HttpServletRequest request, HttpServletResponse response) {
+		ReturnData returnData = new ReturnData();
+		// 请求数据
+		try {
+			RoomInformation roomInformation = customerService.queryRoomInformation();
+			List<Object> list = new ArrayList<Object>();
+			list.add(roomInformation);
+			returnData.setKey(ReturnData.SUCCESS);
+			returnData.setMsg("获取客户信息成功");
+			returnData.setBody(list);
+		} catch (Exception e) {
+			// 请求失败
+			returnData.setKey(ReturnData.FAIL);
+			returnData.setMsg("获取客户信息失败");
+			e.printStackTrace();
+		}
+		return returnData;
+	}
+
+	/**
+	 * 办理客户入住
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	@RequestMapping(value = "/insertReception", method = RequestMethod.GET)
+	public @ResponseBody ReturnData insertReception(HttpServletRequest request, HttpServletResponse response) {
+		ReturnData returnData = new ReturnData();
+		try {
+			// 请求数据
+			Reception reception = new Reception();
+			reception.setR_customernumber(Integer.parseInt(Common.ckeckNull(request.getParameter("c_id"))));
+			reception.setR_roomnumber(Integer.parseInt(Common.ckeckNull(request.getParameter("r_id"))));
+			reception.setR_checkin(Common.formDate(Common.ckeckNull(request.getParameter("r_checkin"))));
+			reception.setR_deposit(Float.parseFloat(Common.ckeckNull(request.getParameter("r_deposit"))));
+			reception.setT_opennetwork(Integer.parseInt(Common.ckeckNull(request.getParameter("t_opennetwork"))));
+			
+			customerService.insertReception(reception);
+			returnData.setKey(ReturnData.SUCCESS);
+			returnData.setMsg("获取客户信息成功");
+		} catch (Exception e) {
+			// 请求失败
+			returnData.setKey(ReturnData.FAIL);
+			returnData.setMsg("获取客户信息失败");
+			e.printStackTrace();
+		}
+		return returnData;
+	}
+}

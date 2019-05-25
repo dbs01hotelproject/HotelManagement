@@ -1,13 +1,17 @@
 package com.dbs.service;
 
 import com.dbs.po.Customer;
+import com.dbs.po.Reception;
+import com.dbs.po.RoomInformation;
 
 public interface CustomerService {
 
-	// 通过id查询客户
-	public Customer queryCustomerById(Integer id);
+	// 根据id查询客户信息
+	public Customer queryCustomer(Customer customer) throws Exception;
 
-	// 添加客户
-	public void addCustomer(Customer customer);
+	// 查询房态状态
+	public RoomInformation queryRoomInformation() throws Exception;
 
+	// 办理客户入住
+	public void insertReception(Reception reception) throws Exception;
 }

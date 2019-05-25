@@ -8,6 +8,10 @@ public class ReturnData implements Serializable{
 	/**
 	 * 
 	 */
+	
+	public static final String FAIL= "fail";
+	public static final String SUCCESS= "success";
+	
 	private static final long serialVersionUID = 695916939497450086L;
 	public String key;
 	public String msg;

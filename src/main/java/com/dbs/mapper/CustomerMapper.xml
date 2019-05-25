@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.dbs.mapper.CustomerMapper">
 	
-	<!-- 根据id查询客户id -->
+	<!-- 根据id查询客户信息 -->
 	<select id="queryCustomer" parameterType="customer" resultType="customer">
 		select c_customernumber,c_name,c_identity,c_sex,c_address,c_tel from t_customer
 		<where>
@@ -19,18 +19,14 @@
 	</select>
 	
 	<!-- 查询房态状态 -->
-	<select id="queryRoomInformation" resultType="RoomInformation">
+	<select id="queryRoomInformation" resultType="roomInformation">
 		select r_number,r_direction,r_tpye,r_equipment,r_state from t_roominformation
 	</select>
 	
 	<!-- 办理客户入住 -->
-	<select id="insertReception" parameterMap=""  resultType="RoomInformation">
-		select r_number,r_direction,r_tpye,r_equipment,r_state from t_roominformation
+	<select id="insertReception" parameterType="reception">
+		insert into t_reception(r_customernumber,r_roomnumber,r_checkin,r_deposit,t_opennetwork) 
+		values(r_customernumber,r_roomnumber,r_checkin,r_deposit,t_opennetwork)
 	</select>
-	
-	
-	
-	
-	
 
 </mapper>
