@@ -27,7 +27,6 @@
 		  p:prefix="/WEB-INF/jsp/"    
 		  p:suffix=".jsp"/>
 	
-		  
 	<!-- 配置拦截器 -->
 	<!--<mvc:interceptors>
 		<mvc:interceptor>
