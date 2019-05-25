@@ -35,6 +35,5 @@
 			<bean class="com.dbs.interceptor.LoginInterceptor"></bean>
 		</mvc:interceptor>
 	</mvc:interceptors>  -->
-	
 </beans>
 
