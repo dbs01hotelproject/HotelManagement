@@ -87,13 +87,6 @@ public class FuntionTest {
 		employeeMapper.deleteEmpInfo(employee);
 	}
 	
-	@Test
-	public void logoutForEmployeeTest() {
-		ApplicationContext ctx = new ClassPathXmlApplicationContext("applicationContext.xml"); 
-		EmployeeMapper employeeMapper = ctx.getBean(EmployeeMapper.class);
-		Employee employee = new Employee();
-		employee.setE_empno(6);
-		employeeMapper.logoutForEmployee(employee);
-	}
+	
 	
 }

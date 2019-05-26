@@ -4,7 +4,7 @@
 	
 	<!-- 查询所有的用户 -->
 	<select id="AdminQueryAll" resultMap="AdminQueryAllResultMap">
-		select * from t_employee
+		select * from t_employee 
 	</select>
 	<resultMap type="employee" id="AdminQueryAllResultMap">
 		<id property="e_empno" column="e_empno"></id>
@@ -16,7 +16,7 @@
 	
 	<!-- 验证用户信息 -->
 	<select id="checkEmp" parameterType="employee" resultType="employee">
-		select * from t_employee where e_name=#{e_name} and e_pass=#{e_pass} 
+		select * from t_employee where e_name=#{e_name} and e_pass=#{e_pass} and e_character=#{e_character}
 	</select>
 	
 	<!--  查询个人信息-->
@@ -27,7 +27,7 @@
 	
 	<!-- 添加用户 -->
 	<insert id="registerForEmployee" parameterType="employee">
-		insert into t_employee (e_name,e_pass,e_character) values(#{e_name},#{e_pass},#{e_character})
+		insert into t_employee (e_empno,e_name,e_pass,e_character) values(#{e_empno},#{e_name},#{e_pass},#{e_character})
 	</insert>
 	
 	<!-- 自动设置权限 -->
@@ -65,21 +65,16 @@
 		where e_empno=#{e_empno}	
 	</update>
 	
-	<!-- 删除用户信息 -->
-	<update id="deleteEmpInfo" parameterType="Integer">
-		update t_employee set
-				e_character='',			
-				e_Level=''	
-		where e_empno=#{e_empno}
-	</update>
 	
-	<!-- 注销用户 -->
-	<delete id="logoutForEmployee" parameterType="Integer">
+	<!-- 删除用户信息 -->
+	<delete id="deleteEmpInfo" parameterType="Integer">
 		delete from t_employee where e_empno=#{e_empno}
 	</delete>
 	
-	
-	
+	<!-- 查询是否是管理员 -->
+	<select id="selectByNameAndCharacter" resultType="employee" parameterType="employee">
+		select * from t_employee where e_name = #{e_name} and e_character ='管理员'
+	</select>
 	
 	
 	

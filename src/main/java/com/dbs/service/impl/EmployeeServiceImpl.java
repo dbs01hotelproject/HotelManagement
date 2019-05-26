@@ -39,7 +39,12 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 	@Override
 	public void registerForEmployee(Employee employee) {
-			employeeMapper.registerForEmployee(employee);
+			if(employeeMapper.queryEmployeeForSelf(employee)==null) {
+				employeeMapper.registerForEmployee(employee);
+			}else {
+				System.out.println("该员工编号已经存在，请重新注册!");
+			}
+			
 	}
 
 	@Override
@@ -60,7 +65,13 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 	@Override
 	public void logoutForEmployee(Employee employee) {
-		employeeMapper.logoutForEmployee(employee);
+		
+	}
+
+	@Override
+	public Employee selectByNameAndCharacter(Employee employee) {
+
+		return employeeMapper.selectByNameAndCharacter(employee);
 	}
 
 	

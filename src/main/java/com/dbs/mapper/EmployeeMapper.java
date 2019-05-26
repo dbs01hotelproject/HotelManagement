@@ -30,6 +30,7 @@ public interface EmployeeMapper {
 	//删除用户信息
 	public void deleteEmpInfo(Employee employee);
 	
-	//注销用户信息
-	public void logoutForEmployee(Employee employee);
+	//查询是否是管理员
+	public Employee selectByNameAndCharacter(Employee employee);
+	
 }

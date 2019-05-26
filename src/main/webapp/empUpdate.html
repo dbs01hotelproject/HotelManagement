@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script type="text/javascript" src="js\jquery-3.3.1.min.js"></script>
+
+<script type="text/javascript">
+	$(function() {
+
+		$("#button1").click(function() {
+			var e_empno = $("#e_empno").val();
+			var e_name = $("#e_name").val();
+			var e_pass = $("#e_pass").val();
+			var e_character = $("#e_character").val();
+			if (e_empno == "") {
+				alert("员工编号不能为空");
+				return false;
+			}
+
+			if(e_pass!=null){
+				if (e_pass.length < 8) {
+					alert('密码少于8位');
+					return false;
+				}
+			}
+			
+
+			alert("测试开始");
+			$.ajax({
+
+				type : "post",
+				url : "/HotelManagement/EmployeeController/",
+				contentType : 'application/json;charset=UTF-8',//必须有
+				data : JSON.stringify({
+					e_empno : e_empno,
+					e_name : e_name,
+					e_pass : e_pass,
+					e_character : e_character
+				}),//请求的数据格式为JSON数据,对于@RequestBody来说很重要必不可少
+				success : function(backData) {
+					if (backData.key == 'success') {
+						alert(backData.msg);
+					} else {
+						alert(backData.msg);
+					}
+				}
+			});
+			alert("测试末尾");
+
+		});
+	});
+</script>
+</head>
+
+
+
+
+<body>
+
+	<p>用户个人信息修改</p>
+
+	<br>
+	<br>请输入需要修改的员工的编号:
+	<input type="number" name="e_empno" id="e_empno">
+
+	<br>
+	<br>修改用户名:
+	<input type="text" name="e_ename" id="e_ename">
+
+	<br>
+	<br>修改密码:
+	<input type="text" name="e_pass" id="e_pass">
+
+	<br>
+	<br>修改角色:
+	<input type="text" name="e_character" id="e_character">
+
+
+</body>
+</html>

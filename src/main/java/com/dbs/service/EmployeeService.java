@@ -29,5 +29,8 @@ public interface EmployeeService {
 		
 		//注销用户信息
 		public void logoutForEmployee(Employee employee);
+		
+		//查询是否是管理员
+		public Employee selectByNameAndCharacter(Employee employee);
 	
 }
