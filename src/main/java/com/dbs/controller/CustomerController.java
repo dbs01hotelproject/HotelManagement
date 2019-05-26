@@ -108,8 +108,10 @@ public class CustomerController {
 			reception.setR_customernumber(Integer.parseInt(Common.ckeckNull(request.getParameter("c_id"))));
 			reception.setR_roomnumber(Integer.parseInt(Common.ckeckNull(request.getParameter("r_id"))));
 			reception.setR_checkin(Common.formDate(Common.ckeckNull(request.getParameter("r_checkin"))));
-			reception.setR_deposit(Float.parseFloat(Common.ckeckNull(request.getParameter("r_deposit"))));
-			reception.setT_opennetwork(Integer.parseInt(Common.ckeckNull(request.getParameter("t_opennetwork"))));
+			String r_deposit = Common.ckeckNull(request.getParameter("r_deposit"));
+			reception.setR_deposit(Float.parseFloat(r_deposit.equals("")?"0":r_deposit));
+			String t_opennetwork = Common.ckeckNull(request.getParameter("t_opennetwork"));
+			reception.setT_opennetwork(Integer.parseInt(t_opennetwork.equals("")?"0":t_opennetwork));
 			//插入
 			customerService.insertReception(reception);
 			returnData.setKey(ReturnData.SUCCESS);
