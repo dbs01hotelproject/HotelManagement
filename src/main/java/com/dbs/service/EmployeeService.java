@@ -32,5 +32,8 @@ public interface EmployeeService {
 		
 		//查询是否是管理员
 		public Employee selectByNameAndCharacter(Employee employee);
+		
+		//根据用户名查找用户
+		public Employee selectByName(Employee employee);
 	
 }

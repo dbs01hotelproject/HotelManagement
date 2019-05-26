@@ -48,7 +48,11 @@
 	<!-- 修改用户信息 -->
 	<update id="updateForEmployee" parameterType="employee">
 		update t_employee
-		<set>
+		<trim prefix="set" suffixOverrides=",">
+			
+			<if test="e_empno !=null and e_empno!=''">
+				e_empno=#{e_empno},
+			</if>
 			<if test="e_name !=null and e_name !=''">
 				e_name=#{e_name},			
 			</if>
@@ -61,7 +65,8 @@
 			<if test="e_Level !=null and e_Level !=''">
 				e_Level=#{e_Level},			
 			</if>
-		</set>	
+		</trim>
+	
 		where e_empno=#{e_empno}	
 	</update>
 	
@@ -76,8 +81,10 @@
 		select * from t_employee where e_name = #{e_name} and e_character ='管理员'
 	</select>
 	
-	
-	
+	<!-- 根据用户名查询用户 -->
+	<select id="selectByName" resultType="employee" parameterType="employee">
+		select * from t_employee where e_name = #{e_name}
+	</select>
 	
 	
 

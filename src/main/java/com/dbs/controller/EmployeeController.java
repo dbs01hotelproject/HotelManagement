@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.dbs.mapper.EmployeeMapper;
 import com.dbs.po.Employee;
 import com.dbs.service.EmployeeService;
 import com.dbs.util.ReturnData;
@@ -36,6 +35,32 @@ public class EmployeeController {
 		return "management";
 	}
 
+	/*更新操作之显示用户原本信息
+	 * 登录验证 接收页面请求的JSON数据,返回JSON格式结果
+	 */
+	@RequestMapping(value = "/search")
+	// @RequestBady 将请求体中的JSON数据绑定到形参employee中
+	public @ResponseBody ReturnData checkSearch(@RequestBody Employee employee, HttpSession session) {
+		System.out.println("开始checkSearch方法");
+		ReturnData returnData = new ReturnData();
+		List<Object> emps = new ArrayList<Object>();
+		//根据e_mepno查找
+		Employee emp = employeeService.queryEmployeeForSelf(employee);
+		System.out.println(emp);
+		
+		if (emp != null) {
+			returnData.setKey(returnData.SUCCESS);
+			emps.add(emp);
+			
+		} else {
+			returnData.setKey(returnData.FAIL);
+			returnData.setMsg("查找失败");
+		}
+		returnData.setBody(emps);
+		// 返回JSON格式响应
+		return returnData;
+	}
+	
 	/*
 	 * 登录验证 接收页面请求的JSON数据,返回JSON格式结果
 	 */
@@ -74,18 +99,16 @@ public class EmployeeController {
 		ReturnData returnData = new ReturnData();
 		String username = (String) session.getAttribute("EmployeeName");
 		System.out.println("测试session的值：" + username);
-		Employee testforEmpno = employeeService.queryEmployeeForSelf(employee);
 
-		// 判断员工编号是否已经存在
+		// 查询员工编号是否已经存在
+		Employee testforEmpno = employeeService.queryEmployeeForSelf(employee);
 		if (testforEmpno != null) {
 			returnData.setKey(returnData.FAIL);
 			returnData.setMsg("该员工编号已存在，请重新注册!");
 		} else {
 			// 前端传来注册管理员的请求
 			if (employee.getE_character().equals("管理员")) {
-
 				Employee emp = new Employee();
-
 				emp.setE_name(username);
 				// 查询登录的人员是否是管理员
 				Employee emp2 = employeeService.selectByNameAndCharacter(emp);
@@ -135,4 +158,58 @@ public class EmployeeController {
 		return returnData;
 	}
 
+	/*
+	 * 修改用户信息 登录验证 接收页面请求的JSON数据,返回JSON格式结果
+	 */
+	@RequestMapping(value = "/update")
+	// @RequestBady 将请求体中的JSON数据绑定到形参employee中
+	public @ResponseBody ReturnData updatecheck(@RequestBody Employee employee, HttpSession session) {
+		System.out.println("开始updatecheck方法");
+		ReturnData returnData = new ReturnData();
+
+		// 接收用户登录时的Name
+		String username = (String) session.getAttribute("EmployeeName");
+		Employee emp = new Employee();
+		emp.setE_name(username);
+		// 查询登录的人员是否是管理员
+		Employee emp2 = employeeService.selectByNameAndCharacter(emp);
+
+		// 是管理员的情况下执行的更新操作
+		if (emp2 != null) {
+			// 更新基本信息
+			employeeService.updateForEmployee(employee);
+			// 自动更新权限
+			employeeService.registerForLevel(employee);
+			returnData.setKey(returnData.SUCCESS);
+			returnData.setMsg("尊敬的管理员，您已经成功修改信息");
+		}
+		// 不是管理员的情况下执行的更新操作
+		else {
+
+			// 判断非管理员登录用户是否修改的是自己的信息
+			Employee emp3 = employeeService.selectByName(emp);
+
+			// 修改自己的信息
+			if (emp3.getE_empno() == employee.getE_empno()) {
+
+				// 前端请求是否含有角色修改(只有管理员才能修改)
+				if (employee.getE_character() == null || employee.getE_character() == "") {
+					employeeService.updateForEmployee(employee);
+					returnData.setKey(returnData.SUCCESS);
+					returnData.setMsg("您已经成功修改信息");
+				} else {
+					returnData.setKey(returnData.FAIL);
+					returnData.setMsg("您不是管理员，不能修改角色信息");
+				}
+			} else {
+				System.out.println("你不是管理员，不能修改他人信息");
+				returnData.setKey(returnData.FAIL);
+				returnData.setMsg("您不是管理员，不能修改他人信息");
+			}
+
+		}
+
+		// 返回JSON格式响应
+		return returnData;
+	}
 }

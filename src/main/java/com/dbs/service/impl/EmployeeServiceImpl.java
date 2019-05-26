@@ -54,8 +54,15 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 	@Override
 	public void updateForEmployee(Employee employee) {
+		//解决选项都为空，更新异常的bug
+		if(employee.getE_pass()==null&&
+				employee.getE_name()==null&&
+				employee.getE_character()==null) {
+			System.out.println("密码、用户名和角色都为空,无法更新!");
+		}else {
+			employeeMapper.updateForEmployee(employee);
+		}
 		
-		employeeMapper.updateForEmployee(employee);
 	}
 
 	@Override
@@ -72,6 +79,11 @@ public class EmployeeServiceImpl implements EmployeeService {
 	public Employee selectByNameAndCharacter(Employee employee) {
 
 		return employeeMapper.selectByNameAndCharacter(employee);
+	}
+
+	@Override
+	public Employee selectByName(Employee employee) {
+		return employeeMapper.selectByName(employee);
 	}
 
 	
