@@ -98,14 +98,14 @@ public class CustomerController {
 	public @ResponseBody ReturnData insertReception(HttpServletRequest request, HttpServletResponse response) {
 		ReturnData returnData = new ReturnData();
 		try {
-			// 请求数据
+			// 获取请求数据
 			Reception reception = new Reception();
 			reception.setR_customernumber(Integer.parseInt(Common.ckeckNull(request.getParameter("c_id"))));
 			reception.setR_roomnumber(Integer.parseInt(Common.ckeckNull(request.getParameter("r_id"))));
 			reception.setR_checkin(Common.formDate(Common.ckeckNull(request.getParameter("r_checkin"))));
 			reception.setR_deposit(Float.parseFloat(Common.ckeckNull(request.getParameter("r_deposit"))));
 			reception.setT_opennetwork(Integer.parseInt(Common.ckeckNull(request.getParameter("t_opennetwork"))));
-			
+			//插入
 			customerService.insertReception(reception);
 			returnData.setKey(ReturnData.SUCCESS);
 			returnData.setMsg("获取客户信息成功");
@@ -116,5 +116,5 @@ public class CustomerController {
 			e.printStackTrace();
 		}
 		return returnData;
-	}
+	}	
 }
