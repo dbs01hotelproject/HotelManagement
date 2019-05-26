@@ -7,6 +7,15 @@ import com.dbs.po.RoomInformation;
 
 public interface CustomerMapper {
 	
+	//登记客户信息
+	public void checkinCustomer(Customer customer) throws Exception;
+	
+	//修改客户信息
+	public void updateCustomer(Customer customer) throws Exception;
+	
+	//删除客户信息
+	public void delCustomer(Customer customer) throws Exception;
+	
 	//根据id查询客户信息
 	public Customer queryCustomer(Customer customer) throws Exception;
 	

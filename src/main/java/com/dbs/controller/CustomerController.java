@@ -25,6 +25,95 @@ public class CustomerController {
 
 	@Autowired
 	CustomerService customerService;
+	
+	/**
+	 * 登记入住，登记客户信息
+	 * @author lezhinan
+	 * @param request
+	 * @param response
+	 * @return returndata
+	 */
+	@RequestMapping(value = "/checkinCustomer", method = RequestMethod.POST)
+	public @ResponseBody ReturnData checkinCuStomer(HttpServletRequest request, HttpServletResponse response) {
+		ReturnData returndata = new ReturnData();
+		try {
+			// 从前台获取插入参数
+			Customer customer =new  Customer();
+			customer.setC_address(request.getParameter("c_address"));
+			customer.setC_identity(request.getParameter("c_identity"));
+			customer.setC_name(request.getParameter("c_name"));
+			customer.setC_sex(request.getParameter("c_sex"));
+			customer.setC_tel(request.getParameter("c_tel"));
+			//插入
+			customerService.checkinCustomer(customer);
+			returndata.setKey(ReturnData.SUCCESS);
+			returndata.setMsg("登记客户信息成功");
+		} catch (Exception e) {
+			// 请求失败
+			returndata.setKey(ReturnData.FAIL);
+			returndata.setMsg("登记客户信息失败");
+			e.printStackTrace();
+		}
+		return returndata;
+	}
+	/**
+	 * 修改客户信息
+	 * @author lezhinan
+	 * @param request
+	 * @param response
+	 * @return returndata
+	 */
+	@RequestMapping(value = "/updateCustomer", method = RequestMethod.POST)
+	public @ResponseBody ReturnData updateCuStomer(HttpServletRequest request, HttpServletResponse response) {
+		ReturnData returndata = new ReturnData();
+		try {
+			// 从前台获取插入参数
+			Customer customer =new  Customer();
+			customer.setC_address(Common.ckeckNull(request.getParameter("c_address")));
+			customer.setC_customernumber(Integer.parseInt(request.getParameter("c_customernumber")));
+			customer.setC_identity(Common.ckeckNull(request.getParameter("c_identity")));
+			customer.setC_name(Common.ckeckNull(request.getParameter("c_name")));
+			customer.setC_sex(Common.ckeckNull(request.getParameter("c_sex")));
+			customer.setC_tel(Common.ckeckNull(request.getParameter("c_tel")));
+			//插入
+			customerService.updateCustomer(customer);
+			returndata.setKey(ReturnData.SUCCESS);
+			returndata.setMsg("修改客户信息成功");
+		} catch (Exception e) {
+			// 请求失败
+			returndata.setKey(ReturnData.FAIL);
+			returndata.setMsg("修改客户信息失败");
+			e.printStackTrace();
+		}
+		return returndata;
+	}
+	/**
+	 * 删除客户信息
+	 * @author lezhinan
+	 * @param request
+	 * @param response
+	 * @return returndata
+	 */
+	@RequestMapping(value = "/delCustomer", method = RequestMethod.POST)
+	public @ResponseBody ReturnData delCuStomer(HttpServletRequest request, HttpServletResponse response) {
+		ReturnData returndata = new ReturnData();
+		try {
+			// 从前台获取插入参数
+			Customer customer =new  Customer();
+			customer.setC_customernumber(Integer.parseInt(request.getParameter("c_customernumber")));
+			//删除
+			customerService.delCustomer(customer);
+			returndata.setKey(ReturnData.SUCCESS);
+			returndata.setMsg("删除客户信息成功");
+		} catch (Exception e) {
+			// 请求失败
+			returndata.setKey(ReturnData.FAIL);
+			returndata.setMsg("删除客户信息失败");
+			e.printStackTrace();
+		}
+		return returndata;
+	}
+	
 
 	/**
 	 * 查询客户
