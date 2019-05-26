@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script type="text/javascript" src="js\jquery-3.3.1.min.js"></script>
+
+<script type="text/javascript">
+	$(function() {
+		$("#button1").click(function() {
+			//	var sendData = $("#loginform").serialize();
+			var e_name = $("#e_name").val();
+			var e_pass = $("#e_pass").val();
+			alert("测试开始");
+			$.ajax({
+
+				type : "post",
+				url : "/HotelManagement/EmpLoginController/login3",
+				
+				//对应Controller类中的方法如果不是@RequestBody就不能写入contentType data也不能使用JSON.stringify() 
+				//否则后台获取不到数据  总之@RequestBody一定是和JSON格式对应
+				/*contentType : 'application/json;charset=UTF-8',
+				data : JSON.stringify({
+					e_name : e_name,
+					e_pass : e_pass
+				}),*/
+				
+				data : {
+					e_name : e_name,
+					e_pass : e_pass
+				},
+				//data:{e_name,e_pass},  这种格式也可以
+				success : function(backData) {
+					alert('开始回调');
+					alert('用户名为:' + backData.e_name);
+				}
+			});
+			alert("测试末尾");
+
+		});
+	});
+</script>
+</head>
+<body>
+	用户名:
+	<input type="text" name="e_name" id="e_name">
+	<br>
+	<br> 密&nbsp;&nbsp;&nbsp;码:
+	<input type="password" name="e_pass" id="e_pass">
+	<br>
+	<input type="button" name="button1" id="button1" value="登录">
+
+</body>
+</html>

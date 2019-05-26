@@ -8,7 +8,7 @@ import org.springframework.lang.Nullable;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.dbs.po.User;
+import com.dbs.po.Employee;
 
 
 public class LoginInterceptor implements HandlerInterceptor{
@@ -24,7 +24,7 @@ public class LoginInterceptor implements HandlerInterceptor{
 		
 		//获取Session 
 		HttpSession session = request.getSession();
-		User user = (User) session.getAttribute("USERSESSION");
+		Employee user = (Employee) session.getAttribute("USERSESSION");
 		//session判断是否有数据,如果有,则返回true，继续向下执行
 		if(user!=null) {
 			return true;
