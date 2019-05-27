@@ -30,10 +30,6 @@
 	</servlet-mapping>
 	
 	
-  	<!--
-  	<servlet-mapping>
-  		<servlet-name>Login</servlet-name>
-  		<url-pattern></url-pattern>
-  	</servlet-mapping>  -->
+  	
   	
 </web-app>
