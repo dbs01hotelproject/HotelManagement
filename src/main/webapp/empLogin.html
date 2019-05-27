@@ -12,7 +12,6 @@ $(function() {
 		var e_name = $("#e_name").val();
 		var e_pass = $("#e_pass").val();
 		var e_character = $("#e_character").val();
-		alert("测试开始");
 		$.ajax({
 
 			type : "post",
@@ -25,7 +24,6 @@ $(function() {
 			}),//请求的数据格式为JSON数据,对于@RequestBody来说很重要必不可少
 			success : function(backData) {
 				if(backData.key=='success'){
-					alert('登录成功');
 					alert('用户名:'+ backData.body[0].e_name + ' 角色:'+backData.body[0].e_character);
 					window.location.href = 'management.html';
 				}else{
@@ -33,7 +31,6 @@ $(function() {
 				}
 			}
 		});
-		alert("测试末尾");
 
 	});
 });
@@ -41,7 +38,6 @@ $(function() {
 </script>
 </head>
 <body>
-	${msg}
 	 角&nbsp;&nbsp;&nbsp;色:
 	 <select id="e_character" >
 	 	<option id="manager"  value="管理员" >管理员</option>

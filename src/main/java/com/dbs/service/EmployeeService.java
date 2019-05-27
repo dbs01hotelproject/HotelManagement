@@ -39,6 +39,8 @@ public interface EmployeeService {
 		//根据用户名查找用户
 		public Employee selectByName(Employee employee);
 		
+		//根据查询显示用户信息
+		public ReturnData showinfo(Employee employee,HttpSession session);
 		
 	
 }

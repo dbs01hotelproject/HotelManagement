@@ -37,10 +37,8 @@ public class EmployeeController {
 	
 	@RequestMapping(value = "/logout",method = RequestMethod.GET)
 	public String logout(HttpSession session) {
-		System.out.println("现在登录的是"+session.getAttribute("EmployeeName"));
-		session.removeAttribute("EmployeeName");
-		System.out.println("现在登录的是"+session.getAttribute("EmployeeName"));
-		return "empLogin";
+		session.invalidate();
+		return "redirect: ../empLogin.html";
 	}
 
 	/*
@@ -78,48 +76,12 @@ public class EmployeeController {
 	 */
 	@RequestMapping(value = "/search")
 	// @RequestBady 将请求体中的JSON数据绑定到形参employee中
-	public @ResponseBody ReturnData checkSearch(@RequestBody Employee employee, HttpSession session) {
+	public @ResponseBody ReturnData checkshowinfo(@RequestBody Employee employee, HttpSession session) {
 		System.out.println("开始checkSearch方法");
 		ReturnData returnData = new ReturnData();
-		//判断登录用户是否是管理员
-		String username = (String) session.getAttribute("EmployeeName");
-		Employee user = employeeService.selectByNameAndCharacter(employee);
 		
-		if(user!=null) {
-			//登录用户是管理员
-			List<Object> emps = new ArrayList<Object>();
-			// 根据e_emppno查找
-			Employee emp = employeeService.queryEmployeeForSelf(employee);
-			System.out.println(emp);
-
-			if (emp != null) {
-				returnData.setKey(returnData.SUCCESS);
-				emps.add(emp);
-
-			} else {
-				returnData.setKey(returnData.FAIL);
-				returnData.setMsg("查找失败");
-			}
-			returnData.setBody(emps);
-		}else {
-			//根据前台请求信息设置对象
-			Employee emp = employeeService.queryEmployeeForSelf(employee);
-			//存储登录用户的的实体对象
-			Employee user2 = new Employee();
-			user2.setE_name(username);
-			Employee userself = employeeService.selectByName(user2);
-			
-			if(emp.getE_empno()==userself.getE_empno()) {
-				List<Object> emps = new ArrayList<Object>();
-				returnData.setKey(returnData.SUCCESS);
-				emps.add(emp);
-				returnData.setBody(emps);
-			}else {
-				returnData.setKey(returnData.FAIL);
-				returnData.setMsg("您不是管理员,没有权限查看别人的信息");
-			}
-			
-		}
+		//调用业务层方法
+		returnData = employeeService.showinfo(employee, session);
 		
 		// 返回JSON格式响应
 		return returnData;

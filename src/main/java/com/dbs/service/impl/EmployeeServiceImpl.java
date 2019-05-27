@@ -203,24 +203,25 @@ public class EmployeeServiceImpl implements EmployeeService {
 	@Override
 	public ReturnData deleteEmpInfo(Employee employee, HttpSession session) {
 		ReturnData returnData = new ReturnData();
-		//接受登录用户的e_name;
+		// 接受登录用户的e_name;
 		String username = (String) session.getAttribute("EmployeeName");
-		//判断是否是管理员
+		// 判断是否是管理员
 		Employee emp = new Employee();
 		emp.setE_name(username);
 		Employee empAdmin = employeeMapper.selectByNameAndCharacter(emp);
-		if(empAdmin!=null) {
+		if (empAdmin != null) {
 			employeeMapper.deleteEmpInfo(employee);
 			returnData.setKey(returnData.SUCCESS);
 			returnData.setMsg("成功删除");
-		}else {
+		} else {
 			returnData.setKey(returnData.FAIL);
 			returnData.setMsg("您不是管理员,没有权限删除!");
 		}
+		//将数据库表中信息封装进入list中然后存进returnData
 		List<Object> emps = new ArrayList<Object>();
 		List<Employee> emplist = new ArrayList<Employee>();
 		emplist = employeeMapper.AdminQueryAll();
-		for(Employee emp2 : emplist) {
+		for (Employee emp2 : emplist) {
 			emps.add(emp2);
 		}
 		returnData.setBody(emps);
@@ -244,6 +245,67 @@ public class EmployeeServiceImpl implements EmployeeService {
 	@Override
 	public Employee selectByName(Employee employee) {
 		return employeeMapper.selectByName(employee);
+	}
+
+	// 根据查询e_mpno显示出用户信息
+	@Override
+	public ReturnData showinfo(Employee employee, HttpSession session) {
+		
+		ReturnData returnData = new ReturnData();
+		// 判断登录用户是否是管理员
+		String username = (String) session.getAttribute("EmployeeName");
+		System.out.println(username);
+		Employee user = new Employee();
+		user.setE_name(username);
+		Employee admain = employeeMapper.selectByNameAndCharacter(user);
+		System.out.println(admain);
+		if (admain != null) {
+			// 登录用户是管理员
+			List<Object> emps = new ArrayList<Object>();
+			// 根据e_emppno查找
+			Employee emp = employeeMapper.queryEmployeeForSelf(employee);
+			System.out.println(emp);
+			
+			//查询的员工编号存在
+			if (emp != null) {
+				returnData.setKey(returnData.SUCCESS);
+				emps.add(emp);
+
+			} else {
+				returnData.setKey(returnData.FAIL);
+				returnData.setMsg("查找失败,该员工编号不存在");
+			}
+			returnData.setBody(emps);
+		} else {
+			//登录人员不是管理员
+			//根据前台请求信息设置对象
+			Employee emp = employeeMapper.queryEmployeeForSelf(employee);
+			// 存储登录用户的的实体对象
+			Employee user2 = new Employee();
+			user2.setE_name(username);
+			Employee userself = employeeMapper.selectByName(user2);
+
+			// 解决空指针异常
+			if (emp != null) {
+				//不加前置条件会出空指针异常
+				if (emp.getE_empno() == userself.getE_empno()) {
+					List<Object> emps = new ArrayList<Object>();
+					returnData.setKey(returnData.SUCCESS);
+					emps.add(emp);
+					returnData.setBody(emps);
+				} else {
+					returnData.setKey(returnData.FAIL);
+					returnData.setMsg("您不是管理员,没有权限查看别人的信息");
+				}
+			} else {
+
+				// 查询的e_mpno为空
+				returnData.setKey(returnData.FAIL);
+				returnData.setMsg("不存在的用户编号");
+			}
+
+		}
+		return returnData;
 	}
 
 }
