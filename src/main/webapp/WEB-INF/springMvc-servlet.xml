@@ -33,13 +33,14 @@
 		对URL进行检查然后把静态资源交给Web服务器默认的Servlet处理		-->
 	<mvc:default-servlet-handler />
 		  
+		  
 	<!-- 配置拦截器 -->
-	<!--<mvc:interceptors>
+	<mvc:interceptors>
 		<mvc:interceptor>
 			<mvc:mapping path="/**"/>
 			<bean class="com.dbs.interceptor.LoginInterceptor"></bean>
 		</mvc:interceptor>
-	</mvc:interceptors>  -->
+	</mvc:interceptors>  
 	
 </beans>
 

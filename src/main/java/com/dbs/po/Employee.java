@@ -6,7 +6,6 @@ public class Employee {
 	private String e_name;
 	private String e_pass;
 	private String e_character;
-	private String e_Level;
 	public int getE_empno() {
 		return e_empno;
 	}
@@ -31,27 +30,22 @@ public class Employee {
 	public void setE_character(String e_character) {
 		this.e_character = e_character;
 	}
-	public String getE_Level() {
-		return e_Level;
-	}
-	public void setE_Level(String e_Level) {
-		this.e_Level = e_Level;
-	}
+	
 	public Employee() {
 		super();
 	}
-	public Employee(String e_name, String e_pass, String e_character, String e_Level) {
+	public Employee(String e_name, String e_pass, String e_character) {
 		super();
 		this.e_name = e_name;
 		this.e_pass = e_pass;
 		this.e_character = e_character;
-		this.e_Level = e_Level;
 	}
 	@Override
 	public String toString() {
 		return "Employee [e_empno=" + e_empno + ", e_name=" + e_name + ", e_pass=" + e_pass + ", e_character="
-				+ e_character + ", e_Level=" + e_Level + "]";
+				+ e_character + "]";
 	}
+	
 	
 	
 	

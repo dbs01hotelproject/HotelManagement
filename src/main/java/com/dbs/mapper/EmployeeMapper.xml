@@ -11,7 +11,6 @@
 		<result property="e_name" column="e_name"/>	
 		<result property="e_pass" column="e_pass"/>
 		<result property="e_character" column="e_character"/>
-		<result property="e_Level" column="e_Level"/>
 	</resultMap>
 	
 	<!-- 验证用户信息 -->
@@ -30,7 +29,7 @@
 		insert into t_employee (e_empno,e_name,e_pass,e_character) values(#{e_empno},#{e_name},#{e_pass},#{e_character})
 	</insert>
 	
-	<!-- 自动设置权限 -->
+	<!--自动设置权限 
 	<update id="registerForLevel" parameterType="employee">
 		update t_employee
 		<set>
@@ -43,7 +42,8 @@
 			</if>
 		</set>	
 		where e_empno=#{e_empno}	
-	</update>
+	</update> -->
+	
 	
 	<!-- 修改用户信息 -->
 	<update id="updateForEmployee" parameterType="employee">
@@ -62,9 +62,7 @@
 			<if test="e_character !=null and e_character !=''">
 				e_character=#{e_character},			
 			</if>
-			<if test="e_Level !=null and e_Level !=''">
-				e_Level=#{e_Level},			
-			</if>
+			
 		</trim>
 	
 		where e_empno=#{e_empno}	

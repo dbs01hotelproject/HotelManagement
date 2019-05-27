@@ -17,23 +17,25 @@ public class LoginInterceptor implements HandlerInterceptor{
 			throws Exception {
 
 		String uri = request.getRequestURI();
-		//除了login.jsp可以公开访问,其余将被拦截
-		if(uri.indexOf("/login")>0) {
+		//除了login.html可以公开访问,其余将被拦截
+		if(uri.indexOf("/empLogin")>0) {
 			return true;
 		}
 		
 		//获取Session 
 		HttpSession session = request.getSession();
-		Employee user = (Employee) session.getAttribute("USERSESSION");
+		String e_name = (String) session.getAttribute("EmployeeName");
 		//session判断是否有数据,如果有,则返回true，继续向下执行
-		if(user!=null) {
+		if(e_name!=null) {
 			return true;
+		}else {
+			request.setAttribute("msg", "您还没有登录,请先登录!");
+			request.getRequestDispatcher("/empRegister.html").forward(request, response);
+			//不符合条件的给我们提示信息，并转发到登录页面
+			return false;
 		}
 		
-		request.setAttribute("msg", "您还没有登录,请先登录!");
-		request.getRequestDispatcher("/WEB-INF/jsp/login.jsp").forward(request, response);
-		//不符合条件的给我们提示信息，并转发到登录页面
-		return false;
+		
 	}
 
 	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,

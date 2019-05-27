@@ -22,7 +22,7 @@ public interface EmployeeMapper {
 	public void registerForEmployee(Employee employee);
 	
 	//自动设置权限
-	public void registerForLevel(Employee employee);
+	//public void registerForLevel(Employee employee);
 	
 	//修改用户信息
 	public void updateForEmployee(Employee employee);

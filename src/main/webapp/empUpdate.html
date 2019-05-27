@@ -70,11 +70,11 @@
 			}),//请求的数据格式为JSON数据,对于@RequestBody来说很重要必不可少
 			success : function(backData) {
 				if (backData.key == 'success') {
-					alert(backData.body[0]);
 					document.getElementById("fill").innerHTML = backData.body[0].e_empno + " " + backData.body[0].e_name + " "+
-					backData.body[0].e_pass + " "+ backData.body[0].e_character + " "+ backData.body[0].e_Level;
+					backData.body[0].e_pass + " "+ backData.body[0].e_character;
 				} else {
 					alert(backData.msg);
+					document.getElementById("fill").innerHTML = '';
 				}
 			}
 		});
@@ -122,5 +122,9 @@
 	
 	<br><br>
 	<input type="button" name="button2" id="button2" value="更新到数据库">
+	
+	<form action="/HotelManagement/EmployeeController/logout" method="get">
+		<input type="submit" value="退出登录">
+	</form>
 </body>
 </html>
