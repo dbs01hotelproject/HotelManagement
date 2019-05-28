@@ -5,16 +5,13 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
-
 </head>
 <body>
-	${msg}
-	<form action="${pageContext.request.contextPath}/login.html" method="post">
-		username: <input type="text" name="username" id="username"><br/>
-		password:<input type="password" name="password" id="password"><br/>
-		<input type="submit" value="登录" >
-	</form>
-
+	${em.e_empno};<br>
+	${em.e_name};<br>
+	${em.e_pass};<br>
+	${em.e_character};<br>
+	${em.e_Level};<br>
 
 </body>
 </html>

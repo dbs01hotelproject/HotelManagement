@@ -4,6 +4,8 @@
 	<typeAliases>
 		<package name="com.dbs.po"/>
 	</typeAliases>
+	
+	
 </configuration>
 
 

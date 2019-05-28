@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dbs.mapper.EmployeeMapper">
+	
+	<!-- 查询所有的用户 -->
+	<select id="AdminQueryAll" resultMap="AdminQueryAllResultMap">
+		select * from t_employee 
+	</select>
+	<resultMap type="employee" id="AdminQueryAllResultMap">
+		<id property="e_empno" column="e_empno"></id>
+		<result property="e_name" column="e_name"/>	
+		<result property="e_pass" column="e_pass"/>
+		<result property="e_character" column="e_character"/>
+	</resultMap>
+	
+	<!-- 验证用户信息 -->
+	<select id="checkEmp" parameterType="employee" resultType="employee">
+		select * from t_employee where e_name=#{e_name} and e_pass=#{e_pass} and e_character=#{e_character}
+	</select>
+	
+	<!--  查询个人信息-->
+	<select id="queryEmployeeForSelf" parameterType="Integer" resultType="employee">
+		select * from t_employee where e_empno=#{e_empno} 
+	</select>
+	
+	
+	<!-- 添加用户 -->
+	<insert id="registerForEmployee" parameterType="employee">
+		insert into t_employee (e_empno,e_name,e_pass,e_character) values(#{e_empno},#{e_name},#{e_pass},#{e_character})
+	</insert>
+	
+	<!--自动设置权限 
+	<update id="registerForLevel" parameterType="employee">
+		update t_employee
+		<set>
+			
+			<if test="e_character=='管理员'.toString()">
+				e_Level='A',			
+			</if>
+			<if test="e_character!='管理员'.toString()">
+				e_Level='B',			
+			</if>
+		</set>	
+		where e_empno=#{e_empno}	
+	</update> -->
+	
+	
+	<!-- 修改用户信息 -->
+	<update id="updateForEmployee" parameterType="employee">
+		update t_employee
+		<trim prefix="set" suffixOverrides=",">
+			
+			<if test="e_empno !=null and e_empno!=''">
+				e_empno=#{e_empno},
+			</if>
+			<if test="e_name !=null and e_name !=''">
+				e_name=#{e_name},			
+			</if>
+			<if test="e_pass !=null and e_pass !=''">
+				e_pass=#{e_pass},			
+			</if>
+			<if test="e_character !=null and e_character !=''">
+				e_character=#{e_character},			
+			</if>
+			
+		</trim>
+	
+		where e_empno=#{e_empno}	
+	</update>
+	
+	
+	<!-- 删除用户信息 -->
+	<delete id="deleteEmpInfo" parameterType="Integer">
+		delete from t_employee where e_empno=#{e_empno}
+	</delete>
+	
+	<!-- 查询是否是管理员 -->
+	<select id="selectByNameAndCharacter" resultType="employee" parameterType="employee">
+		select * from t_employee where e_name = #{e_name} and e_character ='管理员'
+	</select>
+	
+	<!-- 根据用户名查询用户 -->
+	<select id="selectByName" resultType="employee" parameterType="employee">
+		select * from t_employee where e_name = #{e_name}
+	</select>
+	
+	
+
+</mapper>

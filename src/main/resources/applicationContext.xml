@@ -15,7 +15,10 @@
     http://www.springframework.org/schema/tx/spring-tx.xsd ">
 
 	<!-- 扫描包实现自动注入 -->
+	
 	<context:component-scan base-package="com.dbs.service.impl"></context:component-scan>
+	
+	<context:component-scan base-package="com.dbs.mapper"></context:component-scan>
 
 	<!-- 读取jdbc.properties数据资源 -->
 	<context:property-placeholder
@@ -59,9 +62,13 @@
 			value="classpath:mybatis-config.xml"></property>
 	</bean>
 	
-	<!-- mapper代理开发(基于MapperFactoryBean) -->
+	<!-- mybatis.spring自动映射 -->
 	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
 		<property name="basePackage" value="com.dbs.mapper" />
 		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory" />
 	</bean>
+	
+	
+	
+	
 </beans>
