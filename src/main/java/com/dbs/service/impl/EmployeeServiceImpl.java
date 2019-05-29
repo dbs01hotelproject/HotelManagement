@@ -25,9 +25,20 @@ public class EmployeeServiceImpl implements EmployeeService {
 	// 管理员查询所有的用户
 	@Override
 	@Test
-	public List<Employee> AdminQueryAll() {
-
-		return employeeMapper.AdminQueryAll();
+	public ReturnData AdminQueryAll() {
+		
+		ReturnData returnData = new ReturnData();
+		
+		//将数据库表中信息封装进入list中然后存进returnData
+		List<Object> emps = new ArrayList<Object>();
+		List<Employee> emplist = new ArrayList<Employee>();
+		emplist = employeeMapper.AdminQueryAll();
+		for (Employee emp2 : emplist) {
+			emps.add(emp2);
+		}
+		returnData.setBody(emps);
+		
+		return returnData;
 	}
 
 	// 验证用户信息
@@ -139,57 +150,65 @@ public class EmployeeServiceImpl implements EmployeeService {
 	@Override
 	public ReturnData updateForEmployee(Employee employee, HttpSession session) {
 		ReturnData returnData = new ReturnData();
-		// 接收用户登录时的Name
-		String username = (String) session.getAttribute("EmployeeName");
-
-		// 查询请求的修改的e_name是否已经存在
-		Employee testname = employeeMapper.selectByName(employee);
-
-		// e_name已经存在
-		if (testname != null) {
-			returnData.setKey(returnData.FAIL);
-			returnData.setMsg("用户名已存在，请重新设置!");
-		} else {
-			// 请求的用户名可以用的情况
-			// 查询登录的人员是否是管理员
-			Employee emp = new Employee();
-			emp.setE_name(username);
-			Employee emp2 = employeeMapper.selectByNameAndCharacter(emp);
-			// 是管理员的情况下执行的更新操作
-			if (emp2 != null) {
-				// 更新基本信息
-				employeeMapper.updateForEmployee(employee);
-				// 自动更新权限
-				// employeeMapper.registerForLevel(employee);
-				returnData.setKey(returnData.SUCCESS);
-				returnData.setMsg("尊敬的管理员，您已经成功修改信息");
-			}
-			// 不是管理员的情况下执行的更新操作
-			else {
-
-				// 判断非管理员登录用户是否修改的是自己的信息
-				Employee emp3 = employeeMapper.selectByName(emp);
-
-				// 修改自己的信息
-				if (emp3.getE_empno() == employee.getE_empno()) {
-
-					// 前端请求是否含有角色修改(只有管理员才能修改)
-					if (employee.getE_character() == null || employee.getE_character() == "") {
-						employeeMapper.updateForEmployee(employee);
-						returnData.setKey(returnData.SUCCESS);
-						returnData.setMsg("您已经成功修改信息");
-					} else {
-						returnData.setKey(returnData.FAIL);
-						returnData.setMsg("您不是管理员，不能修改角色信息");
-					}
-				} else {
-					System.out.println("你不是管理员，不能修改他人信息");
-					returnData.setKey(returnData.FAIL);
-					returnData.setMsg("您不是管理员，不能修改他人信息");
+		
+		//判断请求的更新的e_empno是否存在
+		Employee empforEmpno = employeeMapper.queryEmployeeForSelf(employee);
+		if(empforEmpno!=null) {
+			// 接收用户登录时的Name
+			String username = (String) session.getAttribute("EmployeeName");
+			// 查询请求的修改的e_name是否已经存在
+			Employee testname = employeeMapper.selectByName(employee);
+			// e_name已经存在
+			if (testname != null) {
+				returnData.setKey(returnData.FAIL);
+				returnData.setMsg("用户名已存在，请重新设置!");
+			} else {
+				// 请求的用户名可以用的情况
+				// 查询登录的人员是否是管理员
+				Employee emp = new Employee();
+				emp.setE_name(username);
+				Employee emp2 = employeeMapper.selectByNameAndCharacter(emp);
+				// 是管理员的情况下执行的更新操作
+				if (emp2 != null) {
+					// 更新基本信息
+					employeeMapper.updateForEmployee(employee);
+					// 自动更新权限
+					// employeeMapper.registerForLevel(employee);
+					returnData.setKey(returnData.SUCCESS);
+					returnData.setMsg("尊敬的管理员，您已经成功修改信息");
 				}
-			}
+				// 不是管理员的情况下执行的更新操作
+				else {
 
+					// 判断非管理员登录用户是否修改的是自己的信息
+					Employee emp3 = employeeMapper.selectByName(emp);
+
+					// 修改自己的信息
+					if (emp3.getE_empno() == employee.getE_empno()) {
+
+						// 前端请求是否含有角色修改(只有管理员才能修改)
+						if (employee.getE_character() == null || employee.getE_character() == "") {
+							employeeMapper.updateForEmployee(employee);
+							returnData.setKey(returnData.SUCCESS);
+							returnData.setMsg("您已经成功修改信息");
+						} else {
+							returnData.setKey(returnData.FAIL);
+							returnData.setMsg("您不是管理员，不能修改角色信息");
+						}
+					} else {
+						System.out.println("你不是管理员，不能修改他人信息");
+						returnData.setKey(returnData.FAIL);
+						returnData.setMsg("您不是管理员，不能修改他人信息");
+					}
+				}
+
+			}
+		}else {
+			returnData.setKey(returnData.FAIL);
+			returnData.setMsg("员工号不存在，请重新输入");
 		}
+		
+		
 
 		return returnData;
 
@@ -205,22 +224,33 @@ public class EmployeeServiceImpl implements EmployeeService {
 		Employee emp = new Employee();
 		emp.setE_name(username);
 		Employee empAdmin = employeeMapper.selectByNameAndCharacter(emp);
-		if (empAdmin != null) {
-			employeeMapper.deleteEmpInfo(employee);
-			returnData.setKey(returnData.SUCCESS);
-			returnData.setMsg("成功删除");
-		} else {
+		
+		Employee empexist = employeeMapper.queryEmployeeForSelf(employee);
+		//数据库含有需要删除的信息
+		if(empexist!=null) {
+			if (empAdmin != null) {
+				employeeMapper.deleteEmpInfo(employee);
+				Employee empdelete = new Employee();
+				empdelete = employeeMapper.queryEmployeeForSelf(employee);
+				if(empdelete==null) {
+					returnData.setKey(returnData.SUCCESS);
+					returnData.setMsg("成功删除");
+				}else {
+					returnData.setKey(returnData.FAIL);
+					returnData.setMsg("成功失败");
+				}
+				
+			} else {
+				returnData.setKey(returnData.FAIL);
+				returnData.setMsg("您不是管理员,没有权限删除!");
+			}
+		}
+		//s数据库中已经没了需要删除的信息
+		else {
 			returnData.setKey(returnData.FAIL);
-			returnData.setMsg("您不是管理员,没有权限删除!");
+			returnData.setMsg("您所需要删除的数据不存在!");
 		}
-		//将数据库表中信息封装进入list中然后存进returnData
-		List<Object> emps = new ArrayList<Object>();
-		List<Employee> emplist = new ArrayList<Employee>();
-		emplist = employeeMapper.AdminQueryAll();
-		for (Employee emp2 : emplist) {
-			emps.add(emp2);
-		}
-		returnData.setBody(emps);
+		
 		return returnData;
 	}
 
