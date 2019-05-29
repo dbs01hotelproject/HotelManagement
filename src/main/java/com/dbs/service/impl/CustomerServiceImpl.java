@@ -30,8 +30,8 @@ public class CustomerServiceImpl implements CustomerService {
 	}
 
 	@Override
-	public void insertReception(Reception reception) throws Exception {
-		customerMapper.insertReception(reception);
+	public int insertReception(Reception reception) throws Exception {
+		return customerMapper.insertReception(reception);
 	}
 
 }

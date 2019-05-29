@@ -16,6 +16,6 @@ public interface CustomerMapper {
 	public List<RoomInformation> queryRoomInformation() throws Exception;
 	
 	//办理客户入住 
-	public void insertReception(Reception reception) throws Exception;
+	public int insertReception(Reception reception) throws Exception;
 	
 }
