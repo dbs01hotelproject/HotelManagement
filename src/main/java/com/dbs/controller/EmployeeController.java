@@ -24,20 +24,10 @@ public class EmployeeController {
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public String login() {
 
-		return "empLogin";
+		return "login";
 	}
 
-	@RequestMapping(value = "/management", method = RequestMethod.GET)
-	public String management() {
 
-		return "management";
-	}
-	
-	@RequestMapping(value = "/empRegister", method = RequestMethod.GET)
-	public String register() {
-
-		return "empRegister";
-	}
 	
 	@RequestMapping(value = "/logout",method = RequestMethod.GET)
 	public String logout(HttpSession session) {
@@ -123,5 +113,16 @@ public class EmployeeController {
 		return returnData;
 	}
 	
-
+	@RequestMapping(value = "/searchAll")
+	// @RequestBady 将请求体中的JSON数据绑定到形参employee中
+	public @ResponseBody ReturnData searchAll(@RequestBody Employee employee, HttpSession session) {
+		System.out.println("开始searchAll方法");
+		
+		//调用业务层的更新方法
+		ReturnData returnData = employeeService.AdminQueryAll();
+		
+		// 返回JSON格式响应
+		return returnData;
+	}
+	
 }
