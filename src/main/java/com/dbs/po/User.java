@@ -1,5 +1,5 @@
 package com.dbs.po;
-
+//用户的登录,我不用管;
 public class User {
 
 	private Integer id;

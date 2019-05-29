@@ -2,7 +2,6 @@ package com.dbs.mapper;
 
 import com.dbs.po.Customer;
 
-
 public interface CustomerMapper {
 	
 	//通过id查询客户

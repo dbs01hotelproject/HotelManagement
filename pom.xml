@@ -7,15 +7,15 @@
   <version>0.0.1-SNAPSHOT</version>
   <name>HotelManagement Maven Webapp</name>
   <url>http://maven.apache.org</url>
-  <properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<maven.compiler.encoding>UTF-8</maven.compiler.encoding>
-		<java.version>11.0.1</java.version>
-		<maven.compiler.source>11.0.1</maven.compiler.source>
-		<java.version>11.0.1</java.version>
-		<maven.compiler.target>11.0.1</maven.compiler.target>
-		<org.springframework.version>5.0.0.RELEASE</org.springframework.version>
-  </properties>
+ <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.encoding>UTF-8</maven.compiler.encoding>
+        <java.version>1.10</java.version>
+        <maven.compiler.source>1.10</maven.compiler.source>
+        <java.version>1.10</java.version>
+        <maven.compiler.target>1.10</maven.compiler.target>
+  	<org.springframework.version>5.0.0.RELEASE</org.springframework.version>
+ </properties>
   
    <dependencies>
 		<!-- https://mvnrepository.com/artifact/org.springframework/spring-beans -->

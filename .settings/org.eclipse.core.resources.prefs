@@ -1,0 +1,6 @@
+eclipse.preferences.version=1
+encoding//src/main/java/com/dbs/controller/CustomerController.java=UTF-8
+encoding//src/main/java/com/dbs/interceptor/LoginInterceptor.java=UTF-8
+encoding//src/main/java/com/dbs/mapper/CustomerMapper.java=UTF-8
+encoding//src/main/java/com/dbs/service/CustomerService.java=UTF-8
+encoding//src/main/java/com/dbs/util/Common.java=UTF-8
