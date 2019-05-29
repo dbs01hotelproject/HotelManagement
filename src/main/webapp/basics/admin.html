@@ -124,53 +124,10 @@
 			</div>
 		</div>
 			
-		<script id="view" type="text/html">
-			{{# layui.each(d, function(index, item){ }}
-				<tr >
-				<!--//编号-->
-				<td>{{ item.e_empno }}</td>
-				<!--//用户名-->
-				<td>{{ item.e_name }}</td>
-				<!--//联系电话-->
-				<td>{{ item.e_pass }}</td>
-				<!--//用户类型-->
-				<td>{{item.e_character == 1?'管理员':'经纪机构用户'}}</td>
-			</tr>
-			{{# }); }}
-		</script>
+		
 		
 		<script>
 		
-			/**
-			 * 检索
-			 */
-			function getSearchData() {	
-				// 页码重置
-				pageIndex = 1;
-				// 获取数据
-				getData();
-			};
-			
-			
-			//修改视图
-			function modView(){
-				//获取选中的guid
-				var checkStatus = table.checkStatus('demo'),
-				data = checkStatus.data;
-				console.log(data)
-				if(data.length == 1) {
-					//当前选中的guid
-					var guid=data[0].id
-					console.log(guid)
-					/* var id = "";
-						id = id.substr(0, id.length - 1); */
-					pageOpen("用户修改", "persondata.html", guid, "95%", "90%");
-				} else if(data.length == 0||data.length > 1) {
-					layer_msg("请选择一条数据修改！");
-					return;
-				}				
-			}
-			
 			//添加	
 			function addView(){				
 				pageOpen("新增用户", "addAdmin.html", "0", "95%", "90%");
@@ -187,40 +144,7 @@
 				pageOpen("更新用户", "updateAdmin.html", "0", "95%", "90%");
 			}
 			
-			//删除
-			function getdel(){
-				var checkStatus = table.checkStatus('demo'),
-					data = checkStatus.data;
-					if(data.length == 1) {
-						var id = data[0].id;
-						/* for(var i = 0; i < data.length; i++) {
-							id = id + data[i].id + ",";
-						} */
-						if(id.length > 0) {
-							//id = id.substr(0, id.length - 1);
-							// 弹出提示框
-							console.log(id)
-							layer.confirm('您确定要删除这些信息吗?', {
-								icon: 3,
-								title: '删除'
-							}, function(index) {
-								delAdmin(id);
-								// 关闭提示框
-								layer.close(index);
-							});
-						}
-					} else if(data.length == 0||data.length>1) {
-						layer_msg("请选择一条数据！");
-						return;
-					}
-			}
-			
-			function uplist(){
-				layer.closeAll()
-				getSearchData()
-				alertSuccess('操作成功！')
-			}
-			
+		
 		
 			
 		</script>

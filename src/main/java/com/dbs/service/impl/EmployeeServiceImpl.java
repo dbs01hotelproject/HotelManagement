@@ -25,9 +25,20 @@ public class EmployeeServiceImpl implements EmployeeService {
 	// 管理员查询所有的用户
 	@Override
 	@Test
-	public List<Employee> AdminQueryAll() {
-
-		return employeeMapper.AdminQueryAll();
+	public ReturnData AdminQueryAll() {
+		
+		ReturnData returnData = new ReturnData();
+		
+		//将数据库表中信息封装进入list中然后存进returnData
+		List<Object> emps = new ArrayList<Object>();
+		List<Employee> emplist = new ArrayList<Employee>();
+		emplist = employeeMapper.AdminQueryAll();
+		for (Employee emp2 : emplist) {
+			emps.add(emp2);
+		}
+		returnData.setBody(emps);
+		
+		return returnData;
 	}
 
 	// 验证用户信息
@@ -240,16 +251,6 @@ public class EmployeeServiceImpl implements EmployeeService {
 			returnData.setMsg("您所需要删除的数据不存在!");
 		}
 		
-		/*
-		//将数据库表中信息封装进入list中然后存进returnData
-		List<Object> emps = new ArrayList<Object>();
-		List<Employee> emplist = new ArrayList<Employee>();
-		emplist = employeeMapper.AdminQueryAll();
-		for (Employee emp2 : emplist) {
-			emps.add(emp2);
-		}
-		returnData.setBody(emps);
-		*/
 		return returnData;
 	}
 

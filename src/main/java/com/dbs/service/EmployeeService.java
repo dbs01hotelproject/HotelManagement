@@ -10,7 +10,7 @@ import com.dbs.util.ReturnData;
 public interface EmployeeService {
 
 		//管理员查询所有的用户
-		public List<Employee> AdminQueryAll();
+		public ReturnData AdminQueryAll();
 		
 		//验证用户信息
 		public ReturnData checkEmp(Employee employee,HttpSession session);
