@@ -133,11 +133,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 		return returnData;
 	}
 
-	// 自动设置权限
-	/*
-	 * @Override public void registerForLevel(Employee employee) {
-	 * employeeMapper.registerForLevel(employee); }
-	 */
+	
 
 	// 修改用户信息
 	@Override
