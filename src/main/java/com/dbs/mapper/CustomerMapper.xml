@@ -58,9 +58,9 @@
 	</select>
 	
 	<!-- 办理客户入住 -->
-	<select id="insertReception" parameterType="reception">
+	<insert id="insertReception" parameterType="reception">
 		insert into t_reception(r_customernumber,r_roomnumber,r_checkin,r_deposit,t_opennetwork) 
-		values(r_customernumber,r_roomnumber,r_checkin,r_deposit,t_opennetwork)
-	</select>
+		values(#{r_customernumber},#{r_roomnumber},#{r_checkin},#{r_deposit},#{t_opennetwork})
+	</insert>
 
 </mapper>

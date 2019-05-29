@@ -1,5 +1,7 @@
 package com.dbs.mapper;
 
+import java.util.List;
+
 import com.dbs.po.Customer;
 import com.dbs.po.Reception;
 import com.dbs.po.RoomInformation;
@@ -20,9 +22,9 @@ public interface CustomerMapper {
 	public Customer queryCustomer(Customer customer) throws Exception;
 	
 	//查询房态状态
-	public RoomInformation queryRoomInformation() throws Exception;
+	public List<RoomInformation> queryRoomInformation() throws Exception;
 	
 	//办理客户入住 
-	public void insertReception(Reception reception) throws Exception;
+	public int insertReception(Reception reception) throws Exception;
 	
 }

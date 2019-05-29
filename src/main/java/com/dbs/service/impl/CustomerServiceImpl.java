@@ -1,5 +1,7 @@
 package com.dbs.service.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,13 +25,13 @@ public class CustomerServiceImpl implements CustomerService {
 	}
 
 	@Override
-	public RoomInformation queryRoomInformation() throws Exception {
+	public List<RoomInformation> queryRoomInformation() throws Exception {
 		return customerMapper.queryRoomInformation();
 	}
 
 	@Override
-	public void insertReception(Reception reception) throws Exception {
-		customerMapper.insertReception(reception);
+	public int insertReception(Reception reception) throws Exception {
+		return customerMapper.insertReception(reception);
 	}
 
 	//登记客户信息

@@ -52,6 +52,7 @@ public class Common {
 		return number;
 	}
 	
+	//将yyyy-MM-dd
 	public static java.sql.Date formDate(String date) throws ParseException {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		return new java.sql.Date(sdf.parse(date).getTime());

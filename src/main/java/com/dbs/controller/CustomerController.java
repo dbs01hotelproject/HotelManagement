@@ -19,6 +19,11 @@ import com.dbs.service.CustomerService;
 import com.dbs.util.Common;
 import com.dbs.util.ReturnData;
 
+/**
+ * 接待信息管理
+ * @author muyian
+ * @date 2019/5/26
+ */
 @Controller
 @RequestMapping(value = "/customer")
 public class CustomerController {
@@ -162,7 +167,7 @@ public class CustomerController {
 		ReturnData returnData = new ReturnData();
 		// 请求数据
 		try {
-			RoomInformation roomInformation = customerService.queryRoomInformation();
+			List<RoomInformation> roomInformation = customerService.queryRoomInformation();
 			List<Object> list = new ArrayList<Object>();
 			list.add(roomInformation);
 			returnData.setKey(ReturnData.SUCCESS);
@@ -192,16 +197,18 @@ public class CustomerController {
 			reception.setR_customernumber(Integer.parseInt(Common.ckeckNull(request.getParameter("c_id"))));
 			reception.setR_roomnumber(Integer.parseInt(Common.ckeckNull(request.getParameter("r_id"))));
 			reception.setR_checkin(Common.formDate(Common.ckeckNull(request.getParameter("r_checkin"))));
-			reception.setR_deposit(Float.parseFloat(Common.ckeckNull(request.getParameter("r_deposit"))));
-			reception.setT_opennetwork(Integer.parseInt(Common.ckeckNull(request.getParameter("t_opennetwork"))));
+			String r_deposit = Common.ckeckNull(request.getParameter("r_deposit"));
+			reception.setR_deposit(Float.parseFloat(r_deposit.equals("")?"0":r_deposit));
+			String t_opennetwork = Common.ckeckNull(request.getParameter("t_opennetwork"));
+			reception.setT_opennetwork(Integer.parseInt(t_opennetwork.equals("")?"0":t_opennetwork));
 			//插入
 			customerService.insertReception(reception);
 			returnData.setKey(ReturnData.SUCCESS);
-			returnData.setMsg("获取客户信息成功");
+			returnData.setMsg("办理客户入住成功");
 		} catch (Exception e) {
 			// 请求失败
 			returnData.setKey(ReturnData.FAIL);
-			returnData.setMsg("获取客户信息失败");
+			returnData.setMsg("办理客户入住失败");
 			e.printStackTrace();
 		}
 		return returnData;
