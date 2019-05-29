@@ -1,0 +1,229 @@
+        <!DOCTYPE html>
+<html>
+<script src="../js/jquery-3.3.1.min.js"></script>
+		<script src="../layui/layui.all.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/common.js" type="text/javascript"></script>
+	<head>
+		<meta charset="UTF-8">
+		<title>管理员管理</title>
+
+		<link rel="stylesheet" href="../layui/css/layui.css" media="all">
+		<link href="../css/common.css" rel="stylesheet" />
+	<style type="text/css">
+		.xunjian {
+			opacity: 1 !important;
+		}
+		
+		.layui-btn.xunjian {
+			cursor: default;
+		}
+		
+		.choujian {
+			opacity: 1 !important;
+		}
+		
+		.layui-btn.choujian {
+			cursor: default;
+		}
+		
+		.zuyuan {
+			opacity: 1 !important;
+		}
+		
+		.zuzhang {
+			opacity: 1 !important;
+		}
+		
+		.layui-layedit {
+			border-width: 0px;
+			border-style: solid;
+			border-radius: 2px;
+		}
+		
+		.layui-layedit-tool {
+			padding: 0px;
+			border-bottom-width: 1px;
+			border-bottom-style: solid;
+			font-size: 0;
+		}
+		
+		.padding_lr_10 {
+			padding: 0 !important;
+		}
+		
+		.padding_lr_10 input {
+			border: 0;
+		}
+		
+		.layui-form-checkbox {
+			position: relative;
+			height: 30px;
+			line-height: 28px;
+			margin-right: 10px;
+			padding-right: 30px;
+			border: 1px solid #d2d2d2;
+			cursor: pointer;
+			font-size: 0;
+			border-radius: 2px;
+			-webkit-transition: .1s linear;
+			transition: .1s linear;
+			box-sizing: border-box;
+			width: 60px;
+		}
+		.layui-unselect.layui-form-switch{
+			margin-top: 1px;
+			margin-left: 10px;
+		}
+	</style>
+		<style>
+			.layui-table-cell {
+				height: auto;
+			}
+			.layui-form-select dl {
+		    	max-height: 200px !important;
+			}
+		</style>
+	</head>
+
+	<body class="yfs-list">
+		<div class="yfs-body layui-form">
+			<div class="layui-inline" style="width: 500px; padding-top: 20px; margin-left: 10px;">
+				<div class="layui-input-inline">
+					<input id="e_name" style="width: 140px; font-size: 20px;" type="text" name="" autocomplete="off" class="layui-input-inline" maxlength="25">
+					<button class="layui-btn layui-btn-small layui-btn-normal" onclick="getSearchData()"><i class="layui-icon">&#xe615;</i> 检索</button>
+				</div>
+			</div>
+			<div class="yfs-body-button" style="padding-top: 10px;">
+				<button class="layui-btn layui-btn-sm layui-bg-red" onclick=""><i class="layui-icon">&#xe615;</i> 查询所有用户信息</button>
+				<button class="layui-btn layui-btn-sm layui-bg-blue" onclick="addView()"><i class="layui-icon">&#xe654;</i> 新增用户</button>
+				<button class="layui-btn layui-btn-sm layui-bg-orange" onclick="updAdmin()"><i class="layui-icon">&#xe642;</i> 修改用户信息</button>
+				<button class="layui-btn layui-btn-sm layui-bg-red" onclick="delAdmin()"><i class="layui-icon">&#xe640;</i> 删除用户</button>
+				
+				<div style="clear: both;"></div>
+			</div>
+			
+			<div class="yfs-body-table">
+				<table class="layui-table" lay-data="{id:'demo'}" lay-filter="demo">
+					<thead>
+						<tr style="text-align: center;" class="layui-bg-orange">
+							<th lay-data="{field:'id', width:60,checkbox:true,fixed:true }"></th>
+							<th lay-data="{field:'e_empno',width:110}" style="text-align: center;">员工编号</th>
+							<th lay-data="{field:'e_name',width:110}" style="text-align: center;">用户名</th>
+							<th lay-data="{field:'e_pass',width:180}" style="text-align: center;">密码</th>
+							<th lay-data="{field:'e_character'}" style="text-align: center;">角色类型</th>	
+						</tr>
+					</thead>
+					<tbody id="datalist" lay-filter="test">
+					</tbody>
+				</table>
+				<div id="pageDiv">
+					<div id="page" class="layui-table-tool"></div>
+				</div>
+			
+			</table>
+			</div>
+		</div>
+			
+		<script id="view" type="text/html">
+			{{# layui.each(d, function(index, item){ }}
+				<tr >
+				<!--//编号-->
+				<td>{{ item.e_empno }}</td>
+				<!--//用户名-->
+				<td>{{ item.e_name }}</td>
+				<!--//联系电话-->
+				<td>{{ item.e_pass }}</td>
+				<!--//用户类型-->
+				<td>{{item.e_character == 1?'管理员':'经纪机构用户'}}</td>
+			</tr>
+			{{# }); }}
+		</script>
+		
+		<script>
+		
+			/**
+			 * 检索
+			 */
+			function getSearchData() {	
+				// 页码重置
+				pageIndex = 1;
+				// 获取数据
+				getData();
+			};
+			
+			
+			//修改视图
+			function modView(){
+				//获取选中的guid
+				var checkStatus = table.checkStatus('demo'),
+				data = checkStatus.data;
+				console.log(data)
+				if(data.length == 1) {
+					//当前选中的guid
+					var guid=data[0].id
+					console.log(guid)
+					/* var id = "";
+						id = id.substr(0, id.length - 1); */
+					pageOpen("用户修改", "persondata.html", guid, "95%", "90%");
+				} else if(data.length == 0||data.length > 1) {
+					layer_msg("请选择一条数据修改！");
+					return;
+				}				
+			}
+			
+			//添加	
+			function addView(){				
+				pageOpen("新增用户", "addAdmin.html", "0", "95%", "90%");
+			}
+			//删除视图
+			function delAdmin(){
+			
+				pageOpen("删除用户", "deleteAdmin.html", "0", "95%", "90%");
+			}
+			
+			//更新视图
+			function updAdmin(){
+			
+				pageOpen("更新用户", "updateAdmin.html", "0", "95%", "90%");
+			}
+			
+			//删除
+			function getdel(){
+				var checkStatus = table.checkStatus('demo'),
+					data = checkStatus.data;
+					if(data.length == 1) {
+						var id = data[0].id;
+						/* for(var i = 0; i < data.length; i++) {
+							id = id + data[i].id + ",";
+						} */
+						if(id.length > 0) {
+							//id = id.substr(0, id.length - 1);
+							// 弹出提示框
+							console.log(id)
+							layer.confirm('您确定要删除这些信息吗?', {
+								icon: 3,
+								title: '删除'
+							}, function(index) {
+								delAdmin(id);
+								// 关闭提示框
+								layer.close(index);
+							});
+						}
+					} else if(data.length == 0||data.length>1) {
+						layer_msg("请选择一条数据！");
+						return;
+					}
+			}
+			
+			function uplist(){
+				layer.closeAll()
+				getSearchData()
+				alertSuccess('操作成功！')
+			}
+			
+		
+			
+		</script>
+	</body>
+
+</html>

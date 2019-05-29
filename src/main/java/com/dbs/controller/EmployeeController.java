@@ -44,7 +44,7 @@ public class EmployeeController {
 		System.out.println("当前session:"+session.getAttribute("EmployeeName"));
 		session.invalidate();
 		System.out.println("session已清空");
-		return "redirect: ../empLogin.html";
+		return "redirect: ../login.html";
 	}
 
 	/*

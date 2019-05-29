@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>新增用户</title>
+		<link rel="stylesheet" href="../layui/css/layui.css" media="all">
+		<link href="../css/common.css" rel="stylesheet" />
+		<style>
+			td{
+				text-align: center;
+			}
+		</style>
+	</head>
+	<body>
+		<table class="layui-table">
+			<thead>
+				<tr>
+					<th style="text-align: center;" colspan="3">个人信息</th>
+				</tr>
+			</thead>
+			<tbody id="datalist" lay-filter="test">
+			
+				<tr>
+					<td>员工编号</td>
+					<td colspan="2"><input id="e_empno" class="layui-input" type="text"/></td>
+				</tr>
+				
+				<tr>
+					<td>用户名</td>
+					<td colspan="2"><input id="e_name" class="layui-input" type="text"/></td>
+				</tr>
+				
+				<tr>
+					<td>密&nbsp;&nbsp;码</td>
+					<td colspan="2"><input id="e_pass" class="layui-input" type="password"/></td>
+				</tr>
+				<tr>
+					<td>确认密码</td>
+					<td colspan="2"><input id="e_pass2" class="layui-input" type="password"/></td>
+				</tr>
+				<tr>
+					<td>用户角色类型</td>
+					<td colspan="2">
+						<div class="layui-input-inline">
+							<select id="e_character" name="" lay-verify="" class="layui-select">
+								<option value="">全部</option>
+								<option value="管理员">管理员</option>
+								<option value="前台接待员">前台接待员</option>
+								<option value="房管员">房管员</option>
+								<option value="收银员">收银员</option>
+							</select>
+						</div>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		<div style="display: flex;justify-content: center;">
+			<button class="layui-btn layui-btn-normal" id="button1">添加用户</button>
+		</div>
+		<script src="../js/jquery-3.3.1.min.js"></script>
+		<script src="../layui/layui.all.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/common.js" type="text/javascript"></script>
+		<script>
+			// 验证非法登录
+			//checkLogin();
+		</script>
+		<script>
+		
+		$(function() {
+			
+			$("#button1").click(function() {
+				var e_empno = $("#e_empno").val();
+				var e_name = $("#e_name").val();
+				var e_pass = $("#e_pass").val();
+				var e_character = $("#e_character").val();
+				var e_pass2 = $("#e_pass2").val();
+				if (e_empno == "") {
+					alert("员工编号不能为空");
+					return false;
+				}
+
+				if (e_name == "") {
+					alert("用户名不能为空");
+					return false;
+				}
+
+				if (e_pass == "") {
+					alert("密码不能为空");
+					return false;
+				}
+
+				if (e_pass2 == "") {
+					alert("确认密码不能为空");
+					return false;
+				}
+				
+				if (e_pass!=e_pass2){
+					alert('两次密码不一致');
+					return false;
+				}
+				
+				if (e_pass.length<8){
+					alert('密码少于8位');
+					return false;
+				}
+				
+			//	alert("测试开始");
+				$.ajax({
+
+					type : "post",
+					url : "/HotelManagement/EmployeeController/register2",
+					contentType : 'application/json;charset=UTF-8',//必须有
+					data : JSON.stringify({
+						e_empno : e_empno,
+						e_name : e_name,
+						e_pass : e_pass,
+						e_character : e_character
+					}),//请求的数据格式为JSON数据,对于@RequestBody来说很重要必不可少
+					
+				  	success:function(data){
+			    		//var newData= JSON.parse(data);
+						var newData = data;
+					//	alert(newData.key);
+						if(newData.key=='success'){
+							layer.alert(newData.msg,{
+								icon:1,
+								closeBtn:0
+							},
+							function(index){
+								//关闭保存成功页面
+								layer.close(index);
+								//获得当前页面索引
+								var indexmain = parent.layer.getFrameIndex(window.name);
+								//触发主页面按钮事件,根据不同业务可以在自己页面中修改方法
+								parent.getSearchData()
+								parent.layer.close(indexmain)
+						 })
+							
+						}else{
+							layer.alert(newData.msg,{
+								icon:5,
+								closeBtn:0
+							},
+							function(index){
+								//关闭保存成功页面
+								layer.close(index);
+								//获得当前页面索引
+								var indexmain = parent.layer.getFrameIndex(window.name);
+								//触发主页面按钮事件,根据不同业务可以在自己页面中修改方法
+								parent.getSearchData()
+								parent.layer.close(indexmain)
+						 })
+							
+						}
+							
+			    	}
+					
+				});
+			//	alert("测试末尾");
+
+			});
+		});
+		
+		
+		</script>
+	</body>
+</html>

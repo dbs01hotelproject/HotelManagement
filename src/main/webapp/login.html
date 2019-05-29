@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>登录</title>
+		<script src="js/jquery-3.3.1.min.js"></script>
+		<script src="js/common.js"></script>
+		<script src="layui/layui.all.js"></script>
+		<link rel="stylesheet" href="layui/css/layui.css" media="all">
+		<style>
+			body {
+				background-color: #2E3D50;
+				height: 100%;
+			}
+			html {
+				margin: 0;
+				padding: 0;
+				width: 100%;
+				height: 100%;
+				background-color: #03070F;
+			}
+			.loginbox{
+				margin-top: 90px;
+				width: 500px;
+				height: 300px;
+				text-align: center;
+				background: #e5e9f2;
+				padding-top: 25px;
+			}
+			.checktab{
+				margin-left: 25px;
+				width: 450px;
+				height: 270px;
+				background-color:#DCDFE6;
+				text-align: center;
+			}
+		</style>
+		
+	<script type="text/javascript">
+		$(function() {
+			$("#button1").click(function() {
+			//	alert("开始");
+				var e_name = $("#e_name").val();
+				var e_pass = $("#e_pass").val();
+				var e_character =$('input:radio:checked').val();
+				$.ajax({
+		
+					type : "post",
+					url : "/HotelManagement/EmployeeController/login2",
+					contentType : 'application/json;charset=UTF-8',//必须有
+					data : JSON.stringify({
+						e_name : e_name,
+						e_pass : e_pass,
+						e_character : e_character 
+					}),//请求的数据格式为JSON数据,对于@RequestBody来说很重要必不可少
+					success : function(backData) {
+						if(backData.key=='success'){
+						//	alert('用户名:'+ backData.body[0].e_name + ' 角色:'+backData.body[0].e_character);
+							window.location.href = 'index.html';
+						}else{
+							alert('登录失败，请重新登录!')
+						}
+					}
+				});
+			//	alert("尾部");
+			});
+		});
+
+</script>	
+		
+	</head>
+	<body>
+		<div style="padding-top:30px; margin-left: 50px;"><h1 style="color: white;font-weight: 400;">欢迎使用酒店管理系统</h1></div>
+		<div style="display: flex;justify-content: center;">
+			<div class="loginbox">
+				
+				
+				<table class="checktab">
+					<title>登录</title>
+					
+					<tr>
+						<td><label>用户名：</label></td>
+						<td><input type="text" placeholder="请输入用户名" name="e_name" id="e_name" class="layui-input" style="width: 300px;" /></td>
+					</tr>
+					<tr>
+						<td><label>密&nbsp;&nbsp;&nbsp;码：</label></td>
+						<td><input type="password" placeholder="请输入密码" id="e_pass" name="e_pass" class="layui-input" style="width: 300px;" /></td>
+					</tr>
+					
+					<tr>
+						<td>角&nbsp;&nbsp;&nbsp;色：</td>
+						<td style="text-align:left;" id="e_character">管理员
+							<input type="radio" name="e_character"  value="管理员" >&nbsp;&nbsp;&nbsp;
+							房管员
+							<input type="radio" name="e_character"  value="房管员">&nbsp;&nbsp;&nbsp;
+							收银员
+							<input type="radio" name="e_character"  value="收银员">&nbsp;&nbsp;&nbsp;
+							前台接待员
+							<input type="radio" name="e_character"  value="前台接待员">&nbsp;&nbsp;&nbsp;
+						</td>
+					</tr>
+					
+					<tr>
+						<td colspan="2"><button name="button1" id="button1" class="layui-btn layui-btn-primary" > 登录</button></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+		
+	
+	</body>
+</html>

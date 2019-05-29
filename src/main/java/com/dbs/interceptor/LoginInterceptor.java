@@ -15,7 +15,7 @@ public class LoginInterceptor implements HandlerInterceptor {
 
 		String uri = request.getRequestURI(); //
 		System.out.println("请求的地址为:"+uri);
-		if ((uri.indexOf("/empLogin") >=0)|| (uri.indexOf("/login2")>=0) || (uri.indexOf(".js")>=0)) {
+		if ((uri.indexOf("/empLogin") >=0) || (uri.indexOf("/login2")>=0) || (uri.indexOf(".js")>=0) || (uri.indexOf(".css")>=0) || (uri.indexOf("/login")>=0) ) {
 			System.out.println(1);
 			return true;
 		}
