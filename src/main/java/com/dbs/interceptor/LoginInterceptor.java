@@ -15,7 +15,8 @@ public class LoginInterceptor implements HandlerInterceptor {
 
 		String uri = request.getRequestURI(); //
 		System.out.println("请求的地址为:"+uri);
-		if ((uri.indexOf("/empLogin") > 0)||  (uri.indexOf("/login2")>0)) {
+		if ((uri.indexOf("/empLogin") >=0)|| (uri.indexOf("/login2")>=0) || (uri.indexOf(".js")>=0)) {
+			System.out.println(1);
 			return true;
 		}
 		System.out.println("开始获取session");
@@ -24,7 +25,7 @@ public class LoginInterceptor implements HandlerInterceptor {
 		String user = (String) session.getAttribute("EmployeeName");
 		System.out.println("session的值"+user);
 		// session判断是否有数据,如果有,则返回true，继续向下执行
-		if (user != null) {
+		if (user!=null) {
 			return true;
 		} else {
 			return false;

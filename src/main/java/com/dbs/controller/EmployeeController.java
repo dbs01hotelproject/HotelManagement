@@ -1,7 +1,5 @@
 package com.dbs.controller;
 
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
@@ -30,14 +28,22 @@ public class EmployeeController {
 	}
 
 	@RequestMapping(value = "/management", method = RequestMethod.GET)
-	public String register() {
+	public String management() {
 
 		return "management";
 	}
 	
+	@RequestMapping(value = "/empRegister", method = RequestMethod.GET)
+	public String register() {
+
+		return "empRegister";
+	}
+	
 	@RequestMapping(value = "/logout",method = RequestMethod.GET)
 	public String logout(HttpSession session) {
+		System.out.println("当前session:"+session.getAttribute("EmployeeName"));
 		session.invalidate();
+		System.out.println("session已清空");
 		return "redirect: ../empLogin.html";
 	}
 
