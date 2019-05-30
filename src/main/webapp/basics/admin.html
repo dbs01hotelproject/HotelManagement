@@ -89,7 +89,7 @@
 		<div class="yfs-body layui-form">
 			<div class="layui-inline" style="width: 500px; padding-top: 20px; margin-left: 10px;">
 				<div class="layui-input-inline">
-					<input id="e_empno" style="width: 140px; font-size: 20px;" type="text" name="" autocomplete="off" class="layui-input-inline" maxlength="25">
+					<input  id="e_empno" style="width: 140px; font-size: 20px;" type="number" name="" autocomplete="off" class="layui-input-inline" maxlength="25">
 					<button class="layui-btn layui-btn-small layui-btn-normal" onclick="search()"><i class="layui-icon">&#xe615;</i> 检索</button>
 				</div>
 			</div>
@@ -193,7 +193,7 @@
 			$.ajax({
 
 				type : "post",
-				url : "/HotelManagement/EmployeeController/search",
+				url : "/HotelManagement/EmployeeController/selectbyempno",
 				contentType : 'application/json;charset=UTF-8',//必须有
 				data : JSON.stringify({
 					e_empno : e_empno,
