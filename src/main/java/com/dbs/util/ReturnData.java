@@ -3,26 +3,25 @@ package com.dbs.util;
 import java.io.Serializable;
 import java.util.List;
 
-public class ReturnData implements Serializable{
+public class ReturnData implements Serializable {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 695916939497450086L;
-	public  final String SUCCESS = "success";
-	public  final String FAIL ="fail";
+	public final String SUCCESS = "success";
+	public final String FAIL = "fail";
 	public String key;
 	public String msg;
 	public List<Object> body;
 	public List<Object> subbody;
 	public List<Object> threebody;
-	
-	
-	public  String getSuccess() {
+
+	public String getSuccess() {
 		return SUCCESS;
 	}
 
-	public  String getFail() {
+	public String getFail() {
 		return FAIL;
 	}
 
@@ -41,7 +40,6 @@ public class ReturnData implements Serializable{
 	public void setMsg(String msg) {
 		this.msg = msg;
 	}
-
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;
@@ -71,7 +69,6 @@ public class ReturnData implements Serializable{
 		this.threebody = threebody;
 	}
 
-	
 	@Override
 	public String toString() {
 		return "ReturnData [key=" + key + ", msg=" + msg + ", body=" + body + ", subbody=" + subbody + ", threebody="
@@ -87,5 +84,6 @@ public class ReturnData implements Serializable{
 		this.threebody = threebody;
 	}
 
-	public ReturnData() {}
+	public ReturnData() {
+	}
 }

@@ -18,6 +18,11 @@
 		select * from t_employee where e_name=#{e_name} and e_pass=#{e_pass} and e_character=#{e_character}
 	</select>
 	
+	<!-- 验证用户信息 修改密码-->
+	<select id="checkPwd" parameterType="employee" resultType="employee">
+		select * from t_employee where e_name=#{e_name} and e_pass=#{e_pass} 
+	</select>
+	
 	<!--  查询个人信息-->
 	<select id="queryEmployeeForSelf" parameterType="Integer" resultType="employee">
 		select * from t_employee where e_empno=#{e_empno} 

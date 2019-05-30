@@ -182,7 +182,19 @@ td {
 						document.getElementById("showEmpInfo").innerHTML = "员工编号:" + backData.body[0].e_empno + " " + "用户名:" + backData.body[0].e_name + " "+
 						"密码:"+backData.body[0].e_pass + " "+"角色:"+ backData.body[0].e_character;
 					} else {
-						alert(backData.msg);
+						layer.alert(backData.msg,{
+							icon:5,
+							closeBtn:0
+						},
+						function(index){
+							//关闭保存成功页面
+							layer.close(index);
+							//获得当前页面索引
+							var indexmain = parent.layer.getFrameIndex(window.name);
+							//触发主页面按钮事件,根据不同业务可以在自己页面中修改方法
+							parent.getSearchData()
+							parent.layer.close(indexmain)
+					 })
 						document.getElementById("showEmpInfo").innerHTML = '';
 					}
 				}

@@ -146,9 +146,9 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 	
 
-	// 修改用户信息
+	// 修改用户信息(判断是否是管理员)
 	@Override
-	public ReturnData updateForEmployee(Employee employee, HttpSession session) {
+	public ReturnData updateForAdmin(Employee employee, HttpSession session) {
 		ReturnData returnData = new ReturnData();
 		
 		//判断请求的更新的e_empno是否存在
@@ -332,6 +332,20 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 		}
 		return returnData;
+	}
+
+	//修改用户个人信息
+	@Override
+	public ReturnData updateSelfInfo(Employee employee, HttpSession session) {
+		ReturnData returnData = new ReturnData();
+		employeeMapper.updateForEmployee(employee);
+		return null;
+	}
+
+	@Override
+	public Employee checkPwd(Employee employee) {
+
+		return employeeMapper.checkPwd(employee);
 	}
 
 }

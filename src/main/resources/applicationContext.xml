@@ -16,9 +16,11 @@
 
 
 	<!-- 扫描包实现自动注入 -->
-	<context:component-scan base-package="com.dbs.service.impl"></context:component-scan>
-	
-	<context:component-scan base-package="com.dbs.mapper"></context:component-scan>
+	<context:component-scan
+		base-package="com.dbs.service.impl"></context:component-scan>
+
+	<context:component-scan
+		base-package="com.dbs.mapper"></context:component-scan>
 
 	<!-- 读取jdbc.properties数据资源 -->
 	<context:property-placeholder
@@ -43,14 +45,15 @@
 		<property name="initialSize" value="${initialSize}"></property>
 
 	</bean>
-	
+
 	<bean id="transactionManager"
 		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
 		<property name="dataSource" ref="dataSource"></property>
 	</bean>
 
 	<!-- 开始事务注解 -->
-	<tx:annotation-driven transaction-manager="transactionManager"/>
+	<tx:annotation-driven
+		transaction-manager="transactionManager" />
 
 	<!-- 配置MyBatis工厂 -->
 	<bean id="sqlSessionFactory"
@@ -61,14 +64,15 @@
 		<property name="configLocation"
 			value="classpath:mybatis-config.xml"></property>
 	</bean>
-	
+
 	<!-- mybatis.spring自动映射 -->
 	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
 		<property name="basePackage" value="com.dbs.mapper" />
-		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory" />
+		<property name="sqlSessionFactoryBeanName"
+			value="sqlSessionFactory" />
 	</bean>
-	
-	
-	
-	
+
+
+
+
 </beans>
