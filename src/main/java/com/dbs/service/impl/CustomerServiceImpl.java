@@ -20,7 +20,7 @@ public class CustomerServiceImpl implements CustomerService {
 	private CustomerMapper customerMapper;
 
 	@Override
-	public Customer queryCustomer(Customer customer) throws Exception {
+	public List<Customer> queryCustomer(Customer customer) throws Exception {
 		return customerMapper.queryCustomer(customer);
 	}
 

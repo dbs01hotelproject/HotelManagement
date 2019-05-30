@@ -131,7 +131,14 @@ public class CustomerController {
 	public @ResponseBody ReturnData findCuStomer(HttpServletRequest request, HttpServletResponse response) {
 		ReturnData returnData = new ReturnData();
 		// 获取请求信息
-		int c_id = Integer.parseInt(request.getParameter("c_id"));
+		String id = request.getParameter("c_id");
+		//奇葩的解决方法 如果写成id.equals("")?"0":id就会出现空指针
+		//String aa = "".equals(id)?"0":id;
+		if("".equals(id)||id==null) {
+			id="0";
+		}
+		System.out.println(id);
+		int c_id = Integer.parseInt(id);
 		String c_name = request.getParameter("c_name");
 		String c_identity = request.getParameter("c_identity");
 		Customer c = new Customer();
@@ -140,9 +147,9 @@ public class CustomerController {
 		c.setC_identity(c_identity);
 		// 请求数据
 		try {
-			Customer customer = customerService.queryCustomer(c);
+			List<Customer> customers = customerService.queryCustomer(c);
 			List<Object> list = new ArrayList<Object>();
-			list.add(customer);
+			list.add(customers);
 			returnData.setKey(ReturnData.SUCCESS);
 			returnData.setMsg("获取客户信息成功");
 			returnData.setBody(list);

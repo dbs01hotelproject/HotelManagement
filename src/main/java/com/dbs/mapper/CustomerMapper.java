@@ -19,7 +19,7 @@ public interface CustomerMapper {
 	public void delCustomer(Customer customer) throws Exception;
 	
 	//根据id查询客户信息
-	public Customer queryCustomer(Customer customer) throws Exception;
+	public List<Customer> queryCustomer(Customer customer) throws Exception;
 	
 	//查询房态状态
 	public List<RoomInformation> queryRoomInformation() throws Exception;

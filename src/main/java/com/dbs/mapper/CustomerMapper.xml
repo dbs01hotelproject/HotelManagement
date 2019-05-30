@@ -43,7 +43,7 @@
 			<if test="c_name!=null and c_name!=''">
 				and c_name=#{c_name}
 			</if>
-			<if test="c_customernumber!=null and c_customernumber!=''">
+			<if test="c_customernumber!=null and c_customernumber!='' and c_customernumber!=0">
 				and c_customernumber=#{c_customernumber}
 			</if>
 			<if test="c_identity!=null and c_identity!=''">

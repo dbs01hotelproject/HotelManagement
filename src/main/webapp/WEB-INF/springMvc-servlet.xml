@@ -23,7 +23,8 @@
 	<mvc:annotation-driven />
 	
 	<!-- 配置的资源文件不会被前端浏览器拦截 -->
-	<mvc:resources location="/" mapping="/*.html"></mvc:resources>
+	<mvc:resources location="/basics/" mapping="/basics/**"></mvc:resources>
+	<mvc:resources location="//" mapping="//**"></mvc:resources>
 	
 	<!-- 配置视图解析器，将ModelAndView及字符串解析为具体的页面 -->
 	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver"

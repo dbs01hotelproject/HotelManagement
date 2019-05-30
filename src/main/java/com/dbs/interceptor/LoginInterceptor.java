@@ -17,22 +17,24 @@ public class LoginInterceptor implements HandlerInterceptor{
 			throws Exception {
 
 		String uri = request.getRequestURI();
-		//除了login.jsp可以公开访问,其余将被拦截
+		//闄や簡login.jsp鍙互鍏紑璁块棶,鍏朵綑灏嗚鎷︽埅
 		if(uri.indexOf("/login")>0) {
 			return true;
 		}
 		
-		//获取Session 
+		//鑾峰彇Session 
 		HttpSession session = request.getSession();
 		User user = (User) session.getAttribute("USERSESSION");
-		//session判断是否有数据,如果有,则返回true，继续向下执行
+		//session鍒ゆ柇鏄惁鏈夋暟鎹�,濡傛灉鏈�,鍒欒繑鍥瀟rue锛岀户缁悜涓嬫墽琛�
 		if(user!=null) {
 			return true;
 		}
 		
-		request.setAttribute("msg", "您还没有登录,请先登录!");
+		System.out.println("test");
+		
+		request.setAttribute("msg", "鎮ㄨ繕娌℃湁鐧诲綍,璇峰厛鐧诲綍!");
 		request.getRequestDispatcher("/WEB-INF/jsp/login.jsp").forward(request, response);
-		//不符合条件的给我们提示信息，并转发到登录页面
+		//涓嶇鍚堟潯浠剁殑缁欐垜浠彁绀轰俊鎭紝骞惰浆鍙戝埌鐧诲綍椤甸潰
 		return false;
 	}
 
