@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>登录</title>
+		<script src="js/jquery-3.3.1.min.js"></script>
+		<script src="js/common.js"></script>
+		<script src="layui/layui.all.js"></script>
+		<link rel="stylesheet" href="layui/css/layui.css" media="all">
+		<style>
+			body {
+				background-color: #2E3D50;
+				height: 100%;
+			}
+			html {
+				margin: 0;
+				padding: 0;
+				width: 100%;
+				height: 100%;
+				background-color: #03070F;
+			}
+			.loginbox{
+				margin-top: 90px;
+				width: 500px;
+				height: 300px;
+				text-align: center;
+				background: #e5e9f2;
+				padding-top: 25px;
+			}
+			.checktab{
+				margin-left: 25px;
+				width: 450px;
+				height: 270px;
+				background-color:#DCDFE6;
+				text-align: center;
+			}
+		</style>
+	</head>
+	<body>
+		<div style="padding-top:30px; margin-left: 50px;"><h1 style="color: white;font-weight: 400;">欢迎使用南通二手房管理系统</h1></div>
+		<div style="display: flex;justify-content: center;">
+			<div class="loginbox">
+				<table class="checktab">
+					<title>登录</title>
+					<tr>
+						<td><label>用户名：</label></td>
+						<td><input type="text" placeholder="请输入用户名" name="username" id="username" class="layui-input" style="width: 300px;" /></td>
+					</tr>
+					<tr>
+						<td><label>密码：</label></td>
+						<td><input type="password" placeholder="请输入密码" id="password" name="password" class="layui-input" style="width: 300px;" /></td>
+					</tr>
+					<tr>
+						<td colspan="2"><button class="layui-btn layui-btn-primary" onclick="login()"> 登录</button></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+		<script>
+			//用户名
+			var username = "";
+			//密码
+			var password = "";
+
+			function login() {
+				username = $("#username").val().toString().trim()
+				console.log(username)
+				password = $("#password").val().toString().trim()
+				console.log(password)
+				$.ajax({
+					type: "post",
+					url: "/ESFWeb/api/login.jsp",
+					datatype: 'json',
+					data: {
+						username: username,
+						password: password
+					},
+					success: function(data) {
+						console.log(data)
+						//var newData = JSON.parse(data)
+						//console.log(newData)
+						if(data.key=='FAIL'){
+							layer_msg("用户名或密码输错误");
+						}else{
+							setCookie('admintype', 'adminpc')
+							setCookie('adminid', data.body[0].user_id)
+							setCookie('adminkey', data.body[0].pckey)
+							setCookie('username', data.body[0].user_name)
+							//权限
+							setCookie('flg', data.body[0].flg)
+							
+							var admintype = getCookie('admintype')
+							window.location.href = "index.html";
+						}
+					},
+					error: function(e) {
+						console.log(e)
+					}
+				});
+			}
+
+			function setCookie(name, value) {
+				var Days = 30;
+				var exp = new Date();
+				exp.setTime(exp.getTime() + Days * 24 * 60 * 60 * 1000);
+				document.cookie = name + "=" + escape(value) + ";expires=" + exp.toGMTString();
+			}
+			/* $(function(){
+				$("#login").click(function(){
+					console.log("11111s")
+				})
+			}) */
+		</script>
+	</body>
+</html>
