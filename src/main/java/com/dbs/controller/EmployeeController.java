@@ -1,6 +1,9 @@
 package com.dbs.controller;
 
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -121,6 +124,20 @@ public class EmployeeController {
 		//调用业务层的更新方法
 		ReturnData returnData = employeeService.AdminQueryAll();
 		
+		// 返回JSON格式响应
+		return returnData;
+	}
+	
+	@RequestMapping(value = "/selectbyempno")
+	// @RequestBady 将请求体中的JSON数据绑定到形参employee中
+	public @ResponseBody ReturnData searchone(@RequestBody Employee employee, HttpSession session) {
+		System.out.println("开始searchone方法");
+		List<Object> emps = new ArrayList<Object>();
+		//调用业务层的查询方法
+		Employee emp = employeeService.queryEmployeeForSelf(employee);
+		emps.add(emp);
+		ReturnData returnData = new ReturnData();
+		returnData.setBody(emps);
 		// 返回JSON格式响应
 		return returnData;
 	}
