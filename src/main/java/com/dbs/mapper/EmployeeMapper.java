@@ -15,6 +15,9 @@ public interface EmployeeMapper {
 	//验证用户信息
 	public Employee checkEmp(Employee employee);
 	
+	//验证用户修改
+	public Employee checkPwd(Employee employee);
+	
 	//查询个人信息
 	public Employee queryEmployeeForSelf(Employee employee);
 	

@@ -4,6 +4,7 @@ package com.dbs.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -95,7 +96,7 @@ public class EmployeeController {
 		System.out.println("开始updatecheck方法");
 		
 		//调用业务层的更新方法
-		ReturnData returnData = employeeService.updateForEmployee(employee, session);
+		ReturnData returnData = employeeService.updateForAdmin(employee, session);
 
 		// 返回JSON格式响应
 		return returnData;
@@ -141,5 +142,65 @@ public class EmployeeController {
 		// 返回JSON格式响应
 		return returnData;
 	}
+	
+	//修改密码
+	@RequestMapping(value = "/updatepass")
+	public @ResponseBody ReturnData updatepass(HttpServletRequest request, HttpSession session) {
+		System.out.println("开始updatepass方法");
+		ReturnData returnData = new ReturnData();
+		Employee testforOld = new Employee();
+		Employee testforNew = new Employee();
+		String e_name = (String) session.getAttribute("EmployeeName");
+		String e_pass = request.getParameter("e_pass");
+		String old_password =request.getParameter("old_password");
+		System.out.println("新密码:"+e_pass+" 旧密码:"+old_password);
+		
+		testforOld.setE_pass(old_password);
+		testforOld.setE_name(e_name);
+		
+		//设置员工号，否则无法更新
+		testforNew.setE_pass(e_pass);
+		testforNew.setE_name(e_name);
+		Employee emp2 = employeeService.selectByName(testforOld);
+		testforNew.setE_empno(emp2.getE_empno());
+		
+		//查询旧密码是否正确
+		Employee empold = new Employee();
+		empold = employeeService.checkPwd(testforOld);
+		
+		if(empold!=null) {
+			employeeService.updateSelfInfo(testforNew, session);
+			returnData.setKey(returnData.SUCCESS);
+			returnData.setMsg("修改密码成功");
+		}else {
+			returnData.setKey(returnData.FAIL);
+			returnData.setMsg("输入密码错误,修改密码失败");
+		}
+		
+		return returnData;
+	}
+	
+	@RequestMapping(value = "/updatPersonInfo")
+	public @ResponseBody ReturnData updatPersonInfo(HttpServletRequest request, HttpSession session) {
+		System.out.println("开始updatPersonInfo方法");
+		ReturnData returnData = new ReturnData();
+		//获取登录的用户
+		String e_name = (String) session.getAttribute("EmployeeName");
+		Employee emp = new Employee();
+		emp.setE_name(e_name);
+		Employee user = employeeService.selectByName(emp);
+		System.out.println("user:"+user);
+		//设置员工号，否则无法更新
+		Employee user2 = new Employee();
+		user2.setE_empno(user.getE_empno());
+		user2.setE_name(request.getParameter("e_name"));
+		employeeService.updateSelfInfo(user2, session);
+		session.setAttribute("EmployeeName", user2.getE_name());
+		returnData.setKey(returnData.SUCCESS);
+		returnData.setMsg("修改信息成功");
+		
+		return returnData;
+	}
+	
 	
 }
