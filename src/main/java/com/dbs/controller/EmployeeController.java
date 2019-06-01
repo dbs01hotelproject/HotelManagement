@@ -194,10 +194,18 @@ public class EmployeeController {
 		Employee user2 = new Employee();
 		user2.setE_empno(user.getE_empno());
 		user2.setE_name(request.getParameter("e_name"));
-		employeeService.updateSelfInfo(user2, session);
-		session.setAttribute("EmployeeName", user2.getE_name());
-		returnData.setKey(returnData.SUCCESS);
-		returnData.setMsg("修改信息成功");
+		//判断请求的更新的用户名是否存在
+		if(employeeService.selectByName(user2)!=null) {
+			returnData.setKey(returnData.FAIL);
+			returnData.setMsg("用户名已存在,请重新输入!");
+		}else {
+			employeeService.updateSelfInfo(user2, session);
+			session.setAttribute("EmployeeName", user2.getE_name());
+			returnData.setKey(returnData.SUCCESS);
+			returnData.setMsg("修改信息成功");
+		}
+		
+		
 		
 		return returnData;
 	}
