@@ -16,8 +16,7 @@
 
 
 	<!-- 扫描包实现自动注入 -->
-	<context:component-scan
-		base-package="com.dbs.service.impl"></context:component-scan>
+	<context:component-scan base-package="com.dbs.service.impl"></context:component-scan>
 
 	<context:component-scan
 		base-package="com.dbs.mapper"></context:component-scan>
