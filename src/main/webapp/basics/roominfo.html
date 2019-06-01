@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>新增用户</title>
+<link rel="stylesheet" href="../layui/css/layui.css" media="all">
+<link href="../css/common.css" rel="stylesheet" />
+<style>
+td {
+	text-align: center;
+	min-width: 100px;
+	height: 64px;
+}
+</style>
+</head>
+<body>
+	<table class="layui-table">
+		<tbody id="datalist" lay-filter="test">
+			<tr>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+		</tbody>
+	</table>
+	
+	<script src="../js/jquery-3.3.1.min.js"></script>
+	<script src="../layui/layui.all.js" type="text/javascript"
+		charset="utf-8"></script>
+	<script src="../js/common.js" type="text/javascript"></script>
+	<script>
+
+		$.get("/HotelManagement/customer/findRoomInformation",function(data){
+			var body = data.body[0]
+			body.forEach(item=>{
+				var floor = Number.parseInt(item.r_direction.substring(0,2).replace("0",""))-1
+				var num = Number.parseInt(item.r_direction.substring(2,4).replace("0",""))-1
+				var type = ""
+				switch(item.r_tpye){
+				//房间类型包括：0:单人标准间、1:双人标准间、3:豪华双人间、4:豪华三人 间、5:总统套房 
+					case 0: type = "单人标准间";break;
+					case 1: type = "双人标准间";break;
+					case 3: type = "豪华双人间";break;
+					case 4: type = "豪华三人间";break;
+					case 5: type = "总统套房";
+				}
+				var state= ""
+				switch(item.r_state){
+				//房间类型包括：0:单人标准间、1:双人标准间、3:豪华双人间、4:豪华三人 间、5:总统套房 
+					case 0: state = "已预定";break;
+					case 1: state = "已入住";break;
+					case 2: state = "空房";
+				}
+				
+				var app = "<div style='text-align:center'>"+item.r_direction+"</div>"+
+				"<div style='text-align:center'>"+type+"</div>"+
+				"<div style='text-align:center'>"+state+"</div>"
+				console.log(state)
+				if(state == "空房"){
+					$($("td").get(floor*6+num)).append(app).css("backgroundColor","skyblue")
+				}else if(state == "已入住"){
+					$($("td").get(floor*6+num)).append(app).css("backgroundColor","red")
+				}else{
+					$($("td").get(floor*6+num)).append(app).css("backgroundColor","yellow")
+				}
+			})
+		})
+
+	</script>
+</body>
+</html>

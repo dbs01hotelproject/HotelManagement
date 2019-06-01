@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title>修改客户信息</title>
+	<link rel="stylesheet" href="../layui/css/layui.css" media="all">
+	<link href="../css/common.css" rel="stylesheet" />
+</head>
+
+<body>
+	<div style="text-align: center;" class="layui-form">
+		<table class="layui-table">
+			<tr>
+				<td colspan="6" style="font-size: 30px; font-weight: 500;">修改客户信息</td>
+			</tr>
+			<tr>
+				<td>客户姓名</td>
+				<td colspan="2"><input id="c_name" type="text" placeholder="请填写真实姓名" class="layui-input" /></td>
+				<td>身份证号码</td>
+				<td colspan="2"><input id="c_identity" type="text" placeholder="360681199703134210"
+						class="layui-input" /></td>
+			</tr>
+			<tr>
+				<td>联系电话</td>
+				<td colspan="2"><input type="text" class="layui-input" id="c_tel"></td>
+				<td>性别</td>
+				<td colspan="2">
+					<select name="city" lay-verify="required" id="c_sex">
+						<option value=""></option>
+						<option value="男">男</option>
+						<option value="女">女</option>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<td>住址</td>
+				<td colspan="5"><input type="text" class="layui-input" id="c_address"></td>
+			</tr>
+		</table>
+		<div style="display: flex; justify-content: center;">
+			<button class="layui-btn layui-btn-normal" onclick="updateCustomer()">提交</button>
+			<button class="layui-btn layui-btn-primary" onclick="reset()">重置</button>
+		</div>
+	</div>
+	<script src="../js/jquery-3.3.1.min.js"></script>
+	<script src="../layui/layui.all.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../js/common.js" type="text/javascript"></script>
+	<script>
+	
+		var customer= GetQueryString("id").split(",")
+		console.log(customer)
+		layui.use(['laypage', 'layer', 'form', 'laytpl', 'table', 'laydate'],
+				
+			function () {
+				laypage = layui.laypage;
+				layer = layui.layer;
+				laytpl = layui.laytpl;
+				form = layui.form;
+				laydate = layui.laydate;
+				table = layui.table;
+				
+				$('#c_name').val(customer[1])
+				$('#c_identity').val(customer[2])
+				$('#c_sex').val(customer[3]);
+				$('#c_tel').val(customer[4]);
+				$('#c_address').val(customer[5]);
+				//获取业务员信息
+				form.render();
+			});
+		
+		function updateCustomer() {
+			var c_name = $('#c_name').val().toString().trim();
+			var c_identity = $('#c_identity').val();
+			var c_sex = $('#c_sex').val().toString().trim();
+			var c_tel = $('#c_tel').val().toString().trim();
+			var c_address = $('#c_address').val().toString().trim();
+			$.ajax({
+				type: "post",
+				url: '/HotelManagement/customer/updateCustomer',
+				datatype: 'json',
+				data: {
+					c_customernumber:customer[0],
+					c_name: c_name,
+					c_identity: c_identity,
+					c_sex: c_sex,
+					c_tel: c_tel,
+					c_address: c_address,
+				},
+				success: function (e) {
+					var newData = e
+					layer.alert(newData.msg, {
+						icon: 1,
+						closeBtn: 0
+					},
+						function (index) {
+							//关闭保存成功页面
+							layer.close(index);
+							//获得当前页面索引
+							var indexmain = parent.layer
+								.getFrameIndex(window.name);
+							//触发主页面按钮事件,根据不同业务可以在自己页面中修改方法
+							parent.getData()
+							parent.layer.close(indexmain)
+						})
+				},
+				error: function (e) {
+					layer.alert(e.msg, {
+						icon: 5,
+						closeBtn: 0
+					},
+						function (index) {
+							//关闭保存成功页面
+							layer.close(index);
+							//获得当前页面索引
+							var indexmain = parent.layer
+								.getFrameIndex(window.name);
+							//触发主页面按钮事件,根据不同业务可以在自己页面中修改方法
+							parent.layer.close(indexmain)
+						})
+				}
+			})
+		}
+		//c_name,c_identity,c_sex,c_tel,c_address,
+		function reset() {
+			$('#c_name').val('')
+			$('#c_identity').val('')
+			$('#c_sex').val('');
+			$('#c_tel').val('');
+			$('#c_address').val('');
+		}
+	</script>
+</body>
+
+</html>

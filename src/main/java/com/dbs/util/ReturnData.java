@@ -9,8 +9,8 @@ public class ReturnData implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 695916939497450086L;
-	public final String SUCCESS = "success";
-	public final String FAIL = "fail";
+	public static final String FAIL= "fail";
+	public static final String SUCCESS= "success";
 	public String key;
 	public String msg;
 	public List<Object> body;
