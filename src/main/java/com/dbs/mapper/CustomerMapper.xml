@@ -7,6 +7,7 @@
 		insert into t_customer (c_name,c_identity,c_sex,c_address,c_tel)
 		values (#{c_name},#{c_identity},#{c_sex},#{c_address},#{c_tel});
 	</insert>
+	
 	<!-- 修改客户信息，六个字段 -->
 	<update id="updateCustomer" parameterType="customer">
 		update t_customer set 
@@ -62,5 +63,9 @@
 		insert into t_reception(r_customernumber,r_roomnumber,r_checkin,r_deposit,t_opennetwork) 
 		values(#{r_customernumber},#{r_roomnumber},#{r_checkin},#{r_deposit},#{t_opennetwork})
 	</insert>
+	
+	<update id="updateRoomState" parameterType="int">
+		update t_roominformation set r_state = 1 where r_number=#{id}
+	</update>
 
 </mapper>

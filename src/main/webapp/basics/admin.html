@@ -232,23 +232,6 @@
 			}
 			//删除视图
 			function delAdmin(id){
-				/* var formData=new FormData()
-				console.log(id)
-				formData.append('user_id',id)
-				formData.append('admintype',admintype)
-				formData.append('adminid',adminid)
-				formData.append('adminkey',adminkey)
-				console.log(formData)
-				//发起请求
-				commonAjax('/ESFWeb/api/deladmin.jsp',formData,"post", true, function(e){
-					console.log(e)
-					if(e.key=='SUCCESS'){
-						getSearchData()
-						alertSuccess(e.msg)
-					}else{
-						alertWarning(e.msg)
-					}
-				}) */
 				$.ajax({
 				    	type:"post",
 				    	url:'/ESFWeb/api/deladmin.jsp',
@@ -303,12 +286,6 @@
 				getSearchData()
 				alertSuccess('操作成功！')
 			}
-			
-			/* // 打开房源详情
-			function getComms(e) {
-				var guid = $(e).data("id");
-				pageOpen("房源详情", "factorydetail.html", guid, "95%", "90%");
-			} */
 		</script>
 	</body>
 

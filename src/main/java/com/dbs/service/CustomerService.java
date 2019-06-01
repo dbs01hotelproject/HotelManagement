@@ -25,4 +25,7 @@ public interface CustomerService {
 
 	// 办理客户入住
 	public int insertReception(Reception reception) throws Exception;
+	
+	//改变房间状态
+	public void updateRoomState(Integer id) throws Exception;
 }

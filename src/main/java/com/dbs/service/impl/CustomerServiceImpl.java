@@ -34,22 +34,24 @@ public class CustomerServiceImpl implements CustomerService {
 		return customerMapper.insertReception(reception);
 	}
 
-	//登记客户信息
 	@Override
 	public void checkinCustomer(Customer customer) throws Exception {
 		customerMapper.checkinCustomer(customer);
 	}
 
-	//修改客户信息
 	@Override
 	public void updateCustomer(Customer customer) throws Exception {
 		customerMapper.updateCustomer(customer);
 	}
 
-	//删除客户信息
 	@Override
 	public void delCustomer(Customer customer) throws Exception {
 		customerMapper.delCustomer(customer);
+	}
+
+	@Override
+	public void updateRoomState(Integer id) throws Exception {
+		customerMapper.updateRoomState(id);
 	}
 
 }

@@ -18,7 +18,7 @@ public interface CustomerMapper {
 	//删除客户信息
 	public void delCustomer(Customer customer) throws Exception;
 	
-	//根据id查询客户信息
+	//查询客户信息
 	public List<Customer> queryCustomer(Customer customer) throws Exception;
 	
 	//查询房态状态
@@ -26,5 +26,8 @@ public interface CustomerMapper {
 	
 	//办理客户入住 
 	public int insertReception(Reception reception) throws Exception;
+	
+	//改变房间状态
+	public int updateRoomState(Integer id) throws Exception;
 	
 }

@@ -1,392 +1,302 @@
 <!DOCTYPE html>
 <html>
 
-	<head>
-		<meta charset="UTF-8">
-		<title>管理接待信息</title>
+<head>
+	<meta charset="UTF-8">
+	<title>管理接待信息</title>
+	<link rel="stylesheet" href="../layui/css/layui.css" media="all">
+	<link href="../css/common.css" rel="stylesheet" />
+	<style type="text/css">
+		.xunjian {
+			opacity: 1 !important;
+		}
 
-		<link rel="stylesheet" href="../layui/css/layui.css" media="all">
-		<link href="../css/common.css" rel="stylesheet" />
-		<style type="text/css">
-			.xunjian {
-				opacity: 1 !important;
-			}
+		.layui-btn.xunjian {
+			cursor: default;
+		}
 
-			.layui-btn.xunjian {
-				cursor: default;
-			}
+		.choujian {
+			opacity: 1 !important;
+		}
 
-			.choujian {
-				opacity: 1 !important;
-			}
+		.layui-btn.choujian {
+			cursor: default;
+		}
 
-			.layui-btn.choujian {
-				cursor: default;
-			}
+		.zuyuan {
+			opacity: 1 !important;
+		}
 
-			.zuyuan {
-				opacity: 1 !important;
-			}
+		.zuzhang {
+			opacity: 1 !important;
+		}
 
-			.zuzhang {
-				opacity: 1 !important;
-			}
+		.layui-layedit {
+			border-width: 0px;
+			border-style: solid;
+			border-radius: 2px;
+		}
 
-			.layui-layedit {
-				border-width: 0px;
-				border-style: solid;
-				border-radius: 2px;
-			}
+		.layui-layedit-tool {
+			padding: 0px;
+			border-bottom-width: 1px;
+			border-bottom-style: solid;
+			font-size: 0;
+		}
 
-			.layui-layedit-tool {
-				padding: 0px;
-				border-bottom-width: 1px;
-				border-bottom-style: solid;
-				font-size: 0;
-			}
+		.padding_lr_10 {
+			padding: 0 !important;
+		}
 
-			.padding_lr_10 {
-				padding: 0 !important;
-			}
+		.padding_lr_10 input {
+			border: 0;
+		}
 
-			.padding_lr_10 input {
-				border: 0;
-			}
+		.layui-table-cell {
+			height: auto;
+		}
 
-			.layui-form-checkbox {
-				position: relative;
-				height: 30px;
-				line-height: 28px;
-				margin-right: 10px;
-				padding-right: 30px;
-				border: 1px solid #d2d2d2;
-				cursor: pointer;
-				font-size: 0;
-				border-radius: 2px;
-				-webkit-transition: .1s linear;
-				transition: .1s linear;
-				box-sizing: border-box;
-				width: 60px;
-			}
+		.layui-form-select dl {
+			max-height: 200px !important;
+		}
+	</style>
+</head>
 
-			.layui-unselect.layui-form-switch {
-				margin-top: 1px;
-				margin-left: 10px;
-			}
-		</style>
-		<style>
-			.layui-table-cell {
-				height: auto;
-			}
-			.layui-form-select dl {
-		    	max-height: 200px !important;
-			}
-		</style>
-	</head>
-
-	<body class="yfs-list">
-		<div class="yfs-body layui-form">
-			<div class="yfs-body-search">
-				<div class="layui-form-item">
-					<!--客户编号-->
-					<div class="layui-inline" style="width: 300px;">
-						<label class="layui-form-label">客户编号：</label>
-						<div class="layui-input-inline">
-							<input id="c_customernumber" style="width: 180px;" type="text" name="" autocomplete="off" class="layui-input"
-							 maxlength="25">
-						</div>
-					</div>
-					<!--客户姓名-->
-					<div class="layui-inline" style="width: 250px;">
-						<label class="layui-form-label">客户姓名：</label>
-						<div class="layui-input-inline" style="margin-right: 0px !important;width: 140px;">
-							<input id="c_name" style="width: 180px;" type="text" name="" autocomplete="off" class="layui-input"
-							 maxlength="25">
-						</div>
-					</div>
-					<!--身份证号-->
-					<div id="ywy" class="layui-inline" style="width: 300px;">
-						<label class="layui-form-label">身份证号：</label>
-						<div class="layui-input-inline" style="width: 150px;">
-							<input type="text" class="layui-input" id="c_identity">
-						</div>
-					</div>
-					<!--搜索-->
-					<div class="layui-inline">
-						<button class="layui-btn layui-btn-small layui-btn-normal" onclick="getSearchData()"><i class="layui-icon">&#xe615;</i>
-							检索</button>
+<body class="yfs-list">
+	<div class="yfs-body layui-form">
+		<div class="yfs-body-search">
+			<div class="layui-form-item">
+				<!--客户编号-->
+				<div class="layui-inline" style="width: 270px;">
+					<label class="layui-form-label">客户编号：</label>
+					<div class="layui-input-inline">
+						<input id="c_customernumber" style="width: 180px;" type="text" name="" autocomplete="off"
+							class="layui-input" maxlength="25">
 					</div>
 				</div>
-			</div>
-
-			<div class="yfs-body-button">
-				<button class="layui-btn layui-btn-sm layui-bg-blue" onclick="addcustomer()"><i class="layui-icon">&#xe654;</i> 登记客户信息</button>
-				<button class="layui-btn layui-btn-sm layui-bg-orange" onclick="modView()"><i class="layui-icon">&#xe642;</i>修改客户信息</button>
-				<button class="layui-btn layui-btn-sm layui-bg-red" onclick="getdel()"><i class="layui-icon">&#xe640;</i> 删除客户信息</button>
-				<button class="layui-btn layui-btn-sm layui-bg-blue" onclick="addView()"><i class="layui-icon">&#xe66f;</i> 办理客户入住信息</button>
-				<button class="layui-btn layui-btn-sm layui-bg-green" onclick="setOut()"><i class="layui-icon">&#xe605;</i> 查看房间信息</button>
-
-				<div style="clear: both;"></div>
-			</div>
-
-			<div class="yfs-body-table">
-				<table class="layui-table" lay-data="{id:'demo'}" lay-filter="demo">
-					<thead>
-						<tr style="text-align: center;" class="layui-bg-orange">
-							<th lay-data="{field:'id', width:60,checkbox:true,fixed:true }"></th>
-							<th lay-data="{field:'c_customernumber', width:200}">客户编号</th>
-							<th lay-data="{field:'c_name',width:180}" style="text-align: center;">客户姓名</th>
-							<th lay-data="{field:'c_identity',width:180}" style="text-align: center;">身份证号码</th>
-							<th lay-data="{field:'c_sex',width:150}" style="text-align: center;">性别</th>
-							<th lay-data="{field:'c_address'}" style="text-align: center;">住址</th>
-							<th lay-data="{field:'c_tel',width:150}" style="text-align: center;">联系电话</th>
-						</tr>
-					</thead>
-					<tbody id="datalist" lay-filter="test">
-					</tbody>
-				</table>
-				<div id="pageDiv">
-					<div id="page" class="layui-table-tool"></div>
+				<!--客户姓名-->
+				<div class="layui-inline" style="width: 270px; margin-left: -10px">
+					<label class="layui-form-label">客户姓名：</label>
+					<div class="layui-input-inline">
+						<input id="c_name" style="width: 180px;" type="text" name="" autocomplete="off"
+							class="layui-input" maxlength="25">
+					</div>
 				</div>
-
-				</table>
+				<!--身份证号-->
+				<div id="ywy" class="layui-inline" style="width: 300px;">
+					<label class="layui-form-label">身份证号：</label>
+					<div class="layui-input-inline">
+						<input type="text" style="width: 180px;" class="layui-input" id="c_identity">
+					</div>
+				</div>
+				<!--搜索-->
+				<div class="layui-inline">
+					<button class="layui-btn layui-btn-small layui-btn-normal" onclick="getData()">
+						<i class="layui-icon">&#xe615;</i>检索
+					</button>
+				</div>
 			</div>
 		</div>
 
-		<script id="view" type="text/html">
-			{{# layui.each(d, function(index, item){ }}
-				<tr >
-				<!--//编号-->
-				<td>{{ item.c_customernumber }}</td>
-				<!--//编号-->
-				<td><span style="cursor: pointer;color: blue;" data-id="{{ item.c_customernumber}}" onclick="getComms(this)"> {{ item.c_customernumber }} </span></td>
-				<!--//姓名-->
-				<td>{{ item.c_name }}</td>
-				<!--//身份证号-->
-				<td>{{item.c_identity}}</td>
-				<!--//性别-->
-				<td>{{item.c_sex}}</td>
-				<!--//地址-->
-				<td>{{item.c_address}}</td>
-				<!--//电话-->
-				<td>{{item.c_tel}}</td>
-			</tr>
-			{{# }); }}
-		</script>
-		<script src="../js/jquery-3.3.1.min.js"></script>
-		<script src="../layui/layui.js" type="text/javascript" charset="utf-8"></script>
-		<script src="../js/common.js" type="text/javascript"></script>
-		<script>
-			// 验证非法登录
-			//checkLogin();
-		</script>
-		<script>
-			layui.use(['laypage', 'layer', 'form', 'laytpl', 'table', 'laydate'], function() {
-							laypage = layui.laypage;
-								layer = layui.layer;
-								laytpl = layui.laytpl;
-								form = layui.form;
-								laydate = layui.laydate;
-								table = layui.table;
-							//执行一个laydate实例
-							
-							getSearchData();
-							form.render();
-						});
-			
-						$(window).resize(function() {
-							var tempheight = $(document).height() -
-								$(".yfs-body-search").outerHeight(true) -
-								$(".yfs-body-button").outerHeight(true) -
-								$("#pageDiv").outerHeight(true);
-							table.init('demo', {
-								height: tempheight,
-								limit: pageSize
-							});
-						});
-						/**
-						 * 检索
-						 */
-						function getSearchData() {	
-							// 页码重置
-							pageIndex = 1;
-							// 获取数据
-							getData();
-						};
-						
-						//获取数据
-						function getData() {
-							//房源编号
-							var c_customernumber=$("#c_customernumber").val().toString().trim();
-							//厂房标题
-							var c_name=$("#c_name").val().toString().trim();
-							//业务员
-							var c_identity = $('#c_identity').val();
-							//findCustomer
-							$.ajax({
-					            	type:"post",
-					            	url:'/HotelManagement/customer/findCustomer',
-					            	datatype:'json',
-					            	data:{
-										c_customernumber:c_customernumber,
-										c_name:c_name,
-										c_identity:c_identity
-					            	},
-					            	success:function(data){
-					            		//var newData=JSON.parse(data);
-										var newData = data;
-					            		console.log(newData)
-								    	// 获取容器
-										var tables = $("#datalist");
-								    	//得到html模板
-										var getTpl = document.getElementById("view").innerHTML;
-								    	//插入html模板
-								    	laytpl(getTpl).render(newData.body[0], function(html) {
-											tables.html(html);
-										});
-										
-										// 分页
-										//createPage(newData.page.totalCount);
-					            		// 计算表格高度
-										var tempheight = $(document).height() -
-											$(".yfs-body-search").outerHeight(true) -
-											$(".yfs-body-button").outerHeight(true) -
-											$("#pageDiv").outerHeight(true);
-										table.init('demo', {
-											height: tempheight,
-											limit: pageSize
-										});
-										
-										var now = new Date().Format("yyyy-MM-dd"); 
-										
-										for(var i = 0; i < newData.body.length; i++) {
-											// 置顶的变色
-											if(newData.body[i].topflg == "1") {
-												$('.layui-table tbody tr:nth-child(' + (i + 1) + ')').css("background-color", "#5FB878");
-											}
-											// 已出售的变色
-											if(newData.body[i].soldflg == "1") {
-												$('.layui-table tbody tr:nth-child(' + (i + 1) + ')').css("background-color", "#c2c2c2");
-											}
-										}
-										
-										form.render();
-					            	},
-					            	error:function(e){
-					            		console.log(e)
-					            	}
-					            });
-						}	
-						
-						//修改视图
-						function modView(){
-							//获取选中的guid
-							var checkStatus = table.checkStatus('demo'),
-							data = checkStatus.data;
-							console.log(data)
-							if(data.length == 1) {
-								//当前选中的guid
-								var guid=data[0].id
-								console.log(guid)
-									pageOpen("房源信息修改", "modhouse.html", guid, "95%", "90%");
-							} else if(data.length == 0||data.length > 1) {
-								layer_msg("请选择一条数据修改！");
-								return;
-							}				
-						}
-						function addcustomer(){
-							pageOpen("登记客户信息","addcustomer.html","0","95%","90%")
-						}
-						//添加	
-						function addView(){				
-							pageOpen("房源新增", "addreservation.html", "0", "95%", "90%");
-						}
-						//关闭遮罩层，刷新数据
-			//			function upd(){
-			//				getData()
-			//			}
-						//删除视图
-						function delHouse(id){
-							$.ajax({
-								type: "post",
-								url: '/ESFWeb/house/delete.jsp',
-								datatype: 'json',
-								data: {
-									house_id:id
-								},
-								success: function(data) {
-									var newData = data;
-									console.log(newData)
-									if(newData.key=='SUCCESS'){
-										alertSuccess("房源信息删除成功");
-										getData();
-									}else{
-										layer_msg("房源信息删除失败");
-										getData();
-									}
-								},
-								error: function(e) {
-									console.log(e)
-								}
-							});
-						}
-						//删除
-						function getdel(){
-							var checkStatus = table.checkStatus('demo'),
-								data = checkStatus.data;
-								if(data.length >= 1) {
-									var id = "";
-									for(var i = 0; i < data.length; i++) {
-										id = id + data[i].id + ",";
-									}
-									if(id.length > 0) {
-										id = id.substr(0, id.length - 1);
-										// 弹出提示框
-										console.log(id)
-										layer.confirm('您确定要删除这些信息吗?', {
-											icon: 3,
-											title: '删除'
-										}, function(index) {
-											delHouse(id);
-											// 关闭提示框
-											layer.close(index);
-										});
-									}
-								} else if(data.length == 0) {
-									layer_msg("请选择一条数据！");
-									return;
-								}
-						}
-						
-						
-						function uplist(){
-							layer.closeAll()
-							getSearchData()
-							alertSuccess('操作成功！')
-						}
-						
-						// 打开房源详情
-						function getComms(e) {
-							var guid = $(e).data("id");
-							pageOpen("房源详情", "housedetail.html", guid, "95%", "90%");
-						}
-						
-						// 设置房源已出售
-						function setOut(){
-							//获取选中的guid
-							var checkStatus = table.checkStatus('demo'),
-							data = checkStatus.data;
-							if(data.length == 1) {
-								//当前选中的guid
-								var guid = data[0].id;
-								//执行更新出售状态
-								sold(guid)
-							} else if(data.length == 0||data.length > 1) {
-								layer_msg("请选择一条数据！");
-								return;
-							}
-						}
-		</script>
-	</body>
+		<div class="yfs-body-button">
+			<button class="layui-btn layui-btn-sm layui-bg-blue" onclick="addcustomer()">
+				<i class="layui-icon">&#xe654;</i> 登记客户信息
+			</button>
+			<button class="layui-btn layui-btn-sm layui-bg-orange" onclick="modView()">
+				<i class="layui-icon">&#xe642;</i>修改客户信息
+			</button>
+			<button class="layui-btn layui-btn-sm layui-bg-red" onclick="getdel()">
+				<i class="layui-icon">&#xe640;</i> 删除客户信息
+			</button>
+			<button class="layui-btn layui-btn-sm layui-bg-blue" onclick="checkin()">
+				<i class="layui-icon">&#xe66f;</i> 办理客户入住信息
+			</button>
+			<button class="layui-btn layui-btn-sm layui-bg-green" onclick="roominfo()">
+				<i class="layui-icon">&#xe605;</i> 查看房间信息
+			</button>
 
+			<div style="clear: both;"></div>
+		</div>
+
+		<div class="yfs-body-table">
+			<table class="layui-table" lay-data="{id:'demo'}" lay-filter="demo">
+				<thead>
+					<tr style="text-align: center;" class="layui-bg-orange">
+						<th lay-data="{field:'id', width:60,checkbox:true,fixed:true }"></th>
+						<th lay-data="{field:'c_customernumber', width:200}">客户编号</th>
+						<th lay-data="{field:'c_name',width:180}" style="text-align: center;">客户姓名</th>
+						<th lay-data="{field:'c_identity',width:180}" style="text-align: center;">身份证号码</th>
+						<th lay-data="{field:'c_sex',width:150}" style="text-align: center;">性别</th>
+						<th lay-data="{field:'c_address'}" style="text-align: center;">住址</th>
+						<th lay-data="{field:'c_tel',width:150}" style="text-align: center;">联系电话</th>
+					</tr>
+				</thead>
+				<tbody id="datalist" lay-filter="test">
+				</tbody>
+			</table>
+		</div>
+	</div>
+
+
+	<script id="view" type="text/html">
+		{{# layui.each(d, function(index, item){ }}
+			<tr >
+			<!--//编号-->
+			<td style="text-align:center">{{ item.c_customernumber }}</td>
+			<!--//编号-->
+			<td><span style="cursor: pointer;color: blue;" data-id="{{ item.c_customernumber}}" onclick="getComms(this)"> {{ item.c_customernumber }} </span></td>
+			<!--//姓名-->
+			<td>{{ item.c_name }}</td>
+			<!--//身份证号-->
+			<td>{{item.c_identity}}</td>
+			<!--//性别-->
+			<td>{{item.c_sex}}</td>
+			<!--//地址-->
+			<td>{{item.c_address}}</td>
+			<!--//电话-->
+			<td>{{item.c_tel}}</td>
+		</tr>
+		{{# }); }}
+	</script>
+	<script src="../js/jquery-3.3.1.min.js"></script>
+	<script src="../layui/layui.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../js/common.js" type="text/javascript"></script>
+	<script>
+		layui.use(['laypage', 'layer', 'form', 'laytpl', 'table', 'laydate'],
+			function () {
+				laypage = layui.laypage;
+				layer = layui.layer;
+				laytpl = layui.laytpl;
+				form = layui.form;
+				laydate = layui.laydate;
+				table = layui.table;
+				//执行一个laydate实例
+				getData()
+				form.render();
+			});
+
+		//获取数据
+		function getData() {
+			//房源编号
+			var c_customernumber = $("#c_customernumber").val().toString()
+				.trim();
+			//厂房标题
+			var c_name = $("#c_name").val().toString().trim();
+			//业务员
+			var c_identity = $('#c_identity').val();
+			//findCustomer
+			$.ajax({
+				type: "post",
+				url: '/HotelManagement/customer/findCustomer',
+				datatype: 'json',
+				data: {
+					c_id: c_customernumber,
+					c_name: c_name,
+					c_identity: c_identity
+				},
+				success: function (data) {
+					var newData = data;
+					// 获取容器
+					var tables = $("#datalist");
+					//得到html模板
+					var getTpl = document.getElementById("view").innerHTML;
+					//插入html模板
+					laytpl(getTpl).render(newData.body[0], function (html) {
+						tables.html(html);
+					});
+					form.render()
+					table.init()
+				},
+				error: function (e) {
+					console.log(e)
+				}
+			});
+		}
+
+		//修改视图
+		function modView() {
+			//获取选中的guid
+			var checkStatus = table.checkStatus('demo')
+			var data = checkStatus.data;
+			if (data.length == 1) {
+				console.log()
+				pageOpen("客户信息修改", "updateCustomer.html", data[0].id+","+data[0].c_name+","+data[0].c_identity+","+data[0].c_sex+","+data[0].c_tel+","+data[0].c_address, "95%", "90%");
+			} else if (data.length == 0 || data.length > 1) {
+				layer_msg("请选择一条数据修改！");
+				return;
+			}
+		}
+		
+		function checkin() {
+			var checkStatus = table.checkStatus('demo')
+			var data = checkStatus.data;
+			if (data.length == 1) {
+				pageOpen("办理入住", "checkin.html", data[0].id+","+data[0].c_name, "95%", "500px");
+			} else if (data.length == 0 || data.length > 1) {
+				layer_msg("请选择一条数据修改！");
+				return;
+			}
+		}
+
+		//房态信息
+		function roominfo() {
+			pageOpen("房态信息", "roominfo.html", "0", "95%", "90%")
+		}
+		
+		//添加客户
+		function addcustomer() {
+			pageOpen("登记客户信息", "addcustomer.html", "0", "95%", "90%")
+		}
+		
+
+		//删除
+		function getdel() {
+			var checkStatus = table.checkStatus('demo'), data = checkStatus.data;
+			if (data.length >= 1) {
+				var id = "";
+				for (var i = 0; i < data.length; i++) {
+					id = id + data[i].id + ",";
+				}
+				if (id.length > 0) {
+					id = id.substr(0, id.length - 1);
+					// 弹出提示框
+					layer.confirm('您确定要删除这些信息吗?', {
+						icon: 3,
+						title: '删除'
+					}, function (index) {
+						delCustomer(id);
+						// 关闭提示框
+						layer.close(index);
+					});
+				}
+			} else if (data.length == 0) {
+				layer_msg("请选择一条数据！");
+				return;
+			}
+		}
+
+		function delCustomer(id) {
+			$.ajax({
+				type: "post",
+				url: '/HotelManagement/customer/delCustomer',
+				datatype: 'json',
+				data: {
+					c_customernumber: id
+				},
+				success: function (data) {
+					console.log(data)
+					if (data.key == 'success') {
+						alertSuccess("删除成功");
+						getData();
+					} else {
+						layer_msg("删除失败");
+					}
+				},
+				error: function (e) {
+					console.log(e)
+				}
+			});
+		}
+	</script>
+</body>
 </html>
