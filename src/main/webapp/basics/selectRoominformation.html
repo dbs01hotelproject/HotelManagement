@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<meta http-equiv="x-ua-compatible" content="IE=edge">
+<!-- 根据设置确定的视口的宽度device-width表示采用设备的宽度，初始缩放1.0-->
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<!-- <link href="../bootstrap/css/bootstrap.min.css" rel="stylesheet"> -->
+<link href="../css/bootstrap.min.css" rel="stylesheet">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<script type="text/javascript" src="../js/jquery-3.3.1.js"></script>
+<style type="text/css">
+body{
+	padding:0;
+	margin:0;
+	margin:0 auto;
+	background-color:#069;
+	width:80%;
+	height:600px;
+}
+</style>
+</head>
+<body >
+<h2 >添加住房信息</h2>
+<div id="div1">
+<table >
+	<tbody>
+				<tr>
+					<td >房间编号:</td>
+					<td colspan="2"  class="table-bordered td"><input id="r_number"  type="text"/></td>
+				</tr>
+				<tr>
+					<td>房间位置:</td>
+					<td colspan="2"  class="table-bordered td"><input id="r_direction"  type="text"/></td>
+					
+				</tr>
+				<tr>
+					<td>房间类型:</td>
+					<td colspan="2"  class="table-bordered td"><input id="r_tpye"  type="text"/></td>
+					<td colspan="2"  class="table-bordered td"><input id="r_direction2"  type="text" value="0:单人标准间、1:双人标准间、3:豪华双人间、4:豪华三人 间、5:总统套房 "/></td>
+				</tr>
+				<tr>
+					<td>设备状况:</td>
+					<td colspan="2"  class="table-bordered td"><input id="r_equipment" type="text" /></td>
+				</tr>
+				<tr>
+					<td>房间状态:</td>
+					<td colspan="2"  class="table-bordered td"><input id="r_state" type="text" /> </td>
+					<td colspan="2"  class="table-bordered td"><input id="r_equipment22" type="text" value="0: 已预订、1:已入住、2:空房" /></td>
+				</tr>
+				<tr align="center">
+					<td colspan="2"  class="table-bordered td" align="center"><button type="button" class="btn btn-info" onclick="addroom()" id="insert">添加住房信息</button></td>
+				<td><a href="indexRoominformation.html"><button type="button" class="btn btn-info">返回首页</button></a></td>
+				</tr>
+			</tbody>
+			
+		</table>
+		<script type="text/javascript">
+		
+		function addroom(){
+			//房间编号
+			
+			var r_number = $('#r_number').val().toString().trim();
+			//房间位置
+			alert("aaaaaaaaaaaa");
+			var r_direction = $('#r_direction').val().toString().trim();
+			//房间类型
+			var r_tpye = $('#r_tpye').val().toString().trim();
+			//用户类型
+			var r_equipment = $('#r_equipment').val().toString().trim();
+			//房间状态
+			var r_state = $('#r_state').val().toString().trim();
+				alert(r_state);
+			$.ajax({
+				type:"POST",
+		    	url:'/HotelManagement/room/insertroominformation',
+		    	datatype:'json',
+		    	data:{
+		    	    r_number:r_number,
+					r_direction:r_direction,
+					r_tpye:r_tpye,
+					r_equipment:r_equipment,
+  				    r_state:r_state
+		    	},
+				//请求成功后的回调函数
+				success:function(data){
+					
+					if(data.key=='SUCCESS'){
+					var r_number=data.body[0].r_number;
+					 var r_direction=data.body[0].r_direction;
+					 var r_tpye=data.body[0].r_tpye;
+					 var r_equipment=data.body[0].r_equipment;
+					 var r_state=data.body[0].r_state;
+					}
+					else{
+						alert(data.key)
+					}
+				}
+			});
+			
+		}
+		</script>
+</div>          
+</body>
+</html>

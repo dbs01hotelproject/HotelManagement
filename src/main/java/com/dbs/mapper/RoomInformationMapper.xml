@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dbs.mapper.RoomInformationMapper">
+
+	<!-- 根据id查询客户id -->
+	<select id="findRoominformationByNumber" parameterType="int"
+		resultType="roomInformation">
+		select * from t_roominformation where
+		r_number=#{r_number}
+	</select>
+	<!-- 添加用户 -->
+	<insert id="addRoominformation" parameterType="roomInformation">
+		insert into
+		t_roominformation(r_number,r_direction,r_tpye,r_equipment,r_state)
+		values(#{r_number},#{r_direction},#{r_tpye},#{r_equipment},#{r_state})
+	</insert>
+	<!-- 删除用户 -->
+	<delete id="deleteRoominformationByNumber" parameterType="int">
+		delete
+		from t_roominformation where r_number=#{r_number}
+	</delete>
+	<!-- 修改用户 -->
+	<update id="updateRoominformationByNumber"
+		parameterType="roomInformation">
+		update t_roominformation set
+		r_tpye=#{r_tpye},r_direction=#{r_direction},
+		r_equipment=#{r_equipment},r_state=#{r_state}
+		where
+		r_number=#{r_number}
+	</update>
+
+	<!-- 是否开通网络管理 -->
+	<select id="openNetworkManagement" parameterType="int"
+		resultMap="resultUserArticleList">
+		select
+		t_roominformation.r_number,
+		t_roominformation.r_direction,
+		t_roominformation.r_tpye,
+		t_roominformation.r_equipment,
+		t_roominformation.r_state,
+
+		t_networkmanagement.n_serialnumber,
+		t_networkmanagement.n_roomnumber,
+		t_networkmanagement.n_opentime,
+		t_networkmanagement.n_closetime,
+		t_networkmanagement.n_customernumbernumber
+		from
+		t_networkmanagement
+		,t_roominformation
+		where
+		t_roominformation.r_number=t_networkmanagement.n_roomnumber and
+		t_roominformation.r_number = #{r_number}
+
+	</select>
+
+	<resultMap type="com.dbs.po.NetworkManagement"
+		id="resultUserArticleList">
+		<id property="n_roomnumber" column="n_roomnumber"></id>
+		<result property="n_serialnumber" column="n_serialnumber"></result>
+		<result property="n_roomnumber" column="n_roomnumber"></result>
+		<result property="n_opentime" column="n_opentime"></result>
+		<result property="n_closetime" column="n_closetime"></result>
+		<result property="n_customernumbernumber"
+			column="n_customernumbernumber"></result>
+		<association property="roominformation"
+			javaType="com.dbs.po.RoomInformation">
+			<id property="r_number" column="r_number"></id>
+			<result property="r_direction" column="r_direction"></result>
+			<result property="r_tpye" column="r_tpye"></result>
+			<result property="r_equipment" column="r_equipment"></result>
+			<result property="r_state" column="r_state"></result>
+
+		</association>
+	</resultMap>
+	<delete id="deleteNetworkManagementByNumber" parameterType="int">
+		delete from t_networkmanagement where n_roomnumber=#{n_roomnumber}
+	</delete>
+
+</mapper>
