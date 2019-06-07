@@ -80,9 +80,9 @@ public class CashierController {
 			String close = net2.getE_closetime();
 			int date = CashierController.cacuDate(close, open);
 			if(date>0) {
-				System.out.println(date);
+			//	System.out.println(date);
 				net2.setE_cost(date*15);
-				System.out.println("网费为"+date*15);
+			//	System.out.println("网费为"+date*15);
 			}else {
 				net2.setE_cost(15);
 			}
@@ -104,20 +104,20 @@ public class CashierController {
 		cashierMapperService.updateBillfeetype(bill);
 		
 		bill.setB_feerates(cashierMapperService.selectBillfeerates(id));
-		System.out.println("b_date为"+b_date);
+	//	System.out.println("b_date为"+b_date);
 		
 		if(b_date>0) {
 			
 			bill.setB_allcosts(b_date*bill.getB_feerates());
-			System.out.println("总的花费为"+bill.getB_allcosts());
+		//	System.out.println("总的花费为"+bill.getB_allcosts());
 		}else {
 			
 			bill.setB_allcosts(bill.getB_feerates());
-			System.out.println("总的花费为"+bill.getB_allcosts());
+		//	System.out.println("总的花费为"+bill.getB_allcosts());
 		}
 		//更新总花费
 		cashierMapperService.updateBillDateAllPrice(bill);
-		System.out.println(bill);
+	//	System.out.println(bill);
 		//返回数据到前台
 		returnData.setKey(returnData.SUCCESS);
 		List<Object> list = new ArrayList<Object>();
@@ -133,7 +133,7 @@ public class CashierController {
 		java.util.Date date2 = format.parse(dbtime2);
 		int a = (int) ((date1.getTime() - date2.getTime()) / (1000*3600*24));
 		
-		System.out.println(a);
+	//	System.out.println(a);
 		
 		return a;
 	}

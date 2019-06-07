@@ -106,7 +106,14 @@
 				})
 			}
 			function checkout(){
-				window.location.href="账单.html?r_roomnumber="+ $("#r_roomnumber").val() +"&c_name="+ $("#c_name").val() +"&r_tpye2="+ $("#r_tpye2").val()
+				if (confirm("您确认退房吗？")) { 
+					 
+			    } 
+			    else { 
+			      alert("您已取消退房"); 
+			      return false;
+			    }
+				window.location.href="bill.html?r_roomnumber="+ $("#r_roomnumber").val() +"&c_name="+ $("#c_name").val() +"&r_tpye2="+ $("#r_tpye2").val()
 			}
 		</script>
 	</body>
