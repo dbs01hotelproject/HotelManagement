@@ -1,84 +1,90 @@
 package com.dbs.service.impl;
 
 
+import java.sql.Date;
+
+import org.apache.catalina.util.NetMask;
 import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Controller;
 
-import com.dbs.mapper.EmployeeMapper;
-import com.dbs.po.Employee;
-import com.dbs.service.EmployeeService;
+import com.dbs.mapper.CashierMapper;
+import com.dbs.po.Bill;
+import com.dbs.po.Customer;
+import com.dbs.po.NetworkInformation;
+import com.dbs.po.NetworkManagement;
+import com.dbs.po.NetworkManagement2;
+import com.dbs.po.Reception;
+import com.dbs.po.RoomInformation;
+import com.dbs.po.StateInfo;
+
+import java.util.List;
 
 @Controller
 public class FuntionTest {
 
-	@Autowired
-	EmployeeService employeeService;
 	
 	@Test
-	public void AdminQueryAllTestfor() {
+	public void selectforAllreceptionfor() {
 		ApplicationContext ctx = new ClassPathXmlApplicationContext("applicationContext.xml");
-		EmployeeMapper employeeMapper = ctx.getBean(EmployeeMapper.class);
-		System.out.println(employeeMapper.AdminQueryAll());
+		CashierMapper cashierMapper = ctx.getBean(CashierMapper.class);
+		StateInfo stateInfo = new StateInfo();
+		stateInfo.setR_roomnumber(5);
+		stateInfo.setC_name("小三");
+		System.out.println(cashierMapper.selectforAllreception(stateInfo));
 	}
 	
 	@Test
-	public void checkEmpTest() {
+	public void updateforLeaveTest() {
 		ApplicationContext ctx = new ClassPathXmlApplicationContext("applicationContext.xml");
-		EmployeeMapper employeeMapper = ctx.getBean(EmployeeMapper.class);
-		Employee employee = new Employee();
-		employee.setE_name("杨过");
-		employee.setE_pass("77778888");
-		System.out.println(employeeMapper.checkEmp(employee));
+		CashierMapper cashierMapper = ctx.getBean(CashierMapper.class);
+		Reception reception = new Reception();
+		reception.setR_number(1);
+		reception.setR_leave(new Date(System.currentTimeMillis()));
+		cashierMapper.updateforLeave(reception);
+		
 	}
 	
-	 @Test
-	public void queryEmployeeForSelfTest() {
+	@Test
+	public void GenerateBillsTest() {
 		ApplicationContext ctx = new ClassPathXmlApplicationContext("applicationContext.xml");
-		EmployeeMapper employeeMapper = ctx.getBean(EmployeeMapper.class);
-		Employee employee = new Employee();
-		employee.setE_empno(1);
-		employee.setE_name("杨过");
-		employee.setE_pass("77778888");
-		System.out.println(employeeMapper.queryEmployeeForSelf(employee));
+		CashierMapper cashierMapper = ctx.getBean(CashierMapper.class);
+		Bill bill = new Bill();
+		bill.setB_customernumber(100);
+		bill.setB_roomnumber(1);
+		bill.setB_type(1);
+		bill.setB_leave("1997-01-02");
+		bill.setB_allcosts(300);
+		cashierMapper.GenerateBills(bill);
+		
 	}
 	
 	@Test
-	public void registerForEmployeeTest() {
+	public void selectBillInfoTest() {
 		ApplicationContext ctx = new ClassPathXmlApplicationContext("applicationContext.xml");
-		EmployeeMapper employeeMapper = ctx.getBean(EmployeeMapper.class);
-		Employee employee = new Employee();
-		employee.setE_character("前台接待");
-		employee.setE_name("王语嫣");
-		employee.setE_pass("66666671");
-		employeeMapper.registerForEmployee(employee);
-	}
-	
-	
-	@Test
-	public void updateForEmployeeTest() {
-		ApplicationContext ctx = new ClassPathXmlApplicationContext("applicationContext.xml"); 
-		EmployeeMapper employeeMapper = ctx.getBean(EmployeeMapper.class);
-		Employee employee = new Employee();
-		employee.setE_empno(11);
-		employee.setE_character("前台接待");
-		employee.setE_name("钟灵");
-		employee.setE_pass("66666672");
-		employeeMapper.updateForEmployee(employee);
+		CashierMapper cashierMapper = ctx.getBean(CashierMapper.class);
+		Reception customer = new Reception();
+		customer.setR_roomnumber(1);
+		System.out.println(cashierMapper.selectBillInfo(customer));
 	}
 	
 	@Test
-	public void deleteForEmployeeTest() {
-		ApplicationContext ctx = new ClassPathXmlApplicationContext("applicationContext.xml"); 
-		EmployeeMapper employeeMapper = ctx.getBean(EmployeeMapper.class);
-		Employee employee = new Employee();
-		employee.setE_empno(5);
-		employeeMapper.deleteEmpInfo(employee);
+	public void selectNetManagementTest() {
+		ApplicationContext ctx = new ClassPathXmlApplicationContext("applicationContext.xml");
+		CashierMapper cashierMapper = ctx.getBean(CashierMapper.class);
+		
+		System.out.println(cashierMapper.selectNetManagement(1));
 	}
 	
-	
-	
-	
+	@Test
+	public void updateBillDateAllPriceTest() {
+		ApplicationContext ctx = new ClassPathXmlApplicationContext("applicationContext.xml");
+		CashierMapper cashierMapper = ctx.getBean(CashierMapper.class);
+		Bill bill = new Bill();
+		bill.setB_allcosts(100);
+		bill.setB_roomnumber(1);
+		cashierMapper.updateBillDateAllPrice(bill);
+	}
+
 }

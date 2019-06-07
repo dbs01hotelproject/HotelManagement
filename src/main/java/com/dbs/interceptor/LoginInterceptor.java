@@ -28,6 +28,7 @@ public class LoginInterceptor implements HandlerInterceptor {
 		if (user!=null) {
 			return true;
 		} else {
+			response.sendRedirect("login.html");
 			return false;
 		}
 	}

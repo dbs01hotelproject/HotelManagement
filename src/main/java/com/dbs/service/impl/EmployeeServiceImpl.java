@@ -24,7 +24,6 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 	// 管理员查询所有的用户
 	@Override
-	@Test
 	public ReturnData AdminQueryAll() {
 		
 		ReturnData returnData = new ReturnData();

@@ -74,4 +74,11 @@ public class Reception {
 		this.r_leave = r_leave;
 	}
 
+	@Override
+	public String toString() {
+		return "Reception [r_number=" + r_number + ", r_customernumber=" + r_customernumber + ", r_roomnumber="
+				+ r_roomnumber + ", r_checkin=" + r_checkin + ", r_leave=" + r_leave + ", r_deposit=" + r_deposit
+				+ ", t_opennetwork=" + t_opennetwork + "]";
+	}
+
 }

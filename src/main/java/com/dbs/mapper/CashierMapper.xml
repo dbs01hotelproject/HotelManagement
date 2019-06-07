@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dbs.mapper.CashierMapper">
+	<!-- 查询所有入住信息 -->
+	<select id="selectforAllreception" resultType="StateInfo" parameterType="StateInfo">
+		select t_re.r_customernumber,t_cu.c_name, t_re.r_roomnumber ,t_ro.r_tpye
+		from t_reception t_re , t_customer t_cu, t_roominformation t_ro
+		where t_cu.c_customernumber = t_re.r_customernumber
+		and t_re.r_roomnumber = t_ro.r_number
+		and t_re.r_roomnumber =#{r_roomnumber}
+		and t_cu.c_name =#{c_name}
+	</select>
+	
+	<!-- 查询入住时间所用 -->
+	<select id="selectCheckinDate" parameterType="int" resultType="Reception">
+		select * from t_reception  where r_roomnumber=#{r_roomnumber}
+	</select>
+
+	<!-- 更新退房时间 -->
+	<update id="updateforLeave" parameterType="Reception">
+		update t_reception set r_leave =#{r_leave} where r_roomnumber=#{r_roomnumber}
+	</update>
+	
+	<!-- 更新房间状态 -->
+	<update id="updateforRoomState" parameterType="int">
+		update t_roominformation set r_state =2  where r_number=#{r_number}
+	</update>
+	
+	<!-- 查询网络是否开通(网络管理)  -->
+	<select id="selectNetManagement" parameterType="int" resultType="NetworkManagement2">
+		select * from t_networkmanagement where	n_roomnumber =#{n_roomnumber} and n_opentime!=''
+	</select>
+	
+	<!-- 查询网络是否开通(网费管理) -->
+	<select id="selectNetInfo" parameterType="int" resultType="NetworkInformation">
+		select * from t_networkinformation where e_roomnumber=#{e_roomnumber} and e_opentime!=''
+	</select>
+	
+		<!-- 查询网络是否开通(网费管理2) -->
+	<select id="selectNetInfo2" parameterType="int" resultType="NetworkInformation">
+		select * from t_networkinformation where e_roomnumber=#{e_roomnumber} and e_opentime!='' and e_closetime!=''
+	</select>
+	
+	<!-- 更新是否网络开通(网络管理) -->
+	<update id="updateNetworkManagement" parameterType="NetworkManagement2">
+		update t_networkmanagement 
+		<set>
+		
+			<if test="n_roomnumber !=null and n_roomnumber !=''">
+				n_roomnumber =#{n_roomnumber},
+			</if>
+			
+			<if test="n_opentime !=null and n_opentime !=''">
+				n_closetime =#{n_closetime},
+			</if>
+			
+		</set>
+		where n_roomnumber =#{n_roomnumber}
+	</update>
+	
+		<!-- 更新是否网络开通(网费管理) -->
+	<update id="updateNetworkInformation" parameterType="NetworkInformation">
+		update t_networkinformation 
+		<set>
+			<if test="e_roomnumber !=null and e_roomnumber !=''">
+				e_roomnumber =#{e_roomnumber},
+			</if>
+			
+			<if test="e_opentime!=null and e_opentime!=''">
+				e_closetime =#{e_closetime},
+			</if>
+		</set>
+		where e_roomnumber=#{e_roomnumber}
+	</update>
+
+	<!-- 更新网费 -->
+	<update id="updateNetFee" parameterType="NetworkInformation">
+		update t_networkinformation 
+		<set>
+			<if test="e_roomnumber !=null and e_roomnumber !=''">
+				e_roomnumber=#{e_roomnumber},
+			</if>
+			
+			<if test="e_cost!=null and e_cost!=''">
+				e_cost =#{e_cost},
+			</if>
+		</set>
+		where e_roomnumber=#{e_roomnumber}
+	</update>
+	
+	<!-- 查询生成账单所需要的信息 -->
+	<select id="selectBillInfo" resultType="Bill" parameterType="Reception">
+		select t_reception.r_customernumber as b_customernumber, t_customer.c_name as b_cname, t_reception.r_roomnumber as b_roomnumber,
+		
+		t_roominformation.r_tpye as b_type, t_reception.r_leave as b_leave, t_networkinformation.e_cost as b_netcost
+		
+		from t_reception , t_customer , t_roominformation , t_networkinformation 
+		
+		where t_customer.c_customernumber = t_reception.r_customernumber
+		
+		and t_reception.r_roomnumber = t_roominformation.r_number
+		
+		and t_networkinformation.e_roomnumber= t_roominformation.r_number
+		
+		and t_reception.r_roomnumber=#{r_roomnumber}
+		
+	</select>
+	
+	<select id="selectBillfeerates" parameterType="int" resultType="int">
+		select distinct b_feerates from t_bill
+		where b_roomnumber=#{b_roomnumber}
+	</select>
+	
+	<!-- 生成账单 -->
+	<insert id="GenerateBills" parameterType="Bill">
+		insert into t_bill
+		(b_customernumber,b_roomnumber,b_type,b_leave,b_netcost)
+		values(#{b_customernumber},#{b_roomnumber},#{b_type},#{b_leave},#{b_netcost})
+	
+	</insert>
+	<!-- 更新账单信息之收费标准 -->
+	<update id="updateBillfeetype" parameterType="Bill">
+		update t_bill 
+		<set>
+			<if test="b_type==0">
+				b_feerates=168,
+			</if>
+			<if test="b_type==1">
+				b_feerates=268,
+			</if>
+			<if test="b_type==2">
+				b_feerates=288,
+			</if>
+			<if test="b_type==3">
+				b_feerates=368,
+			</if>
+			<if test="b_type==4">
+				b_feerates=568,
+			</if>
+		</set>
+		where b_roomnumber=#{b_roomnumber}
+	
+	</update>
+	<!-- 更新账单之入住天数与总消费 -->
+		<update id="updateBillDateAllPrice" parameterType="Bill">
+		update t_bill 
+		set b_day=#{b_day},b_allcosts=#{b_allcosts}
+		where b_roomnumber=#{b_roomnumber}
+	
+	</update>
+	
+</mapper>
