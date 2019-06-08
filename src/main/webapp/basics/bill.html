@@ -57,6 +57,14 @@
 					</div>
 					<input type="text" class="form-control" readonly="readonly" id="b_netcost">
 				</div>
+				
+				<div class="input-group mb-3">
+					<div class="input-group-prepend">
+						<span class="input-group-text">住&nbsp;宿&nbsp;费&nbsp;&nbsp;</span>
+					</div>
+					<input type="text" class="form-control" readonly="readonly" id="zhusufei">
+				</div>
+				
 				<div class="input-group mb-3">
 					<div class="input-group-prepend">
 						<span class="input-group-text">总&nbsp;金&nbsp;额&nbsp;&nbsp;</span>
@@ -92,7 +100,8 @@
 								$('#b_leave').val(e.body[0].b_leave);
 								$('#b_feerates').val(e.body[0].b_feerates);
 								$('#b_netcost').val(e.body[0].b_netcost);
-								$('#b_allcosts').val(e.body[0].b_allcosts);
+								$('#zhusufei').val(e.body[0].b_allcosts);
+								$('#b_allcosts').val(e.body[0].b_allcosts+e.body[0].b_netcost);
 							} else {
 								alert('该用户或房间号不存在!');
 							}

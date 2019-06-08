@@ -63,14 +63,19 @@ public class CashierController {
 		//更新网络开通状态
 		NetworkManagement2 netManagement2 = new NetworkManagement2();
 		netManagement2 = cashierMapperService.selectNetManagement(id);
-		netManagement2.setN_closetime(new Date(System.currentTimeMillis()).toString());
-		cashierMapperService.updateNetworkManagement(netManagement2);
+		if(netManagement2!=null) {
+			netManagement2.setN_closetime(new Date(System.currentTimeMillis()).toString());
+			cashierMapperService.updateNetworkManagement(netManagement2);
+		}
+		
 		
 		//更新网络开通状态(网费管理)
 		NetworkInformation neInformation = new NetworkInformation();
 		neInformation = cashierMapperService.selectNetInfo(id);
-		neInformation.setE_closetime(new Date(System.currentTimeMillis()).toString());
-		cashierMapperService.updateNetworkInformation(neInformation);
+		if(neInformation!=null) {
+			neInformation.setE_closetime(new Date(System.currentTimeMillis()).toString());
+			cashierMapperService.updateNetworkInformation(neInformation);
+		}
 		
 		//更新网费
 		NetworkInformation net2 = new NetworkInformation();
