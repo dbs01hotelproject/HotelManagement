@@ -94,11 +94,7 @@ public class Bill {
 		this.b_allcosts = b_allcosts;
 	}
 	
-	
 	public Bill() {
 		super();
 	}
-	
-	
-	
 }

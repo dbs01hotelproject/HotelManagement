@@ -98,8 +98,9 @@ public class CashierController {
 		Bill bill = new Bill();
 		bill = cashierMapperService.selectBillInfo(reception);
 		Reception re = cashierMapperService.selectCheckinDate(id);
-		bill.setB_leave(new Date(System.currentTimeMillis()).toString());
-		String b_open = re.getR_checkin().toString();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		bill.setB_leave(sdf.format(new java.util.Date()));
+		String b_open = sdf.format(re.getR_checkin());
 		String b_close = bill.getB_leave();
 		int b_date = CashierController.cacuDate(b_close, b_open);
 		bill.setB_day(b_date);
@@ -133,6 +134,8 @@ public class CashierController {
 	
 	//计算天数
 	public static int cacuDate(String dbtime1,String dbtime2) throws ParseException {
+		System.out.println(dbtime2);
+		System.out.println(dbtime1);
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 		java.util.Date date1 = format.parse(dbtime1);
 		java.util.Date date2 = format.parse(dbtime2);

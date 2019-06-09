@@ -4,13 +4,17 @@
 
 	<!-- 登记客户信息，六个字段 -->
 	<insert id="checkinCustomer" parameterType="customer">
+		<selectKey resultType="int" order="AFTER"
+			keyProperty="c_customernumber">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
 		insert into t_customer (c_name,c_identity,c_sex,c_address,c_tel)
 		values (#{c_name},#{c_identity},#{c_sex},#{c_address},#{c_tel});
 	</insert>
-	
+
 	<!-- 修改客户信息，六个字段 -->
 	<update id="updateCustomer" parameterType="customer">
-		update t_customer set 
+		update t_customer set
 		<if test="c_name!=null and c_name!=''">
 			c_name = #{c_name},
 		</if>
@@ -24,27 +28,31 @@
 			c_address = #{c_address},
 		</if>
 		<if test="c_tel!=null and c_tel!=''">
-			c_tel = #{c_tel} 
+			c_tel = #{c_tel}
 		</if>
 		<where>
 			c_customernumber=#{c_customernumber}
 		</where>
 	</update>
-	
-	<!-- 删除客户信息-->
+
+	<!-- 删除客户信息 -->
 	<delete id="delCustomer" parameterType="customer">
-		delete from t_customer where c_customernumber=#{c_customernumber}
+		delete from t_customer
+		where c_customernumber=#{c_customernumber}
 	</delete>
-	
-	
+
+
 	<!-- 根据id查询客户信息 -->
-	<select id="queryCustomer" parameterType="customer" resultType="customer">
-		select c_customernumber,c_name,c_identity,c_sex,c_address,c_tel from t_customer
+	<select id="queryCustomer" parameterType="customer"
+		resultType="customer">
+		select c_customernumber,c_name,c_identity,c_sex,c_address,c_tel from
+		t_customer
 		<where>
 			<if test="c_name!=null and c_name!=''">
 				and c_name=#{c_name}
 			</if>
-			<if test="c_customernumber!=null and c_customernumber!='' and c_customernumber!=0">
+			<if
+				test="c_customernumber!=null and c_customernumber!='' and c_customernumber!=0">
 				and c_customernumber=#{c_customernumber}
 			</if>
 			<if test="c_identity!=null and c_identity!=''">
@@ -52,20 +60,41 @@
 			</if>
 		</where>
 	</select>
-	
+
 	<!-- 查询房态状态 -->
-	<select id="queryRoomInformation" resultType="roomInformation">
-		select r_number,r_direction,r_tpye,r_equipment,r_state from t_roominformation
+	<select id="queryRoomInformation" resultType="roomInformation"
+		parameterType="roomInformation">
+		select r_number,r_direction,r_tpye,r_equipment,r_state from
+		t_roominformation
+		<where>
+			<if test="r_state!=-1">
+				and r_state=#{r_state}
+			</if>
+			<if test="r_tpye!=-1">
+				and r_tpye=#{r_tpye}
+			</if>
+		</where>
 	</select>
-	
+
 	<!-- 办理客户入住 -->
 	<insert id="insertReception" parameterType="reception">
-		insert into t_reception(r_customernumber,r_roomnumber,r_checkin,r_deposit,t_opennetwork) 
+		insert into
+		t_reception(r_customernumber,r_roomnumber,r_checkin,r_deposit,t_opennetwork)
 		values(#{r_customernumber},#{r_roomnumber},#{r_checkin},#{r_deposit},#{t_opennetwork})
 	</insert>
-	
-	<update id="updateRoomState" parameterType="int">
-		update t_roominformation set r_state = 1 where r_number=#{id}
+
+
+	<update id="updateRoomState" parameterType="roomInformation">
+		update
+		t_roominformation set r_state =#{r_state} where r_number=#{r_number}
 	</update>
+	
+	<insert id="insertNetwork" parameterType="networkInformation">
+		insert into
+		t_networkinformation(e_roomnumber,e_customernumber,e_opentime)
+		values(#{e_roomnumber},#{e_customernumbernumber},#{e_opentime})
+	</insert>
+	
+	
 
 </mapper>

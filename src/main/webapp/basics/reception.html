@@ -227,6 +227,7 @@
 			}
 		}
 		
+		//办理客户入住
 		function checkin() {
 			var checkStatus = table.checkStatus('demo')
 			var data = checkStatus.data;
@@ -284,7 +285,6 @@
 					c_customernumber: id
 				},
 				success: function (data) {
-					console.log(data)
 					if (data.key == 'success') {
 						alertSuccess("删除成功");
 						getData();

@@ -97,9 +97,9 @@
 						<option value=""></option>
 						<option value="0">单人标准间</option>
 						<option value="1">双人标准间</option>
-						<option value="3">豪华双人间</option>
-						<option value="4">豪华三人 间</option>
-						<option value="5">总统套房</option>
+						<option value="2">豪华双人间</option>
+						<option value="3">豪华三人 间</option>
+						<option value="4">总统套房</option>
 				</select></td>
 				<td>房间编号</td>
 				<td colspan="2"><select id="r_room" lay-filter="roomnum">
@@ -161,16 +161,21 @@
 				});
 		
 		function typech(data){
-			
 			$("#r_room>option:gt(0)").remove()
 			var type = data.value
-			$.get("/HotelManagement/customer/findRoomInformation",function(rooms){
+			if(type==""){
+				layer.msg("请选择房间")
+				return
+			}
+			console.log(type)
+			$.post("/HotelManagement/customer/findRoomInformation",{
+				r_state:2,
+				r_type:type
+			},function(rooms){
 				var opts= ""
 				var body = rooms.body[0]
 				body.forEach(item=>{
-					if(item.r_tpye==type){
-						opts += "<option value='"+item.r_number+"'>"+item.r_direction+"</option>"
-					}
+					opts += "<option value='"+item.r_number+"'>"+item.r_direction+"</option>"
 				})
 				$("#r_room").append(opts)
 				form.render()

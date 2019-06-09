@@ -58,4 +58,15 @@ public class Common {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		return new java.sql.Date(sdf.parse(date).getTime());
 	}
+	
+
+	public static Date formDate2(String date) throws ParseException {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		return new Date(sdf.parse(date).getTime());
+	}
+	
+	public static String formDate3(Date date) throws ParseException {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		return sdf.format(date);
+	}
 }

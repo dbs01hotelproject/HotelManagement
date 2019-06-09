@@ -56,6 +56,15 @@ td {
 				<td></td>
 				<td></td>
 			</tr>
+			
+				<tr>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
 		</tbody>
 	</table>
 	
@@ -65,7 +74,7 @@ td {
 	<script src="../js/common.js" type="text/javascript"></script>
 	<script>
 
-		$.get("/HotelManagement/customer/findRoomInformation",function(data){
+		$.post("/HotelManagement/customer/findRoomInformation",function(data){
 			var body = data.body[0]
 			body.forEach(item=>{
 				var floor = Number.parseInt(item.r_direction.substring(0,2).replace("0",""))-1

@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.dbs.mapper.CustomerMapper;
 import com.dbs.po.Customer;
+import com.dbs.po.NetworkInformation;
 import com.dbs.po.Reception;
 import com.dbs.po.RoomInformation;
 import com.dbs.service.CustomerService;
@@ -25,8 +26,8 @@ public class CustomerServiceImpl implements CustomerService {
 	}
 
 	@Override
-	public List<RoomInformation> queryRoomInformation() throws Exception {
-		return customerMapper.queryRoomInformation();
+	public List<RoomInformation> queryRoomInformation(RoomInformation room) throws Exception {
+		return customerMapper.queryRoomInformation(room);
 	}
 
 	@Override
@@ -35,8 +36,9 @@ public class CustomerServiceImpl implements CustomerService {
 	}
 
 	@Override
-	public void checkinCustomer(Customer customer) throws Exception {
+	public int checkinCustomer(Customer customer) throws Exception {
 		customerMapper.checkinCustomer(customer);
+		return customer.getC_customernumber();
 	}
 
 	@Override
@@ -50,8 +52,13 @@ public class CustomerServiceImpl implements CustomerService {
 	}
 
 	@Override
-	public void updateRoomState(Integer id) throws Exception {
-		customerMapper.updateRoomState(id);
+	public void updateRoomState(RoomInformation roomInformation) throws Exception {
+		customerMapper.updateRoomState(roomInformation);
+	}
+
+	@Override
+	public int insertNetwork(NetworkInformation networkInformation) throws Exception {
+		return customerMapper.insertNetwork(networkInformation);
 	}
 
 }

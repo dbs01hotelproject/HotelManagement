@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dbs.mapper.ReservationMapper">
+
+	<!-- 添加预定 -->
+	<insert id="insertReservation" parameterType="reservation">
+		insert into
+		t_reservation (r_roomnumber,r_name,r_date)
+		values(#{roomInformation.r_number},#{r_name},#{r_date})
+	</insert>
+
+	<!-- 查询预定信息 -->
+	<select id="queryReservationList" parameterType="reservation"
+		resultMap="reservationResultMap">
+		select r.r_number,r.r_name,r.r_roomnumber,r_date,r_direction,r_tpye
+		from t_reservation r left join t_roominformation room on room.r_number=r.r_roomnumber
+		<where>
+			<if test="r_number!=null and r_number!='' and r_number!=0">
+				and r.r_number=#{r_number}
+			</if>
+			<if test="r_name!=null and r_name!=''">
+				and c.c_name=#{r_name}
+			</if>
+			<if test="r_date!=null">
+				and r.r_date=#{r_date}
+			</if>
+		</where>
+	</select>
+	
+	<!-- 根据id查询预定信息 -->
+	<select id="queryReservationById" parameterType="int"
+		resultMap="reservationResultMap">
+		select r.r_number,r.r_name,r.r_roomnumber,r_date,r_direction,r_tpye
+		from t_reservation r left join t_roominformation room on room.r_number=r.r_roomnumber
+		where r.r_number = #{id}
+	</select>
+	
+	<!-- 修改预定 -->
+	<update id="updateReservation" parameterType="reservation">
+		update t_reservation 
+		set r_roomnumber=#{roomInformation.r_number},r_date=#{r_date}
+		where r_number = #{r_number}
+	</update>
+	
+	<!-- 删除预定 -->
+	<delete id="deleteReservation">
+		delete from t_reservation where r_number in
+		<foreach item="id" index="index" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+	<resultMap type="reservation" id="reservationResultMap">
+		<id column="r_number" property="r_number" />
+		<result column="r_date" property="r_date" />
+		<result column="r_name" property="r_name" />
+		<association property="roomInformation" javaType="roomInformation">
+			<id column="r_roomnumber" property="r_number" />
+			<result column="r_direction" property="r_direction" />
+			<result column="r_tpye" property="r_tpye" />
+		</association>
+	</resultMap>
+</mapper>

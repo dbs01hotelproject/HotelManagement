@@ -42,7 +42,7 @@ body {
 
 			} else {
 				alert("输入正确的房间号码");
-				$('p').html("输入正确的房间号码");
+				$('#p1').html("输入正确的房间号码");
 			}
 
 		}
@@ -62,16 +62,22 @@ body {
 					},
 					//请求成功后的回调函数
 					success : function(data) {
-						alert(data.key);
-						alert(data.msg);
-						alert("房间位置:" + data.body[0].r_direction + "房间编号:"
-								+ data.body[0].r_number + "房间类型:"
-								+ data.body[0].r_equipment + "房间状态:"
+// 						alert(data.key);
+// 						alert(data.msg);
+                          if(data.key=='SUCCESS'){
+						var room=("房间位置:" + data.body[0].r_direction +'<br>'+ "房间编号:"
+								+ data.body[0].r_number +'<br>'+ "房间类型:"
+								+ data.body[0].r_equipment +'<br>'+ "房间状态:"
 								+ data.body[0].r_state)
+								$('#lookid').html(room);
+                          }
+                          else{
+                        	  $('#lookid').html(data.msg);
+                          }
 					}
 				});
 			} else {
-				$('p').html("输入正确的房间号码");
+				$('p1').html("输入正确的房间号码");
 				alert("请输入正确的房间号码");
 			}
 		}
@@ -90,9 +96,14 @@ body {
 					},
 					//请求成功后的回调函数
 					success : function(data) {
-						alert(data.key);
-						alert(data.msg);
-						alert(data.body[0].n_roomnumber)
+    					if(data.key=='SUCCESS'){
+//     						alert(data.body[0].n_roomnumber);
+    						var date=new Date(data.body[0].n_opentime);
+    						$("#lookid").html("此人开通的时间为:"+date);
+    					}
+    					else{
+    						$("#lookid").html(data.msg);
+    					}
 					}
 				});
 			} else {
@@ -101,26 +112,36 @@ body {
 			}
 		}
 	</script>
-	<div>
-		<p></p>
+	<br>
+	<br>
+	<br>
+	<div align="left">
+		<p id="p1"></p>
 		<button type="button" class="btn btn-info"
-			onclick="javascrtpt:window.location.href='selectRoominformation.html'">添加客房信息</button>
-		<br> <br>
+			onclick="javascrtpt:window.location.href='selectRoominformation.html'">添加客房信息</button>&nbsp;&nbsp;&nbsp;&nbsp;
+<!-- 		<br> <br> -->
 		<!-- 		<button type="button" class="btn btn-info" -->
 		<!-- 			onclick="javascrtpt:window.location.href='update.html'">修改客房信息</button>	<br><br> -->
-		<a href="updateRoominformation.html"><button type="button" class="btn btn-info">修改客房信息</button></a>
-		<br>
-		<br>
+		<a href="updateRoominformation.html"><button type="button" class="btn btn-info">修改客房信息</button></a>&nbsp;&nbsp;&nbsp;&nbsp;
+<!-- 		<br> -->
+<!-- 		<br> -->
 		<button type="button" class="btn btn-info " onclick="deleteroom()">删除客房信息</button>
 		<input type="text" id="r_number"> <br>
 		<br>
 		<button type="button" class="btn btn-info" onclick="lookroom()">查看客房信息</button>
-		<input type="text" id="r_number1"> <br>
-		<br>
+		<input type="text" id="r_number1"> 
+		
 		<button type="button" class="btn btn-info" onclick="lookNet()">查看客房信息是否开通网络</button>
 		<input type="text" id="r_number2"> <br>
-
+		<hr >
+		<hr >
+		<div ><p>房间类型--0:单人标准间、1:双人标准间、3:豪华双人间、4:豪华三人 间、5:总统套房 </p>
+		<p>房间状态 --0: 已预订、1:已入住、2:空房</p>
+		</div>
+     <div id="lookid" style="font-size: 25px">
+     </div>
 
 	</div>
+	
 </body>
 </html>

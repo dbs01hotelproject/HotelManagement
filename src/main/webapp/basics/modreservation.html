@@ -5,13 +5,26 @@
 <title>添加预订</title>
 <link rel="stylesheet" href="../layui/css/layui.css" media="all">
 <link href="../css/common.css" rel="stylesheet" />
+
+<style>
+	.layui-input-block{
+		margin-right:10px;
+	}
+</style>
+
 </head>
 <body>
 	<div style="text-align: center;" class="layui-form">
 		<div class="layui-form-item">
+			<label class="layui-form-label">客户姓名</label>
+			<div class="layui-input-block" style="margin-top:10px;">
+				<input class="layui-input" id="customer" readonly>
+			</div>
+		</div>
+		<div class="layui-form-item">
 			<label class="layui-form-label">房间类型</label>
-			<div class="layui-input-block" style="margin-right:10px;margin-top:10px;">
-				<select lay-filter="room_type">
+			<div class="layui-input-block">
+				<select lay-filter="room_type" id="r_type">
 					<option value=""></option>
 					<option value="0">单人标准间</option>
 					<option value="1">双人标准间</option>
@@ -23,18 +36,13 @@
 		</div>
 		<div class="layui-form-item">
 			<label class="layui-form-label">房间编号</label>
-			<div class="layui-input-block" style="margin-right:10px">
+			<div class="layui-input-block">
 				<select lay-filter="room_num" id="room_num">
 					<option value=""></option>
 				</select>
 			</div>
 		</div>
-		<div class="layui-form-item">
-			<label class="layui-form-label">客户姓名</label>
-			<div class="layui-input-block" style="margin-right:10px">
-				<input class="layui-input" placeholder="请输入用户姓名" id="customer">
-			</div>
-		</div>
+
 		<div class="layui-form-item">
 			<div class="layui-input-block">
 				<button class="layui-btn" style="margin-left: -100px" id="submit">提交</button>
@@ -46,16 +54,21 @@
 		charset="utf-8"></script>
 	<script src="../js/common.js" type="text/javascript"></script>
 	<script>
+	
+		var r_number= GetQueryString("id")
+		
 		layui.use([ 'layer', 'form'], function() {
 			layer = layui.layer;
 			form = layui.form;
 			form.on('select(room_type)',typech)
+			getData()
+			form.render()
 		});
 		
 		//获取指定房间类型的空房间
-		function typech(data){
+		function typech(){
 			$("#room_num>option:gt(0)").remove()
-			var type = data.value
+			var type = $("#r_type").val()
 			if(type==""){
 				layer.msg("请选择房间")
 				return
@@ -73,25 +86,18 @@
 				form.render()
 			})
 		}
-	
 		
 		//提交
 		$("#submit").click(function(){
 			var r_num = $("#room_num").val()
-			var r_name = $("#customer").val()
-			
 			if(r_num==""){
 				layer.msg("请选择房间")
 				return
 			}
-			if(r_name==""){
-				layer.msg("请选择客户")
-				return
-			}
 			
-			$.post("/HotelManagement/reservation/add",{
-				r_name:r_name,
-				r_roomnumber:r_num
+			$.post("/HotelManagement/reservation/update",{
+				r_roomnumber:r_num,
+				r_number:r_number
 			},function(data){
 				layer.msg(data.msg)
 				var indexmain = parent.layer.getFrameIndex(window.name)
@@ -99,6 +105,28 @@
 				parent.layer.close(indexmain)
 			})
 		})
+		
+		//获取预定信息
+		function getData(){
+			$.ajax({
+				type : "post",
+				url : '/HotelManagement/reservation/queryReservationById',
+				datatype : 'json',
+				data : {
+					//预定编号
+					r_number : r_number
+				},
+				success : function(data) {
+					var body = data.body[0]
+					console.log(body)
+					$("#customer").val(body.r_name)
+					form.render()
+				},
+				error : function(e) {
+					console.log(e)
+				}
+			});
+		}
 	</script>
 </body>
 </html>

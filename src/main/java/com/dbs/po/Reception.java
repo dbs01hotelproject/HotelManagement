@@ -1,6 +1,6 @@
 package com.dbs.po;
 
-import java.sql.Date;
+import java.util.Date;
 
 /**
  * 入住信息

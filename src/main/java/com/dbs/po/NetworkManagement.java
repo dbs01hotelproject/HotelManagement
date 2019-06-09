@@ -46,14 +46,8 @@ public class NetworkManagement {
 	public void setN_closetime(Date n_closetime) {
 		this.n_closetime = n_closetime;
 	}
-	@Override
-	public String toString() {
-		return "NetworkManagement [roominformation=" + roominformation + ", n_serialnumber=" + n_serialnumber
-				+ ", n_roomnumber=" + n_roomnumber + ", n_customernumbernumber=" + n_customernumbernumber
-				+ ", n_opentime=" + n_opentime + ", n_closetime=" + n_closetime + "]";
-	}
 	
-	
+
 
 
 }

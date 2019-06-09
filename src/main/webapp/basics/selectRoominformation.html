@@ -19,6 +19,7 @@ body{
 	width:80%;
 	height:600px;
 }
+ 
 </style>
 </head>
 <body >
@@ -56,14 +57,13 @@ body{
 			</tbody>
 			
 		</table>
+		<div id="message"></div>
 		<script type="text/javascript">
 		
 		function addroom(){
 			//房间编号
-			
 			var r_number = $('#r_number').val().toString().trim();
 			//房间位置
-			alert("aaaaaaaaaaaa");
 			var r_direction = $('#r_direction').val().toString().trim();
 			//房间类型
 			var r_tpye = $('#r_tpye').val().toString().trim();
@@ -71,7 +71,9 @@ body{
 			var r_equipment = $('#r_equipment').val().toString().trim();
 			//房间状态
 			var r_state = $('#r_state').val().toString().trim();
-				alert(r_state);
+			
+		if(r_number!=""&&r_direction!=""&&r_tpye!=""&&r_equipment!=""&&r_state!=""){
+		
 			$.ajax({
 				type:"POST",
 		    	url:'/HotelManagement/room/insertroominformation',
@@ -92,15 +94,25 @@ body{
 					 var r_tpye=data.body[0].r_tpye;
 					 var r_equipment=data.body[0].r_equipment;
 					 var r_state=data.body[0].r_state;
+					 alert(data.msg);
+					// $("#message").html(data.msg).css();
 					}
 					else{
-						alert(data.key)
+						alert(data.key);
+						alert(data.msg);
 					}
+					
 				}
 			});
+			}
+			else{
+				alert("输入正确信息");
+			}
 			
 		}
 		</script>
-</div>          
+		
+</div>   
+       
 </body>
 </html>

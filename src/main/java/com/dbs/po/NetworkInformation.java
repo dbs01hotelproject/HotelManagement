@@ -1,7 +1,5 @@
 package com.dbs.po;
 
-import java.util.Date;
-
 public class NetworkInformation {
 
 	private int e_number;
